@@ -4,12 +4,14 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import Collection from '../screens/CollectionScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
 });
+
+//How does tabBarIcon work?
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
@@ -25,12 +27,12 @@ HomeStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const CollectionStack = createStackNavigator({
+  Collection: Collection,
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+CollectionStack.navigationOptions = {
+  tabBarLabel: 'Collection',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -55,6 +57,6 @@ SettingsStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   HomeStack,
-  LinksStack,
+  CollectionStack,
   SettingsStack,
 });
