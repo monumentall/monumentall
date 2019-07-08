@@ -9,23 +9,35 @@ import {
   View,
 } from 'react-native';
 import { WebBrowser, MapView, Marker } from 'expo';
+import data from '../data/data.js'
 
 export default class Map extends React.Component {
+  state = {
+    markers = []
+  };
+
   static navigationOptions = {
     header: null,
+  };
+
+  componentDidMount = () => {
+    this.setState({markers: data})
   };
 
   render() {
     return (
       <MapView
         style={{ flex: 1 }}
-        initialRegion={{
-          latitude: 40.673868,
-          longitude: -73.970089,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      />
+        showsUserLocation={true}
+        followsUserLocation={true}
+      >
+        {this.state.markers.map(marker => (
+          <MapView.Marker 
+            coordinate={marker.coordinates}
+            title={marker.title}
+          />
+        ))}
+      </MapView>
     );
   }
 }
