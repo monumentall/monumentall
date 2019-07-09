@@ -2,7 +2,7 @@ var data = [
   {
       "name": "WILLIANA JONES BURROUGHS",
       "location": "200 WEST 135TH ST",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.815564, "longitude": -73.944329
         },
       "description": "Williana Jones Burroughs (1882- 1945) was a Black Communist leader. She was born in 1882 to a formerly enslaved woman in Petersburg, Virginia and moved to Manhattan when she was five years old. After she graduated from Hunter College, Burroughs started a teaching career that led her into the world of Black Harlem intellectuals and elites, and introduced her to communism. She joined the New York Teachers’ Union and wrote for the Daily Worker and organized within the Communist Party around the “Negro Question.” In 1928, Burroughs was chosen as one of two Black communist leaders to go to Moscow to attend Communist International’s (Comintern) Sixth Congress. She also worked with Louise Thompson Patterson on the campaign for defense of the Scottsboro Boys, and organized within the Harlem community with the Harlem Tenant’s League. The Harlem Tenant’s League focused on how poor housing led to disproportionately high death rates among Black residents and mobilized hundreds of Black women in the Harlem community. From 1933 to 1934, Burroughs ran the Harlem Worker’s School. In 1934, Burroughs ran for Lieutenant Governor of New York with communist party organizer Israel Amter. Although she and Amter didn’t win, they received more votes than any other communist leader has ever received in a gubernatorial election. She died in 1945.",
@@ -11,7 +11,7 @@ var data = [
   {
       "name": "REGINA ANDERSON ANDREWS",
       "location": "103-105 WEST 135TH ST",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.814987, 
           "longitude": -73.941224
       },
@@ -21,7 +21,7 @@ var data = [
   {
       "name": "ELLA BAKER",
       "location": "452 NICHOLAS AVE",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.815540,
           "longitude": -73.948445
       },
@@ -31,7 +31,7 @@ var data = [
   {
       "name": "CLAUDIA JONES",
       "location": "SPEAKERS’ CORNER ON 135TH STREET",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.813870,
           "longitude": -73.940455
       },
@@ -41,7 +41,7 @@ var data = [
   {
       "name": "LORRAINE HANSBERRY",
       "location": "SPEAKERS’ CORNER ON 135TH STREET",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.813854,
           "longitude": -73.940412
       },
@@ -51,7 +51,7 @@ var data = [
   {
       "name": "SALARIA KEE",
       "location": "HARLEM HOSPITAL ON 506 LENOX AVE",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.814363,
           "longitude": -73.939848
       },
@@ -61,7 +61,7 @@ var data = [
   {
       "name": "MADAME C.J. WALKER",
       "location": "108-110 WEST 136TH STREET",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.815263,
           "longitude": -73.941117
       },
@@ -71,7 +71,7 @@ var data = [
   {
       "name": "A’LELIA WALKER",
       "location": "108-110 WEST 136TH STREET",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.815230,
           "longitude": -73.941052
       },
@@ -81,7 +81,7 @@ var data = [
   {
       "name": "VICTORIA EARLE MATTHEWS",
       "location": "262 WEST 136TH STREET",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.817013,
           "longitude": -73.945498
       },
@@ -91,7 +91,7 @@ var data = [
   {
       "name": "ZORA NEALE HURSTON",
       "location": "267 WEST 136TH STREET",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.817297,
           "longitude": -73.945338
       },
@@ -101,7 +101,7 @@ var data = [
   {
       "name": "LOUISE THOMPSON PATTERSON",
       "location": "267 WEST 136TH STREET",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.817394,
           "longitude": -73.945370
       },
@@ -111,7 +111,7 @@ var data = [
   {
       "name": "DOROTHY HEIGHT",
       "location": "175-179 WEST 137TH ST",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.816662,
           "longitude": -73.941781
       },
@@ -121,7 +121,7 @@ var data = [
   {
       "name": "PAULI MURRAY",
       "location": "175-179 WEST 137TH ST",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.816784,
           "longitude": -73.941824
       },
@@ -131,7 +131,7 @@ var data = [
   {
       "name": "AMY ASHWOOD GARVEY",
       "location": "552 MALCOLM X BLVD",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.816151,
           "longitude": -73.939475
       },
@@ -141,7 +141,7 @@ var data = [
   {
       "name": "BILLIE HOLIDAY",
       "location": "108 WEST 139TH ST",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.817060,
           "longitude": -73.939879
       },
@@ -151,7 +151,7 @@ var data = [
   {
       "name": "AUDRE LORDE",
       "location": "108 WEST 142ND ST",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.818991,
           "longitude": -73.938469
       },
@@ -161,7 +161,7 @@ var data = [
   {
       "name": "MADAME STEPHANIE ST. CLAIR",
       "location": "117 W 141ST ST",
-      "coordinates": {
+      "coordinate": {
           "latitude": 40.818883,
           "longitude": -73.939287
       },
