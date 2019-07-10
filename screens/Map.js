@@ -40,10 +40,9 @@ export default class Map extends React.Component {
     } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       this.setState({
-        locationResult: 'Permission to access location was denied',
-        location,
+        locationResult: 'Permission to access location was denied'
       });
-    }
+    };
 
     let location = await Location.getCurrentPositionAsync({});
  
@@ -86,6 +85,6 @@ export default class Map extends React.Component {
                     />
                 ))}
             </MapView>
-        ) 
-    }
-}
+        ); 
+    };
+};
