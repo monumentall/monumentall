@@ -12,7 +12,6 @@ export default class Map extends React.Component {
     super(props)
     this.state = {
       markers: [],
-      followsUserLocation: true,
       mapRegion: {
         latitude: 40.673868,
         longitude: -73.970089,
@@ -64,7 +63,6 @@ export default class Map extends React.Component {
 
   regionChange = (event) => {
     this.setState({
-      followsUserLocation: false,
       mapRegion: event.nativeEvent
     });
   };
