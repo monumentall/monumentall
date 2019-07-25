@@ -1,24 +1,24 @@
-import React from 'react';
-import { ScrollView, Text } from 'react-native';
+import React from "react";
+import { ScrollView, Text, StyleSheet } from "react-native";
+import styles from "../styles";
 
 export default class LandmarkScreen extends React.Component {
   static navigationOptions = {
-    title: 'Landmark Details',
+    title: "Landmark Details"
   };
 
   render() {
+    const { details } = this.props;
     return (
       <ScrollView>
-           <Text>Landmark Details Page</Text>
+        <Text style={styles.headline}>Landmark Details Page</Text>
+
+        <Text>Name: {details.name}</Text>
+
+        <Text>Location: {details.location}</Text>
+
+        <Text>Description: {details.description}</Text>
       </ScrollView>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-  },
-});
