@@ -2,6 +2,7 @@ import React from "react";
 import { MapView, Location, Permissions } from "expo";
 
 import data from "../data.js";
+import HamburgerModal from "./Hamburger.js";
 
 export default class Map extends React.Component {
   constructor(props) {
@@ -69,6 +70,7 @@ export default class Map extends React.Component {
         initialRegion={this.state.initialRegion}
         region={this.state.mapRegion}
       >
+        <HamburgerModal />
         {this.state.markers.map(marker => (
           <MapView.Marker
             key={marker.name}
