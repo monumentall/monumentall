@@ -35,8 +35,7 @@ export default class Map extends React.Component {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
       this.setState({
-        locationResult: "Permission to access location was denied",
-        location
+        locationResult: "Permission to access location was denied"
       });
     }
 
@@ -53,7 +52,7 @@ export default class Map extends React.Component {
   };
 
   handlePress = marker => {
-    console.log("Placeholder for onPress triggered", marker);
+    this.props.selectLandmark(marker);
   };
 
   regionChange = event => {
