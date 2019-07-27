@@ -2,6 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import Map from "./Map";
 import Drawer from "./Drawer";
+import { specificStyles } from "../styles";
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -24,7 +25,7 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={specificStyles.main}>
         <Map selectLandmark={this.selectLandmark} />
         <Drawer selectedLandmark={this.state.selectedLandmark} />
       </View>
