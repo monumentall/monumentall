@@ -1,11 +1,8 @@
 import React from "react";
 import { MapView, Location, Permissions } from "expo";
-import { Dimensions } from "react-native";
-import data from "../data.js";
-import Hamburger from "./Hamburger.js";
 
-const screenHeight = Dimensions.get("window").height;
-const screenWidth = Dimensions.get("window").width;
+import data from "../data.js";
+import HamburgerModal from "./Hamburger.js";
 
 export default class Map extends React.Component {
   constructor(props) {
@@ -67,13 +64,13 @@ export default class Map extends React.Component {
   render() {
     return (
       <MapView
-        style={{ height: screenHeight, width: screenWidth }}
+        style={{ flex: 1 }}
         showsUserLocation={true}
         onRegionChange={event => this.regionChange(event)}
         initialRegion={this.state.initialRegion}
         region={this.state.mapRegion}
       >
-        <Hamburger />
+        <HamburgerModal />
         {this.state.markers.map(marker => (
           <MapView.Marker
             key={marker.name}

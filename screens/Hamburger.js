@@ -1,10 +1,10 @@
 import React from "react";
-import { View, Dimensions } from "react-native";
-import HamburgerIcon from "./HamburgerIcon.js";
+import { View } from "react-native";
+import Hamburger from "react-native-hamburger";
 import Menu from "./Menu.js";
-import { specificStyles } from "../styles";
+import styles from "../styles";
 
-export default class Hamburger extends React.Component {
+export default class HamburgerModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,9 +14,10 @@ export default class Hamburger extends React.Component {
 
   render() {
     return (
-      <View style={specificStyles.hamburger}>
-        <HamburgerIcon
+      <View style={styles.hamburger}>
+        <Hamburger
           active={this.state.hamburgerActive}
+          type="cross"
           onPress={() =>
             this.setState({ hamburgerActive: !this.state.hamburgerActive })
           }
