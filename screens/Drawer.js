@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Dimensions } from "react-native";
 import BottomDrawer from "rn-bottom-drawer";
 import Landmark from "./Landmark";
-import styles from "../styles";
+import { reusableStyles } from "../styles";
 
 const screenHeight = Math.round(Dimensions.get("window").height);
 
@@ -17,7 +17,7 @@ export default class Drawer extends React.Component {
     } else {
       return (
         <View>
-          <Text style={styles.headline}>Explore Brooklyn</Text>
+          <Text style={reusableStyles.headline}>Explore Brooklyn</Text>
         </View>
       );
     }

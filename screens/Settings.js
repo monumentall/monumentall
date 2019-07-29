@@ -2,12 +2,12 @@ import React from 'react';
 import { Text } from 'react-native';
 
 
-export default class SettingsScreen extends React.Component {
+export default class Settings extends React.Component {
   static navigationOptions = {
     title: 'Settings',
   };
 
   render() {
-    return <Text> Settings Screen</Text>;
+    return <Text>Toggle Location Preferences</Text>;
   }
 }
