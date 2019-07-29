@@ -83,7 +83,7 @@ export default class Map extends React.Component {
         initialRegion={this.state.initialRegion}
         region={this.state.mapRegion}
       >
-        <Hamburger />
+        <Hamburger setScreen={this.props.setScreen} />
         {this.state.markers.map(marker => (
           <MapView.Marker
             key={marker.name}
