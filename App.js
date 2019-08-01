@@ -3,22 +3,13 @@ import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { AppLoading, Asset, Font, Icon } from "expo";
 // import AppNavigator from './navigation/AppNavigator';
 import HomeScreen from "./screens/HomeScreen";
-import APIKeys from './constants/APIKeys'
-import * as firebase from 'firebase'
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 export default class App extends React.Component {
-  constructor(){
-    super()
-    this.state = {
+
+    state = {
       isLoadingComplete: false
     };
-
-    //Initialize firebase if not already initialized:
-    if (!firebase.apps.length) {
-      firebase.initializeApp(APIKeys.firebaseConfig)
-    }
-  }
 
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
@@ -33,7 +24,7 @@ export default class App extends React.Component {
       return (
         <View style={styles.container}>
           {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-          <HomeScreen />
+          <HomeScreen db={this.db}/>
         </View>
       );
     }

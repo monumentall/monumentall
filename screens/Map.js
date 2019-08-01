@@ -3,6 +3,7 @@ import { MapView, Location, Permissions } from "expo";
 import { Dimensions } from "react-native";
 import data from "../data.js";
 import Hamburger from "./Hamburger.js";
+import { database } from "../db";
 
 const screenHeight = Dimensions.get("window").height;
 const screenWidth = Dimensions.get("window").width;
@@ -28,6 +29,17 @@ export default class Map extends React.Component {
   };
 
   componentDidMount = async () => {
+    var dbData = []
+    var db = await database.ref().once("value")
+
+    db.forEach(childSnapshot => {
+      let name = childSnapshot.child("name")
+      let location = childSnapshot.child("location")
+      let _key = childSnapshot.key
+      dbData.push({_key, name, location})
+    })
+
+      console.log(dbData)
     this.setState({
       markers: data
     });
