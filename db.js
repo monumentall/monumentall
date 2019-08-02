@@ -5,4 +5,8 @@ import * as firebase from 'firebase'
 if (!firebase.apps.length) {
   firebase.initializeApp(APIKeys.firebaseConfig)
 }
+
+//Turn on the below if you want DB logging...
+// firebase.database.enableLogging(true)
+
 export const database = firebase.database()
