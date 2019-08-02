@@ -93,6 +93,6 @@ export default class Map extends React.Component {
           />
         ))}
       </MapView>
-    )
+    );
   }
 }

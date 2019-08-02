@@ -6,9 +6,9 @@ import HomeScreen from "./screens/HomeScreen";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 export default class App extends React.Component {
-    state = {
-      isLoadingComplete: false,
-    };
+  state = {
+    isLoadingComplete: false
+  };
 
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
@@ -23,7 +23,7 @@ export default class App extends React.Component {
       return (
         <View style={styles.container}>
           {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-          <HomeScreen/>
+          <HomeScreen />
         </View>
       );
     }
