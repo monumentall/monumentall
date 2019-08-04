@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import data from "../data";
+import screenNames from "../constants/ScreenNames";
 
 export default class List extends React.Component {
   render() {
@@ -8,7 +9,7 @@ export default class List extends React.Component {
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text
           style={{ fontSize: 30, fontWeight: "bold" }}
-          onPress={() => this.props.setScreen("home")}
+          onPress={() => this.props.setScreen(screenNames.home)}
         >
           X
         </Text>

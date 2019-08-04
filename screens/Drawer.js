@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text, Dimensions } from "react-native";
+import { View, Text } from "react-native";
 import BottomDrawer from "rn-bottom-drawer";
 import Landmark from "./Landmark";
 import { reusableStyles } from "../styles";
+import layout from "../constants/Layout";
 
-const screenHeight = Math.round(Dimensions.get("window").height);
+const screenHeight = layout.window.height;
 
 export default class Drawer extends React.Component {
   renderContent = () => {

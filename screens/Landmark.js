@@ -3,10 +3,6 @@ import { ScrollView, Text, StyleSheet } from "react-native";
 import { reusableStyles } from "../styles";
 
 export default class LandmarkScreen extends React.Component {
-  static navigationOptions = {
-    title: "Landmark Details"
-  };
-
   render() {
     const { details } = this.props;
     return (

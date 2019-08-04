@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Dimensions } from "react-native";
+import { View } from "react-native";
 import HamburgerIcon from "./HamburgerIcon.js";
 import Menu from "./Menu.js";
 import { specificStyles } from "../styles";

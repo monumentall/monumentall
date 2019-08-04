@@ -5,13 +5,14 @@ import Drawer from "./Drawer";
 import Settings from "./Settings";
 import List from "./List";
 import { specificStyles } from "../styles";
+import screenNames from "../constants/ScreenNames";
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedLandmark: {},
-      screen: "home"
+      screen: screenNames.home
     };
     this.selectLandmark = this.selectLandmark.bind(this);
   }
@@ -33,9 +34,9 @@ export default class HomeScreen extends React.Component {
   };
 
   selectComponent = () => {
-    if (this.state.screen === "settings") {
+    if (this.state.screen === screenNames.settings) {
       return <Settings setScreen={this.setScreen} />;
-    } else if (this.state.screen === "list") {
+    } else if (this.state.screen === screenNames.list) {
       return <List setScreen={this.setScreen} />;
     } else {
       return (

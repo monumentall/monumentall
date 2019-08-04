@@ -1,23 +1,22 @@
 import React from "react";
-import { Text, View, Dimensions } from "react-native";
-
-const screenHeight = Dimensions.get("window").height;
-const screenWidth = Dimensions.get("window").width;
+import { Text, View } from "react-native";
+import layout from "../constants/Layout";
+import screenNames from "../constants/ScreenNames";
 
 export default class Settings extends React.Component {
   render() {
     return (
       <View
         style={{
-          height: screenHeight,
-          width: screenWidth,
+          height: layout.window.height,
+          width: layout.window.width,
           justifyContent: "center",
           alignItems: "center"
         }}
       >
         <Text
           style={{ fontSize: 30, fontWeight: "bold" }}
-          onPress={() => this.props.setScreen("home")}
+          onPress={() => this.props.setScreen(screenNames.home)}
         >
           X
         </Text>
