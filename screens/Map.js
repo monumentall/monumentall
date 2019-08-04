@@ -1,8 +1,8 @@
 import React from "react";
 import { MapView, Location, Permissions } from "expo";
 import { Dimensions } from "react-native";
-import data from "../data.js";
 import Hamburger from "./Hamburger.js";
+import { database } from "../db.js";
 
 const screenHeight = Dimensions.get("window").height;
 const screenWidth = Dimensions.get("window").width;
@@ -21,6 +21,7 @@ export default class Map extends React.Component {
       locationResult: "",
       initialRegion: null
     };
+    this.db = database.ref();
   }
 
   static navigationOptions = {
@@ -28,10 +29,19 @@ export default class Map extends React.Component {
   };
 
   componentDidMount = async () => {
-    this.setState({
-      markers: data
-    });
+    this._listenForUpdatesToDatabase(this.db);
     await this._getLocationAsync();
+  };
+
+  _listenForUpdatesToDatabase = db => {
+    db.on("value", snap => {
+      const data = [];
+      snap.forEach(child => {
+        const childObj = child.toJSON();
+        data.push({ ...childObj });
+      });
+      this.setState({ markers: data });
+    });
   };
 
   _getLocationAsync = async () => {
