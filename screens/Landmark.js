@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, Text, StyleSheet } from "react-native";
+import { ScrollView, Text } from "react-native";
 import { reusableStyles } from "../styles";
 
 export default class LandmarkScreen extends React.Component {

@@ -15,11 +15,10 @@ export const specificStyles = StyleSheet.create({
   main: {
     flex: 1
   },
-  hamburger: {
+  menuBtn: {
     marginTop: 25,
     marginLeft: 15,
-    //need position absolute for hamburger icon to recognize padding
-    position: "absolute"
+    fontSize: 40
   },
   menuContainer: {
     flex: 1,

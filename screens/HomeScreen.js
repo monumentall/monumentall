@@ -34,9 +34,7 @@ export default class HomeScreen extends React.Component {
   };
 
   selectComponent = () => {
-    if (this.state.screen === screenNames.settings) {
-      return <Settings setScreen={this.setScreen} />;
-    } else if (this.state.screen === screenNames.list) {
+    if (this.state.screen === screenNames.list) {
       return <List setScreen={this.setScreen} />;
     } else {
       return (

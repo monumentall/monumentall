@@ -14,19 +14,9 @@ export default class Menu extends React.Component {
         {this.props.visible && (
           <View style={specificStyles.menuContainer}>
             <View style={specificStyles.menu}>
-              <Text onPress={() => this.props.setScreen(screenNames.settings)}>
-                Settings
-              </Text>
+              <Text>Toggle Location Settings</Text>
               <Text onPress={() => this.props.setScreen(screenNames.list)}>
-                My List
-              </Text>
-              <Text
-                onPress={() => {
-                  this.props.setScreen(screenNames.home);
-                  this.props.toggleShowMenu();
-                }}
-              >
-                Home
+                Go To My List
               </Text>
             </View>
           </View>

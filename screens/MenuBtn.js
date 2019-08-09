@@ -1,21 +1,15 @@
 import React from "react";
-import { View } from "react-native";
-import HamburgerIcon from "./HamburgerIcon.js";
+import { View, Text } from "react-native";
 import Menu from "./Menu.js";
 import { specificStyles } from "../styles";
 
-export default class Hamburger extends React.Component {
+export default class MenuBtn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hamburgerActive: false,
       showMenu: false
     };
   }
-
-  toggleHamburgerActive = () => {
-    this.setState({ hamburgerActive: !this.state.hamburgerActive });
-  };
 
   toggleShowMenu = () => {
     this.setState({ showMenu: !this.state.showMenu });
@@ -23,14 +17,15 @@ export default class Hamburger extends React.Component {
 
   render() {
     return (
-      <View style={specificStyles.hamburger}>
-        <HamburgerIcon
-          active={this.state.hamburgerActive}
+      <View>
+        <Text
+          style={specificStyles.menuBtn}
           onPress={() => {
-            this.toggleHamburgerActive();
             this.toggleShowMenu();
           }}
-        />
+        >
+        X
+        </Text>
         <Menu
           visible={this.state.showMenu}
           setScreen={this.props.setScreen}

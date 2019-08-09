@@ -1,6 +1,6 @@
 import React from "react";
 import { MapView, Location, Permissions } from "expo";
-import Hamburger from "./Hamburger.js";
+import MenuBtn from "./MenuBtn";
 import { database } from "../db.js";
 import layout from "../constants/Layout";
 
@@ -80,7 +80,7 @@ export default class Map extends React.Component {
         initialRegion={this.state.initialRegion}
         region={this.state.mapRegion}
       >
-        <Hamburger setScreen={this.props.setScreen} />
+        <MenuBtn setScreen={this.props.setScreen} />
         {this.state.markers.map(marker => (
           <MapView.Marker
             key={marker.name}
