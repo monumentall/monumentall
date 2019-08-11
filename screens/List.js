@@ -1,27 +1,21 @@
-import React from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
-import data from '../data';
+import React from "react";
+import { View, Text } from "react-native";
+import data from "../data";
+import screenNames from "../constants/ScreenNames";
 
 export default class List extends React.Component {
-  static navigationOptions = {
-    title: 'List',
-  };
-
   render() {
     return (
-      <ScrollView style={styles.container}>
-           <Text>My Saved Landmarks:</Text>
-           <Text>Landmark 1: {data[1].name}</Text>
-      </ScrollView>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text
+          style={{ fontSize: 30, fontWeight: "bold" }}
+          onPress={() => this.props.setScreen(screenNames.home)}
+        >
+          X
+        </Text>
+        <Text>My Saved Landmarks:</Text>
+        <Text>Landmark 1: {data[1].name}</Text>
+      </View>
     );
   }
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-  },
-});
