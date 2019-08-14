@@ -12,7 +12,7 @@ export default class Drawer extends React.Component {
     if (this.props.selectedLandmark.name) {
       return (
         <View>
-          <Landmark details={this.props.selectedLandmark} />
+          <Landmark landmarkDetails={this.props.selectedLandmark} />
         </View>
       );
     } else {
