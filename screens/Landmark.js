@@ -13,7 +13,7 @@ export default class LandmarkScreen extends React.Component {
       let currentSaves = await AsyncStorage.getItem("savedLandmarks");
       currentSaves = JSON.parse(currentSaves);
       let newList;
-      //check that we aren't trying to add something we've
+      //check that we aren't trying to add a landmark that we've
       //already saved
       if (currentSaves.length) {
         const duplicate = currentSaves.filter(
