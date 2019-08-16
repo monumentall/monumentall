@@ -34,5 +34,10 @@ export const specificStyles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-around",
     alignItems: "center"
+  },
+  centerBtn: {
+    top: 500,
+    marginLeft: 315,
+    fontSize: 40
   }
 });
