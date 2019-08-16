@@ -18,7 +18,8 @@ export const specificStyles = StyleSheet.create({
   menuBtn: {
     marginTop: 25,
     marginLeft: 15,
-    fontSize: 40
+    fontSize: 40,
+    width: 40
   },
   menuContainer: {
     flex: 1,
@@ -36,8 +37,9 @@ export const specificStyles = StyleSheet.create({
     alignItems: "center"
   },
   centerBtn: {
-    top: 500,
-    marginLeft: 315,
-    fontSize: 40
+    marginTop: 25,
+    marginLeft: 250,
+    fontSize: 40,
+    width: 40
   }
 });
