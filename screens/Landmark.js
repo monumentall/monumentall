@@ -3,11 +3,7 @@ import { ScrollView, Text, Button, AsyncStorage } from "react-native";
 import { reusableStyles } from "../styles";
 
 export default class LandmarkScreen extends React.Component {
-  static navigationOptions = {
-    title: "Landmark Details"
-  };
-
-  async handlePress(landmarkToSave) {
+  async saveLandmark(landmarkToSave) {
     //grab the current saved landmarks from async storage
     try {
       let currentSaves = await AsyncStorage.getItem("savedLandmarks");
@@ -45,7 +41,7 @@ export default class LandmarkScreen extends React.Component {
 
         <Text>Description: {landmarkDetails.description}</Text>
 
-        <Button onPress={() => this.handlePress(landmarkDetails)} title="save">
+        <Button onPress={() => this.saveLandmark(landmarkDetails)} title="save">
           Save
         </Button>
       </ScrollView>
