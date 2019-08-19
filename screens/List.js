@@ -21,7 +21,8 @@ export default class List extends React.Component {
 
   render() {
     const { savedLandmarks } = this.state;
-    savedLandmarks.length && (
+
+    const landmarksList = (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text
           style={{ fontSize: 30, fontWeight: "bold" }}
@@ -31,14 +32,16 @@ export default class List extends React.Component {
         </Text>
         <Text>My Saved Landmarks:</Text>
         {savedLandmarks.map((landmark, i) => {
-          <Text>
-            Landmark {i + 1}: {landmark.name}
-          </Text>;
+          return (
+            <Text key={landmark.name}>
+              Landmark {i + 1}: {landmark.name}
+            </Text>
+          );
         })}
       </View>
     );
 
-    return (
+    const noLandmarks = (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text
           style={{ fontSize: 30, fontWeight: "bold" }}
@@ -49,5 +52,7 @@ export default class List extends React.Component {
         <Text>You haven't saved anything yet!</Text>
       </View>
     );
+
+    return savedLandmarks.length ? landmarksList : noLandmarks;
   }
 }
