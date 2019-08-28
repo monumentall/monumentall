@@ -15,7 +15,7 @@ export default class LandmarkScreen extends React.Component {
       let newList;
       //check that we aren't trying to add a landmark that we've
       //already saved
-      if (currentSaves.length) {
+      if (currentSaves && currentSaves.length) {
         const duplicate = currentSaves.filter(
           savedLandmark => savedLandmark.name === landmarkToSave.name
         );
