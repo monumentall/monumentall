@@ -18,4 +18,4 @@ const CenterBtn = ({ locationAccess, setMapRegion }) => {
   );
 };
 
-export default CenterBtn;
+export default CenterBtn

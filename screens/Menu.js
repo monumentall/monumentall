@@ -10,16 +10,14 @@ export default class Menu extends React.Component {
 
   changeLocationSettings = async () => {
     //Opens up settings so user can toggle their location on or off
-    const supported = await Linking.canOpenURL("app-settings:");
-    if (!supported) {
-      alert(
-        "Cannot open app settings - please open settings manually to toggle location."
-      );
-    } else {
-      Linking.openURL("app-settings:");
-    }
+      const supported = await Linking.canOpenURL("app-settings:")
+        if (!supported) {
+            alert("Cannot open app settings - please open settings manually to toggle location.");
+          } else {
+            Linking.openURL("app-settings:");
+          }
     //closes the menu before going to Settings
-    this.props.toggleShowMenu();
+      this.props.toggleShowMenu();
   };
 
   render() {

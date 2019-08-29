@@ -44,17 +44,15 @@ export default class Map extends React.Component {
       nextAppState === "active"
     ) {
       console.log("App has come to the foreground!");
-      let { permissions, status } = await Permissions.getAsync(
-        Permissions.LOCATION
-      );
-      const locationOn = permissions.location.ios.scope === "whenInUse";
+      let { permissions, status } = await Permissions.getAsync(Permissions.LOCATION);
+      const locationOn = permissions.location.ios.scope === 'whenInUse'
 
-      if (status === "denied" && locationOn) {
+      if(status === 'denied' && locationOn) {
         //This condition is to protect against the case where a user initially denies access or opens the app with denied access from a previous session (i.e. Permission status for location will never flip from 'denied'). If both conditions are met, it prompts the user to re-allow access to their location.
         const refresh = await Permissions.askAsync(Permissions.LOCATION);
-        status = refresh.status;
-      }
-      this.setState({ locationResult: status });
+        status = refresh.status
+       }
+      this.setState({ locationResult: status});
     }
     this.setState({ appState: nextAppState });
   };
@@ -112,10 +110,7 @@ export default class Map extends React.Component {
         region={this.state.mapRegion}
       >
         <MenuBtn setScreen={this.props.setScreen} />
-        <CenterBtn
-          locationAccess={this.state.locationResult}
-          setMapRegion={this._setMapRegionAsync}
-        />
+        <CenterBtn locationAccess={this.state.locationResult} setMapRegion={this._setMapRegionAsync}/>
         {this.state.markers.map(marker => (
           <MapView.Marker
             key={marker.name}
