@@ -31,13 +31,14 @@ export default class List extends React.Component {
           X
         </Text>
         <Text>My Saved Landmarks:</Text>
-        {savedLandmarks.map((landmark, i) => {
-          return (
-            <Text key={landmark.name}>
-              Landmark {i + 1}: {landmark.name}
-            </Text>
-          );
-        })}
+        {savedLandmarks &&
+          savedLandmarks.map((landmark, i) => {
+            return (
+              <Text key={landmark.name}>
+                Landmark {i + 1}: {landmark.name}
+              </Text>
+            );
+          })}
       </View>
     );
 
@@ -53,6 +54,8 @@ export default class List extends React.Component {
       </View>
     );
 
-    return savedLandmarks.length ? landmarksList : noLandmarks;
+    const haveLandmarks = savedLandmarks && savedLandmarks.length;
+
+    return haveLandmarks ? landmarksList : noLandmarks;
   }
 }
