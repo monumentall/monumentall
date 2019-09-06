@@ -5,9 +5,10 @@ import renderer from "react-test-renderer";
 import App from "../App";
 
 jest.mock("expo", () => ({
-  AppLoading: "AppLoading",
-  MapView: "MapView"
+  AppLoading: "AppLoading"
 }));
+
+jest.mock("react-native-maps", () => "MapView");
 
 jest.mock("../navigation/AppNavigator", () => "AppNavigator");
 

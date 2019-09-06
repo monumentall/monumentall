@@ -1,5 +1,7 @@
 import React from "react";
-import { MapView, Location, Permissions } from "expo";
+import * as Permissions from "expo-permissions";
+import * as Location from "expo-location";
+import MapView from "react-native-maps";
 import { AppState, View } from "react-native";
 import MenuBtn from "./MenuBtn";
 import CenterBtn from "./CenterBtn";
