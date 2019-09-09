@@ -117,7 +117,9 @@ export default class Map extends React.Component {
       <MapView
         provider={PROVIDER_GOOGLE}
         style={{ height: layout.window.height, width: layout.window.width }}
-        showsUserLocation={true}
+        showsUserLocation={
+          this.state.locationResult === "denied" ? false : true
+        }
         zoomEnabled={true}
         ref={ref => {
           this.mapView = ref;
