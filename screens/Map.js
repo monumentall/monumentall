@@ -1,5 +1,6 @@
 import React from "react";
-import { MapView, Location, Permissions } from "expo";
+import { Location, Permissions } from "expo";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { AppState } from "react-native";
 import MenuBtn from "./MenuBtn";
 import CenterBtn from "./CenterBtn";
@@ -44,15 +45,17 @@ export default class Map extends React.Component {
       nextAppState === "active"
     ) {
       console.log("App has come to the foreground!");
-      let { permissions, status } = await Permissions.getAsync(Permissions.LOCATION);
-      const locationOn = permissions.location.ios.scope === 'whenInUse'
+      let { permissions, status } = await Permissions.getAsync(
+        Permissions.LOCATION
+      );
+      const locationOn = permissions.location.ios.scope === "whenInUse";
 
-      if(status === 'denied' && locationOn) {
+      if (status === "denied" && locationOn) {
         //This condition is to protect against the case where a user initially denies access or opens the app with denied access from a previous session (i.e. Permission status for location will never flip from 'denied'). If both conditions are met, it prompts the user to re-allow access to their location.
         const refresh = await Permissions.askAsync(Permissions.LOCATION);
-        status = refresh.status
-       }
-      this.setState({ locationResult: status});
+        status = refresh.status;
+      }
+      this.setState({ locationResult: status });
     }
     this.setState({ appState: nextAppState });
   };
@@ -90,33 +93,49 @@ export default class Map extends React.Component {
     });
   };
 
-  handlePress = marker => {
+  handlePress = (event, marker) => {
+    event.preventDefault();
+
+    this.setState({
+      mapRegion: {
+        latitude: event.nativeEvent.coordinate.latitude,
+        longitude: event.nativeEvent.coordinate.longitude,
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005
+      }
+    });
+
     this.props.selectLandmark(marker);
   };
 
   regionChange = event => {
-    this.setState({
-      mapRegion: event.nativeEvent
-    });
+    this.mapView.animateToRegion(event, 2000);
   };
 
   render() {
     return (
       <MapView
+        provider={PROVIDER_GOOGLE}
         style={{ height: layout.window.height, width: layout.window.width }}
         showsUserLocation={true}
-        onRegionChange={event => this.regionChange(event)}
+        zoomEnabled={true}
+        ref={ref => {
+          this.mapView = ref;
+        }}
         initialRegion={this.state.initialRegion}
         region={this.state.mapRegion}
       >
         <MenuBtn setScreen={this.props.setScreen} />
-        <CenterBtn locationAccess={this.state.locationResult} setMapRegion={this._setMapRegionAsync}/>
+        <CenterBtn
+          locationAccess={this.state.locationResult}
+          setMapRegion={this._setMapRegionAsync}
+        />
         {this.state.markers.map(marker => (
           <MapView.Marker
             key={marker.name}
             coordinate={marker.coordinate}
             title={marker.name}
-            onPress={() => this.handlePress(marker)}
+            onPress={e => this.handlePress(e, marker)}
           />
         ))}
       </MapView>
