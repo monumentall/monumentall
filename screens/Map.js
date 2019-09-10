@@ -12,12 +12,6 @@ export default class Map extends React.Component {
     super(props);
     this.state = {
       markers: [],
-      mapRegion: {
-        latitude: 40.673868,
-        longitude: -73.970089,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
-      },
       locationResult: "denied",
       initialRegion: null,
       appState: AppState.currentState
@@ -75,6 +69,15 @@ export default class Map extends React.Component {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status === "granted") {
       this._setMapRegionAsync("initialRegion");
+    } else {
+      this.setState({
+        initialRegion: {
+          latitude: 40.673868,
+          longitude: -73.970089,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        }
+      });
     }
     this.setState({ locationResult: status });
   };
@@ -93,23 +96,8 @@ export default class Map extends React.Component {
     });
   };
 
-  handlePress = (event, marker) => {
-    event.preventDefault();
-
-    this.setState({
-      mapRegion: {
-        latitude: event.nativeEvent.coordinate.latitude,
-        longitude: event.nativeEvent.coordinate.longitude,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005
-      }
-    });
-
+  handlePress = marker => {
     this.props.selectLandmark(marker);
-  };
-
-  regionChange = event => {
-    this.mapView.animateToRegion(event, 2000);
   };
 
   render() {
@@ -120,14 +108,13 @@ export default class Map extends React.Component {
         showsUserLocation={
           this.state.locationResult === "denied" ? false : true
         }
+        showsMyLocationButton={true}
         zoomEnabled={true}
-        ref={ref => {
-          this.mapView = ref;
-        }}
         initialRegion={this.state.initialRegion}
-        region={this.state.mapRegion}
       >
+        {/* @TODO: refactor menu so list screen doesn't unmount the map and therefore reset initialRegion */}
         <MenuBtn setScreen={this.props.setScreen} />
+        {/* @TODO: refactor C Button because it doesn't recenter on user's location anymore. Possibly use built in showsMyLocationButton */}
         <CenterBtn
           locationAccess={this.state.locationResult}
           setMapRegion={this._setMapRegionAsync}
@@ -137,7 +124,7 @@ export default class Map extends React.Component {
             key={marker.name}
             coordinate={marker.coordinate}
             title={marker.name}
-            onPress={e => this.handlePress(e, marker)}
+            onPress={() => this.handlePress(marker)}
           />
         ))}
       </MapView>
