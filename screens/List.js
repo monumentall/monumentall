@@ -14,9 +14,17 @@ export default class List extends React.Component {
     AsyncStorage.getItem("savedLandmarks")
       .then(storedLandmarks => {
         let savedLandmarks = JSON.parse(storedLandmarks);
-        this.setState({ savedLandmarks });
+        // this if statement prevents us from setting null on state if "savedLandmarks" doesn't exist in AsyncStorage yet
+        if (savedLandmarks) {
+          this.setState({ savedLandmarks });
+        }
       })
       .catch(err => console.error(err));
+  }
+
+  async deleteList() {
+    await AsyncStorage.removeItem("savedLandmarks");
+    this.setState({ savedLandmarks: [] });
   }
 
   render() {

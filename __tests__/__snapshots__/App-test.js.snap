@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders the loading screen 1`] = `
+<AppLoading
+  onError={[Function]}
+  onFinish={[Function]}
+  startAsync={[Function]}
+/>
+`;
+
+exports[`App renders the root without loading screen 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <View>
+      <MapView
+        initialRegion={null}
+        onRegionChange={[Function]}
+        region={
+          Object {
+            "latitude": 40.673868,
+            "latitudeDelta": 0.0922,
+            "longitude": -73.970089,
+            "longitudeDelta": 0.0421,
+          }
+        }
+        showsUserLocation={true}
+        style={
+          Object {
+            "height": 1334,
+            "width": 750,
+          }
+        }
+      >
+        <View>
+          <Text
+            onPress={[Function]}
+            style={
+              Object {
+                "fontSize": 40,
+                "marginLeft": 15,
+                "marginTop": 25,
+                "width": 40,
+              }
+            }
+          >
+            X
+          </Text>
+          <View />
+        </View>
+        <View>
+          <Text
+            onPress={[Function]}
+            style={
+              Object {
+                "fontSize": 40,
+                "marginLeft": 250,
+                "marginTop": 25,
+                "width": 40,
+              }
+            }
+          >
+            C
+          </Text>
+        </View>
+      </MapView>
+      <View
+        onMoveShouldSetResponder={[Function]}
+        onMoveShouldSetResponderCapture={[Function]}
+        onResponderEnd={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderReject={[Function]}
+        onResponderRelease={[Function]}
+        onResponderStart={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        onStartShouldSetResponderCapture={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#f2e5e5",
+            "borderTopLeftRadius": 10,
+            "borderTopRightRadius": 10,
+            "height": 1345.5239647354992,
+            "left": 0,
+            "position": "absolute",
+            "shadowColor": "#CECDCD",
+            "shadowOpacity": 5,
+            "shadowRadius": 3,
+            "top": 1136.6666666666667,
+            "width": 750,
+          }
+        }
+      >
+        <View>
+          <Text
+            style={
+              Object {
+                "alignSelf": "center",
+                "marginTop": 25,
+              }
+            }
+          >
+            Explore Brooklyn
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#f2e5e5",
+              "height": 36.52396473549935,
+            }
+          }
+        />
+      </View>
+    </View>
+  </View>
+</View>
+`;
