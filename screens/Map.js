@@ -1,8 +1,8 @@
 import React from "react";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import { AppState } from "react-native";
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
-import MapView from "react-native-maps";
-import { AppState, View } from "react-native";
 import MenuBtn from "./MenuBtn";
 import CenterBtn from "./CenterBtn";
 import { database } from "../db.js";
@@ -13,12 +13,6 @@ export default class Map extends React.Component {
     super(props);
     this.state = {
       markers: [],
-      mapRegion: {
-        latitude: 40.673868,
-        longitude: -73.970089,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
-      },
       locationResult: "denied",
       initialRegion: null,
       appState: AppState.currentState
@@ -76,6 +70,15 @@ export default class Map extends React.Component {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status === "granted") {
       this._setMapRegionAsync("initialRegion");
+    } else {
+      this.setState({
+        initialRegion: {
+          latitude: 40.673868,
+          longitude: -73.970089,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        }
+      });
     }
     this.setState({ locationResult: status });
   };
@@ -98,22 +101,21 @@ export default class Map extends React.Component {
     this.props.selectLandmark(marker);
   };
 
-  regionChange = event => {
-    this.setState({
-      mapRegion: event.nativeEvent
-    });
-  };
-
   render() {
     return (
       <MapView
+        provider={PROVIDER_GOOGLE}
         style={{ height: layout.window.height, width: layout.window.width }}
-        showsUserLocation={true}
-        onRegionChange={event => this.regionChange(event)}
+        showsUserLocation={
+          this.state.locationResult === "denied" ? false : true
+        }
+        showsMyLocationButton={true}
+        zoomEnabled={true}
         initialRegion={this.state.initialRegion}
-        region={this.state.mapRegion}
       >
+        {/* @TODO: refactor menu so list screen doesn't unmount the map and therefore reset initialRegion */}
         <MenuBtn setScreen={this.props.setScreen} />
+        {/* @TODO: refactor C Button because it doesn't recenter on user's location anymore. Possibly use built in showsMyLocationButton */}
         <CenterBtn
           locationAccess={this.state.locationResult}
           setMapRegion={this._setMapRegionAsync}
