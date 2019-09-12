@@ -14,9 +14,17 @@ export default class List extends React.Component {
     AsyncStorage.getItem("savedLandmarks")
       .then(storedLandmarks => {
         let savedLandmarks = JSON.parse(storedLandmarks);
-        this.setState({ savedLandmarks });
+        // this if statement prevents us from setting null on state if "savedLandmarks" doesn't exist in AsyncStorage yet
+        if (savedLandmarks) {
+          this.setState({ savedLandmarks });
+        }
       })
       .catch(err => console.error(err));
+  }
+
+  async deleteList() {
+    await AsyncStorage.removeItem("savedLandmarks");
+    this.setState({ savedLandmarks: [] });
   }
 
   render() {
@@ -31,13 +39,14 @@ export default class List extends React.Component {
           X
         </Text>
         <Text>My Saved Landmarks:</Text>
-        {savedLandmarks.map((landmark, i) => {
-          return (
-            <Text key={landmark.name}>
-              Landmark {i + 1}: {landmark.name}
-            </Text>
-          );
-        })}
+        {savedLandmarks &&
+          savedLandmarks.map((landmark, i) => {
+            return (
+              <Text key={landmark.name}>
+                Landmark {i + 1}: {landmark.name}
+              </Text>
+            );
+          })}
       </View>
     );
 
@@ -53,6 +62,8 @@ export default class List extends React.Component {
       </View>
     );
 
-    return savedLandmarks.length ? landmarksList : noLandmarks;
+    const haveLandmarks = savedLandmarks && savedLandmarks.length;
+
+    return haveLandmarks ? landmarksList : noLandmarks;
   }
 }

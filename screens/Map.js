@@ -1,7 +1,8 @@
 import React from "react";
-import { Location, Permissions } from "expo";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { AppState } from "react-native";
+import * as Permissions from "expo-permissions";
+import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
 import CenterBtn from "./CenterBtn";
 import { database } from "../db.js";
