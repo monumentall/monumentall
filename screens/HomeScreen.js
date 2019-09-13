@@ -7,6 +7,7 @@ import { specificStyles } from "../styles";
 import screenNames from "../constants/ScreenNames";
 import { database } from "../db.js";
 
+
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
