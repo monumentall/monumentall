@@ -27,22 +27,15 @@ exports[`App renders the root without loading screen 1`] = `
     <View>
       <MapView
         initialRegion={null}
-        onRegionChange={[Function]}
-        region={
-          Object {
-            "latitude": 40.673868,
-            "latitudeDelta": 0.0922,
-            "longitude": -73.970089,
-            "longitudeDelta": 0.0421,
-          }
-        }
-        showsUserLocation={true}
+        showsMyLocationButton={true}
+        showsUserLocation={false}
         style={
           Object {
             "height": 1334,
             "width": 750,
           }
         }
+        zoomEnabled={true}
       >
         <View>
           <Text

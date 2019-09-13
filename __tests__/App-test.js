@@ -8,7 +8,8 @@ jest.mock("expo", () => ({
   AppLoading: "AppLoading"
 }));
 
-jest.mock("react-native-maps", () => "MapView");
+jest.mock("react-native-maps", () => ({__esModule: true,
+  default: "MapView"}));
 
 jest.mock("../navigation/AppNavigator", () => "AppNavigator");
 
