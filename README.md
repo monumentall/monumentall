@@ -9,5 +9,5 @@ an app designed to honor people of diverse genders in public spaces
 
 ## testing
 - run tests with `npm test`
-- update snapshot tests with `jest --updateSnapshot`
+- update snapshot tests with `npx jest --updateSnapshot`
 
