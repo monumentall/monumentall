@@ -1,26 +1,17 @@
 import React from "react";
-import { View, Text } from "react-native";
 import BottomDrawer from "rn-bottom-drawer";
 import Landmark from "./Landmark";
-import { reusableStyles } from "../styles";
 import layout from "../constants/Layout";
+import ExploreBrooklyn from "./ExploreBrooklyn";
 
 const screenHeight = layout.window.height;
 
 export default class Drawer extends React.Component {
   renderContent = () => {
     if (this.props.selectedLandmark.name) {
-      return (
-        <View>
-          <Landmark landmarkDetails={this.props.selectedLandmark} />
-        </View>
-      );
+      return <Landmark landmarkDetails={this.props.selectedLandmark} />;
     } else {
-      return (
-        <View>
-          <Text style={reusableStyles.headline}>Explore Brooklyn</Text>
-        </View>
-      );
+      return <ExploreBrooklyn landmarks={this.props.landmarks} />;
     }
   };
 
@@ -31,8 +22,8 @@ export default class Drawer extends React.Component {
         startUp={false}
         roundedEdges={true}
         shadow={true}
-        downDisplay={screenHeight - screenHeight / 6}
-        backgroundColor={"#f2e5e5"}
+        downDisplay={screenHeight - screenHeight / 2.65}
+        backgroundColor={"transparent"}
       >
         {this.renderContent()}
       </BottomDrawer>

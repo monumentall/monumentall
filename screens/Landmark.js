@@ -1,6 +1,12 @@
 import React from "react";
-import { ScrollView, Text, Button, AsyncStorage } from "react-native";
-import { reusableStyles } from "../styles";
+import {
+  Text,
+  AsyncStorage,
+  View,
+  TouchableOpacity,
+  ScrollView
+} from "react-native";
+import { reusableStyles, specificStyles } from "../styles";
 
 export default class LandmarkScreen extends React.Component {
   async saveLandmark(landmarkToSave) {
@@ -31,20 +37,50 @@ export default class LandmarkScreen extends React.Component {
 
   render() {
     const { landmarkDetails } = this.props;
+
+    let description = landmarkDetails.description;
+    let descriptionMaxWordLength = 500;
+    let shortDescriptionMaxWordLength = 100;
+
+    if (description.length > descriptionMaxWordLength) {
+      description = description.slice(0, descriptionMaxWordLength) + "...";
+    }
+
     return (
-      <ScrollView>
-        <Text style={reusableStyles.headline}>Landmark Details Page</Text>
-
-        <Text>Name: {landmarkDetails.name}</Text>
-
-        <Text>Location: {landmarkDetails.location}</Text>
-
-        <Text>Description: {landmarkDetails.description}</Text>
-
-        <Button onPress={() => this.saveLandmark(landmarkDetails)} title="save">
-          Save
-        </Button>
-      </ScrollView>
+      <View>
+        <View style={reusableStyles.block}>
+          <View style={specificStyles.insetPic} />
+          <Text style={reusableStyles.header1}>{landmarkDetails.name}</Text>
+          <Text style={reusableStyles.text1}>
+            {description.slice(0, shortDescriptionMaxWordLength)}
+          </Text>
+          <View style={reusableStyles.flexrow}>
+            <TouchableOpacity
+              style={reusableStyles.button}
+              onPress={() => console.log("pressed directions")}
+            >
+              <Text style={reusableStyles.header2}>DIRECTIONS</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={reusableStyles.button}
+              onPress={() => this.saveLandmark(landmarkDetails)}
+            >
+              <Text style={reusableStyles.header2}>SAVE</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <ScrollView style={reusableStyles.block}>
+          <Text style={reusableStyles.header2}>Her Story</Text>
+          <Text style={reusableStyles.text1}>{description}</Text>
+          <TouchableOpacity onPress={() => console.log("pressed see more")}>
+            <Text style={reusableStyles.header2}>See More</Text>
+          </TouchableOpacity>
+        </ScrollView>
+        <View style={reusableStyles.block}>
+          <Text style={reusableStyles.header2}>Contact Details</Text>
+          <Text style={reusableStyles.text1}>{landmarkDetails.location}</Text>
+        </View>
+      </View>
     );
   }
 }

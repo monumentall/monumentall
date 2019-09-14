@@ -2,20 +2,37 @@ import React from "react";
 import { View } from "react-native";
 import Map from "./Map";
 import Drawer from "./Drawer";
-import Settings from "./Settings";
 import List from "./List";
 import { specificStyles } from "../styles";
 import screenNames from "../constants/ScreenNames";
+import { database } from "../db.js";
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      landmarks: [],
       selectedLandmark: {},
       screen: screenNames.home
     };
+    this.db = database.ref();
     this.selectLandmark = this.selectLandmark.bind(this);
   }
+
+  componentDidMount = async () => {
+    this._listenForUpdatesToDatabase(this.db);
+  };
+
+  _listenForUpdatesToDatabase = db => {
+    db.on("value", snap => {
+      const data = [];
+      snap.forEach(child => {
+        const childObj = child.toJSON();
+        data.push({ ...childObj });
+      });
+      this.setState({ landmarks: data });
+    });
+  };
 
   static navigationOptions = {
     header: null
@@ -40,10 +57,14 @@ export default class HomeScreen extends React.Component {
       return (
         <View>
           <Map
+            markers={this.state.landmarks}
             selectLandmark={this.selectLandmark}
             setScreen={this.setScreen}
           />
-          <Drawer selectedLandmark={this.state.selectedLandmark} />
+          <Drawer
+            landmarks={this.state.landmarks}
+            selectedLandmark={this.state.selectedLandmark}
+          />
         </View>
       );
     }
