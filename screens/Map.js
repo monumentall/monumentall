@@ -5,19 +5,16 @@ import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
 import CenterBtn from "./CenterBtn";
-import { database } from "../db.js";
 import layout from "../constants/Layout";
 
 export default class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      markers: [],
       locationResult: "denied",
       initialRegion: null,
       appState: AppState.currentState
     };
-    this.db = database.ref();
   }
 
   static navigationOptions = {
@@ -25,7 +22,6 @@ export default class Map extends React.Component {
   };
 
   componentDidMount = async () => {
-    this._listenForUpdatesToDatabase(this.db);
     AppState.addEventListener("change", this._handleAppStateChange);
     await this._getLocationAsync();
   };
@@ -53,17 +49,6 @@ export default class Map extends React.Component {
       this.setState({ locationResult: status });
     }
     this.setState({ appState: nextAppState });
-  };
-
-  _listenForUpdatesToDatabase = db => {
-    db.on("value", snap => {
-      const data = [];
-      snap.forEach(child => {
-        const childObj = child.toJSON();
-        data.push({ ...childObj });
-      });
-      this.setState({ markers: data });
-    });
   };
 
   _getLocationAsync = async () => {
@@ -120,7 +105,7 @@ export default class Map extends React.Component {
           locationAccess={this.state.locationResult}
           setMapRegion={this._setMapRegionAsync}
         />
-        {this.state.markers.map(marker => (
+        {this.props.markers.map(marker => (
           <MapView.Marker
             key={marker.name}
             coordinate={marker.coordinate}
