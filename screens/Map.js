@@ -115,7 +115,7 @@ export default class Map extends React.Component {
       <>
       <MapView
         provider={PROVIDER_GOOGLE}
-        style={{ height: layout.window.height, width: layout.window.width }}
+        customMapStyle={{ height: layout.window.height, width: layout.window.width, zIndex: -1 }}
         showsUserLocation={
           this.state.locationResult === "denied" ? false : true
         }
@@ -144,13 +144,13 @@ export default class Map extends React.Component {
         ))}
       </MapView>
        {/* @TODO: refactor menu so list screen doesn't unmount the map and therefore reset initialRegion */}
-       <MenuBtn setScreen={this.setScreen} />
+       <MenuBtn style={{position: 'absolute', top: 50, left: 50, zIndex: 10}} setScreen={this.setScreen} />
 
        {/* @TODO: refactor C Button because it doesn't recenter on user's location anymore. Possibly use built in showsMyLocationButton */}
-       <CenterBtn
+       {/* <CenterBtn
          locationAccess={this.state.locationResult}
          setMapRegion={this._setMapRegionAsync}
-       />
+       /> */}
        </>
     )
   }
