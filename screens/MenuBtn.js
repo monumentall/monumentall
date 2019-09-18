@@ -18,13 +18,8 @@ export default class MenuBtn extends React.Component {
   render() {
     return (
       <View>
-        <Text
-          style={specificStyles.menuBtn}
-          onPress={() => {
-            this.toggleShowMenu();
-          }}
-        >
-        X
+        <Text style={specificStyles.menuBtn} onPress={this.toggleShowMenu}>
+          X
         </Text>
         <Menu
           visible={this.state.showMenu}

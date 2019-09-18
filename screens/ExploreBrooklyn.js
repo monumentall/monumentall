@@ -1,35 +1,44 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
+import NearMe from "./NearMe";
+import List from "./List";
 
 export default class ExploreBrooklyn extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showSavedList: false
+    };
+  }
+
+  showSavedListView = () => {
+    this.setState({ showSavedList: true });
+  };
+
+  showNearMeView = () => {
+    this.setState({ showSavedList: false });
+  };
+
   render() {
-    const landmarks = this.props.landmarks;
-    if (landmarks.length) {
-      return (
-        <View style={reusableStyles.block}>
-          <Text style={{ ...reusableStyles.header1, textAlign: "center" }}>
-            ExploreBrooklyn
-          </Text>
-          <View>
-            {landmarks.map(landmark => (
-              <View key={landmark.name} style={specificStyles.listItemWithIcon}>
-                <View style={reusableStyles.listIcon} />
-                <View>
-                  <Text style={reusableStyles.header2}>{landmark.name}</Text>
-                  <Text style={reusableStyles.text1}>{landmark.location}</Text>
-                </View>
-              </View>
-            ))}
-          </View>
+    return (
+      <View style={reusableStyles.block}>
+        <View style={reusableStyles.flexrow}>
+          <TouchableOpacity onPress={this.showNearMeView}>
+            <Text style={reusableStyles.header1}>Near Me</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.showSavedListView}>
+            <Text style={reusableStyles.header1}>Saved</Text>
+          </TouchableOpacity>
         </View>
-      );
-    } else {
-      return (
         <View>
-          <Text>Explore Brooklyn</Text>
+          {this.state.showSavedList ? (
+            <List />
+          ) : (
+            <NearMe landmarks={this.props.landmarks} />
+          )}
         </View>
-      );
-    }
+      </View>
+    );
   }
 }
