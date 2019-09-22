@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, AsyncStorage } from "react-native";
+import { View, Text, AsyncStorage, TouchableOpacity } from "react-native";
 import screenNames from "../constants/ScreenNames";
+import { reusableStyles, specificStyles } from "../styles";
 
 export default class List extends React.Component {
   constructor() {
@@ -27,6 +28,24 @@ export default class List extends React.Component {
     this.setState({ savedLandmarks: [] });
   }
 
+  async deleteLandmark(selectedLandmarkName) {
+    await AsyncStorage.getItem("savedLandmarks")
+      .then(storedLandmarks => {
+        let savedLandmarks = JSON.parse(storedLandmarks);
+        return (updatedLandmarks = savedLandmarks.filter(landmark => {
+          return landmark.name !== selectedLandmarkName;
+        }));
+      })
+      .then(updatedLandmarks => {
+        AsyncStorage.setItem(
+          "savedLandmarks",
+          JSON.stringify(updatedLandmarks)
+        );
+        this.setState({ savedLandmarks: updatedLandmarks });
+      })
+      .catch(err => console.error(err));
+  }
+
   render() {
     const { savedLandmarks } = this.state;
 
@@ -42,11 +61,23 @@ export default class List extends React.Component {
         {savedLandmarks &&
           savedLandmarks.map((landmark, i) => {
             return (
-              <Text key={landmark.name}>
-                Landmark {i + 1}: {landmark.name}
-              </Text>
+              <View style={specificStyles.listItemWithIcon}>
+                <Text key={landmark.name} style={reusableStyles.header2}>
+                  Landmark {i + 1}: {landmark.name}
+                </Text>
+                <TouchableOpacity
+                  style={specificStyles.deleteButton}
+                  title="delete"
+                  onPress={() => this.deleteLandmark(landmark.name)}
+                />
+              </View>
             );
           })}
+        <TouchableOpacity
+          style={specificStyles.deleteButton}
+          title="Delete All"
+          onPress={this.deleteList}
+        />
       </View>
     );
 

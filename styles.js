@@ -87,5 +87,15 @@ export const specificStyles = StyleSheet.create({
   listItemWithIcon: {
     flexDirection: "row",
     marginBottom: 5
+  },
+  deleteButton: {
+    borderRadius: 50,
+    borderWidth: 0.5,
+    borderColor: "black",
+    flex: 2,
+    width: 20,
+    margin: 5,
+    padding: 2,
+    alignItems: "center"
   }
 });
