@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import layout from "./constants/Layout"
 
 export const reusableStyles = StyleSheet.create({
   listIcon: {
@@ -56,6 +57,11 @@ export const specificStyles = StyleSheet.create({
   },
   main: {
     flex: 1
+  },
+  mapContainer: {
+    ...StyleSheet.absoluteFillObject,
+    height: layout.window.height,
+    width: layout.window.width,
   },
   menuBtn: {
     marginTop: 25,

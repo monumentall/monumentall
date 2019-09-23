@@ -3,15 +3,9 @@ import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
 import { AppState, View } from "react-native";
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
-<<<<<<< HEAD
 import MenuBtn from "./MenuBtn";
-import CenterBtn from "./CenterBtn";
-=======
-import { database } from "../db.js";
->>>>>>> REFACTOR: snapshot from db
-import layout from "../constants/Layout";
-import MenuBtn from "./MenuBtn";
-import CenterBtn from "./CenterBtn";
+import {specificStyles} from "../styles"
+
 
 export default class Map extends React.Component {
   constructor(props) {
@@ -28,10 +22,6 @@ export default class Map extends React.Component {
   };
 
   componentDidMount = async () => {
-<<<<<<< HEAD
-=======
-    this._getMarkersFromDatabase(this.db);
->>>>>>> REFACTOR: snapshot from db
     AppState.addEventListener("change", this._handleAppStateChange);
     await this._getLocationAsync();
   };
@@ -61,20 +51,6 @@ export default class Map extends React.Component {
     this.setState({ appState: nextAppState });
   };
 
-<<<<<<< HEAD
-=======
-  _getMarkersFromDatabase = db => {
-    db.once("value", snap => {
-      const data = [];
-      snap.forEach(child => {
-        const childObj = child.toJSON();
-        data.push({ ...childObj });
-      });
-      this.setState({ markers: data });
-    });
-  };
-
->>>>>>> REFACTOR: snapshot from db
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status === "granted") {
@@ -115,7 +91,7 @@ export default class Map extends React.Component {
       <>
       <MapView
         provider={PROVIDER_GOOGLE}
-        customMapStyle={{ height: layout.window.height, width: layout.window.width, zIndex: -1 }}
+        style={specificStyles.mapContainer}
         showsUserLocation={
           this.state.locationResult === "denied" ? false : true
         }
@@ -123,18 +99,7 @@ export default class Map extends React.Component {
         zoomEnabled={true}
         initialRegion={this.state.initialRegion}
       >
-<<<<<<< HEAD
-        {/* @TODO: refactor menu so list screen doesn't unmount the map and therefore reset initialRegion */}
-        <MenuBtn setScreen={this.props.setScreen} />
-        {/* @TODO: refactor C Button because it doesn't recenter on user's location anymore. Possibly use built in showsMyLocationButton */}
-        <CenterBtn
-          locationAccess={this.state.locationResult}
-          setMapRegion={this._setMapRegionAsync}
-        />
         {this.props.markers.map(marker => (
-=======
-        {this.state.markers.map(marker => (
->>>>>>> REFACTOR: snapshot from db
           <MapView.Marker
             key={marker.name}
             coordinate={marker.coordinate}
@@ -144,13 +109,7 @@ export default class Map extends React.Component {
         ))}
       </MapView>
        {/* @TODO: refactor menu so list screen doesn't unmount the map and therefore reset initialRegion */}
-       <MenuBtn style={{position: 'absolute', top: 50, left: 50, zIndex: 10}} setScreen={this.setScreen} />
-
-       {/* @TODO: refactor C Button because it doesn't recenter on user's location anymore. Possibly use built in showsMyLocationButton */}
-       {/* <CenterBtn
-         locationAccess={this.state.locationResult}
-         setMapRegion={this._setMapRegionAsync}
-       /> */}
+       <MenuBtn setScreen={this.setScreen} />
        </>
     )
   }

@@ -21,11 +21,11 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount = async () => {
-    this._listenForUpdatesToDatabase(this.db);
+    this._fetchMarkersFromDatabase(this.db);
   };
 
-  _listenForUpdatesToDatabase = db => {
-    db.on("value", snap => {
+  _fetchMarkersFromDatabase = db => {
+    db.once("value", snap => {
       const data = [];
       snap.forEach(child => {
         const childObj = child.toJSON();
