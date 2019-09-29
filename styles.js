@@ -83,5 +83,9 @@ export const specificStyles = StyleSheet.create({
     marginLeft: 250,
     fontSize: 40,
     width: 40
+  },
+  listItemWithIcon: {
+    flexDirection: "row",
+    marginBottom: 5
   }
 });
