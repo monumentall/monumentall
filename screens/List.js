@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, AsyncStorage, TouchableOpacity } from "react-native";
+import { View, Text, AsyncStorage, Button } from "react-native";
 import screenNames from "../constants/ScreenNames";
 import { reusableStyles, specificStyles } from "../styles";
 
@@ -9,6 +9,7 @@ export default class List extends React.Component {
     this.state = {
       savedLandmarks: []
     };
+    this.deleteList = this.deleteList.bind(this);
   }
 
   componentDidMount() {
@@ -32,9 +33,11 @@ export default class List extends React.Component {
     await AsyncStorage.getItem("savedLandmarks")
       .then(storedLandmarks => {
         let savedLandmarks = JSON.parse(storedLandmarks);
-        return (updatedLandmarks = savedLandmarks.filter(landmark => {
-          return landmark.name !== selectedLandmarkName;
-        }));
+        if (savedLandmarks) {
+          return savedLandmarks.filter(landmark => {
+            return landmark.name !== selectedLandmarkName;
+          });
+        }
       })
       .then(updatedLandmarks => {
         AsyncStorage.setItem(
@@ -65,19 +68,14 @@ export default class List extends React.Component {
                 <Text key={landmark.name} style={reusableStyles.header2}>
                   Landmark {i + 1}: {landmark.name}
                 </Text>
-                <TouchableOpacity
-                  style={specificStyles.deleteButton}
+                <Button
                   title="delete"
                   onPress={() => this.deleteLandmark(landmark.name)}
                 />
               </View>
             );
           })}
-        <TouchableOpacity
-          style={specificStyles.deleteButton}
-          title="Delete All"
-          onPress={this.deleteList}
-        />
+        <Button title="Delete All" onPress={this.deleteList} />
       </View>
     );
 
