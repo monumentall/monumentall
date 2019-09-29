@@ -35,6 +35,39 @@ export default class LandmarkScreen extends React.Component {
     }
   }
 
+  fetchLandmarkDetails(name) {
+    const formattedName = this.formatLandmarkName(name);
+    return fetch(
+      `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${formattedName}&inputtype=textquery&key=AIzaSyCGZcelQLr9xZhYzuGFWLOdb5-yiOcEo3A`
+    )
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .then(placeId => {
+        return fetch(
+          `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=rating,formatted_phone_number&key=AIzaSyCGZcelQLr9xZhYzuGFWLOdb5-yiOcEo3A`
+        );
+      })
+      .then(resDetails => {
+        return resDetails.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.log("ERROR!");
+        console.error(error);
+      });
+  }
+
+  formatLandmarkName(name) {
+    let words = name.split(" ");
+    return words.join("%20");
+  }
+
   render() {
     const { landmarkDetails } = this.props;
 
@@ -46,6 +79,7 @@ export default class LandmarkScreen extends React.Component {
       description = description.slice(0, descriptionMaxWordLength) + "...";
     }
 
+    console.log(this.fetchLandmarkDetails("Fort Greene Park"));
     return (
       <View>
         <View style={reusableStyles.block}>
