@@ -29,20 +29,16 @@ export default class List extends React.Component {
     this.setState({ savedLandmarks: [] });
   }
 
-  async deleteLandmark(selectedLandmarkName) {
+  deleteLandmark(selectedLandmarkName) {
     if (this.state.savedLandmarks) {
       const updatedLandmarks = this.state.savedLandmarks.filter(landmark => {
         return landmark.name !== selectedLandmarkName;
       });
-      try {
-        await AsyncStorage.setItem(
-          "savedLandmarks",
-          JSON.stringify(updatedLandmarks)
-        );
-        this.setState({ savedLandmarks: updatedLandmarks });
-      } catch (error) {
-        console.log(error);
-      }
+      AsyncStorage.setItem("savedLandmarks", JSON.stringify(updatedLandmarks))
+        .then(() => {
+          this.setState({ savedLandmarks: updatedLandmarks });
+        })
+        .catch(err => console.error(err));
     }
   }
 
