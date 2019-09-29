@@ -30,23 +30,20 @@ export default class List extends React.Component {
   }
 
   async deleteLandmark(selectedLandmarkName) {
-    await AsyncStorage.getItem("savedLandmarks")
-      .then(storedLandmarks => {
-        let savedLandmarks = JSON.parse(storedLandmarks);
-        if (savedLandmarks) {
-          return savedLandmarks.filter(landmark => {
-            return landmark.name !== selectedLandmarkName;
-          });
-        }
-      })
-      .then(updatedLandmarks => {
-        AsyncStorage.setItem(
+    if (this.state.savedLandmarks) {
+      const updatedLandmarks = this.state.savedLandmarks.filter(landmark => {
+        return landmark.name !== selectedLandmarkName;
+      });
+      try {
+        await AsyncStorage.setItem(
           "savedLandmarks",
           JSON.stringify(updatedLandmarks)
         );
         this.setState({ savedLandmarks: updatedLandmarks });
-      })
-      .catch(err => console.error(err));
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   render() {
