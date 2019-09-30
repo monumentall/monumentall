@@ -35,43 +35,20 @@ export default class LandmarkScreen extends React.Component {
     }
   }
 
-  fetchLandmarkDetails(name) {
-    const formattedName = this.formatLandmarkName(name);
-    return fetch(
-      `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${formattedName}&inputtype=textquery&key=AIzaSyCGZcelQLr9xZhYzuGFWLOdb5-yiOcEo3A`
-    )
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        console.log(data);
-      })
-      .then(placeId => {
-        return fetch(
-          `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=rating,formatted_phone_number&key=AIzaSyCGZcelQLr9xZhYzuGFWLOdb5-yiOcEo3A`
-        );
-      })
-      .then(resDetails => {
-        return resDetails.json();
-      })
-      .then(data => {
-        console.log(data);
-      })
-      .catch(error => {
-        console.log("ERROR!");
-        console.error(error);
-      });
-  }
-
-  formatLandmarkName(name) {
-    let words = name.split(" ");
-    return words.join("%20");
-  }
-
   render() {
-    const { landmarkDetails } = this.props;
+    const {
+      landmarkDetails: {
+        formatted_address,
+        formatted_phone_number,
+        location,
+        name,
+        opening_hours
+      }
+    } = this.props;
 
-    let description = landmarkDetails.description;
+    const address = formatted_address || location;
+
+    let description = this.props.landmarkDetails.description;
     let descriptionMaxWordLength = 500;
     let shortDescriptionMaxWordLength = 100;
 
@@ -79,12 +56,11 @@ export default class LandmarkScreen extends React.Component {
       description = description.slice(0, descriptionMaxWordLength) + "...";
     }
 
-    console.log(this.fetchLandmarkDetails("Fort Greene Park"));
     return (
       <View>
         <View style={reusableStyles.block}>
           <View style={specificStyles.insetPic} />
-          <Text style={reusableStyles.header1}>{landmarkDetails.name}</Text>
+          <Text style={reusableStyles.header1}>{name}</Text>
           <Text style={reusableStyles.text1}>
             {description.slice(0, shortDescriptionMaxWordLength)}
           </Text>
@@ -97,7 +73,7 @@ export default class LandmarkScreen extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={reusableStyles.button}
-              onPress={() => this.saveLandmark(landmarkDetails)}
+              onPress={() => this.saveLandmark(this.props.landmarkDetails)}
             >
               <Text style={reusableStyles.header2}>SAVE</Text>
             </TouchableOpacity>
@@ -112,7 +88,22 @@ export default class LandmarkScreen extends React.Component {
         </ScrollView>
         <View style={reusableStyles.block}>
           <Text style={reusableStyles.header2}>Contact Details</Text>
-          <Text style={reusableStyles.text1}>{landmarkDetails.location}</Text>
+          <Text style={reusableStyles.text1}>Address: {address}</Text>
+
+          {formatted_phone_number && (
+            <Text style={reusableStyles.text1}>
+              Phone Number: {formatted_phone_number}
+            </Text>
+          )}
+
+          {opening_hours && (
+            <View>
+              <Text style={reusableStyles.header2}>Open Hours</Text>
+              {opening_hours.weekday_text.map(weekday => {
+                return <Text style={reusableStyles.text1}>{weekday}</Text>;
+              })}
+            </View>
+          )}
         </View>
       </View>
     );

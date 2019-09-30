@@ -6,6 +6,7 @@ import List from "./List";
 import { specificStyles } from "../styles";
 import screenNames from "../constants/ScreenNames";
 import { database } from "../db.js";
+import Constants from "../constants/APIKeys";
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -38,11 +39,72 @@ export default class HomeScreen extends React.Component {
     header: null
   };
 
-  selectLandmark = data => {
+  fetchLandmarkPlaceId(address) {
+    const formattedLandmarkAddress = this.formatLandmarkText(address);
+
+    return fetch(
+      `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${formattedLandmarkAddress}&inputtype=textquery&key=${Constants.google.apiKey}`
+    )
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        //grab the first result that the search returns and
+        //get its place id
+        if (data.candidates[0]) {
+          return data.candidates[0].place_id;
+        } else {
+          return "none";
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  fetchLandmarkDetails(googlePlaceId) {
+    return fetch(
+      `https://maps.googleapis.com/maps/api/place/details/json?place_id=${googlePlaceId}&fields=opening_hours,formatted_phone_number,formatted_address&key=${Constants.google.apiKey}`
+    )
+      .then(responseDetails => {
+        return responseDetails.json();
+      })
+      .then(placeDetails => {
+        return placeDetails.result;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  formatLandmarkText(text) {
+    let words = text.split(" ");
+    return words.join("%20");
+  }
+
+  async selectLandmark(data) {
+    let placeId = data.placeId;
+    let selectedLandmark = { ...data };
+
+    if (!placeId) {
+      //Fail safe for if we don't have the placeId in the db
+      placeId = await this.fetchLandmarkPlaceId(data.location);
+    }
+
+    //only check for placeDetails, if a placeId exists
+    //and we haven't already determined there is none
+    if (placeId !== "none") {
+      const placeDetails = await this.fetchLandmarkDetails(placeId);
+      selectedLandmark =
+        placeDetails !== "none"
+          ? { ...selectedLandmark, ...placeDetails }
+          : selectedLandmark;
+    }
+
     this.setState({
-      selectedLandmark: data
+      selectedLandmark
     });
-  };
+  }
 
   setScreen = screen => {
     this.setState({
