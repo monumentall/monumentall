@@ -1,6 +1,6 @@
 import React from "react";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
-import { AppState, View } from "react-native";
+import { AppState, Platform } from "react-native";
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
@@ -39,7 +39,8 @@ export default class Map extends React.Component {
       let { permissions, status } = await Permissions.getAsync(
         Permissions.LOCATION
       );
-      const locationOn = permissions.location.ios.scope === "whenInUse";
+      const locationOn = Platform.OS === 'ios' ? permissions.location.ios.scope === "whenInUse" : permissions.location.android.scope === 'fine';
+        console.log(permissions, status)
 
       if (status === "denied" && locationOn) {
         //This condition is to protect against the case where a user initially denies access or opens the app with denied access from a previous session (i.e. Permission status for location will never flip from 'denied'). If both conditions are met, it prompts the user to re-allow access to their location.
@@ -109,7 +110,7 @@ export default class Map extends React.Component {
         ))}
       </MapView>
        {/* @TODO: refactor menu so list screen doesn't unmount the map and therefore reset initialRegion */}
-       <MenuBtn setScreen={this.setScreen} />
+       <MenuBtn setScreen={this.props.setScreen} />
        </>
     )
   }

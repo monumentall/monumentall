@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, Linking } from "react-native";
+import { View, Text, Linking, Platform } from "react-native";
 import { specificStyles } from "../styles";
+import * as IntentLauncher from 'expo-intent-launcher';
 import screenNames from "../constants/ScreenNames";
 
 export default class Menu extends React.Component {
@@ -9,15 +10,22 @@ export default class Menu extends React.Component {
   }
 
   changeLocationSettings = async () => {
-    //Opens up settings so user can toggle their location on or off
-      const supported = await Linking.canOpenURL("app-settings:")
-        if (!supported) {
-            alert("Cannot open app settings - please open settings manually to toggle location.");
-          } else {
-            Linking.openURL("app-settings:");
-          }
+    if (Platform.OS === "ios") {
+      //Opens up settings so user can toggle their location on or off
+      const supported = await Linking.canOpenURL("app-settings:");
+      if (!supported) {
+        alert(
+          "Cannot open app settings - please open settings manually to toggle location."
+        );
+      } else {
+        Linking.openURL("app-settings:");
+      }
+    } else {
+      const intent = await IntentLauncher.startActivityAsync(IntentLauncher.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+      console.log("INTENT", intent)
+    }
     //closes the menu before going to Settings
-      this.props.toggleShowMenu();
+    this.props.toggleShowMenu();
   };
 
   render() {

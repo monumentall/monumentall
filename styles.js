@@ -71,6 +71,7 @@ export const specificStyles = StyleSheet.create({
   },
   menuContainer: {
     flex: 1,
+    position: "absolute",
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "flex-start",
