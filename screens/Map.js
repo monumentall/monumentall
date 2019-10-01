@@ -40,7 +40,6 @@ export default class Map extends React.Component {
         Permissions.LOCATION
       );
       const locationOn = Platform.OS === 'ios' ? permissions.location.ios.scope === "whenInUse" : permissions.location.android.scope === 'fine';
-        console.log(permissions, status)
 
       if (status === "denied" && locationOn) {
         //This condition is to protect against the case where a user initially denies access or opens the app with denied access from a previous session (i.e. Permission status for location will never flip from 'denied'). If both conditions are met, it prompts the user to re-allow access to their location.

@@ -22,7 +22,6 @@ export default class Menu extends React.Component {
       }
     } else {
       const intent = await IntentLauncher.startActivityAsync(IntentLauncher.ACTION_MANAGE_APPLICATIONS_SETTINGS);
-      console.log("INTENT", intent)
     }
     //closes the menu before going to Settings
     this.props.toggleShowMenu();
