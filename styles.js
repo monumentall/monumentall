@@ -87,5 +87,13 @@ export const specificStyles = StyleSheet.create({
   listItemWithIcon: {
     flexDirection: "row",
     marginBottom: 5
+  },
+  drawerButtons: {
+    fontFamily: "nunito-bold",
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 6,
+    padding: 5
   }
 });
