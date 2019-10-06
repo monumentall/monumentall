@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import { stopLocationUpdatesAsync } from "expo-location";
 
 export const reusableStyles = StyleSheet.create({
   listIcon: {
