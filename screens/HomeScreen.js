@@ -39,29 +39,6 @@ export default class HomeScreen extends React.Component {
     header: null
   };
 
-  fetchLandmarkPlaceId(address) {
-    const formattedLandmarkAddress = this.formatLandmarkText(address);
-
-    return fetch(
-      `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${formattedLandmarkAddress}&inputtype=textquery&key=${Constants.google.apiKey}`
-    )
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        //grab the first result that the search returns and
-        //get its place id
-        if (data.candidates[0]) {
-          return data.candidates[0].place_id;
-        } else {
-          return "none";
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
-
   fetchLandmarkDetails(googlePlaceId) {
     return fetch(
       `https://maps.googleapis.com/maps/api/place/details/json?place_id=${googlePlaceId}&fields=opening_hours,formatted_phone_number,formatted_address&key=${Constants.google.apiKey}`
@@ -85,11 +62,6 @@ export default class HomeScreen extends React.Component {
   async selectLandmark(data) {
     let placeId = data.placeId;
     let selectedLandmark = { ...data };
-
-    if (!placeId) {
-      //Fail safe for if we don't have the placeId in the db
-      placeId = await this.fetchLandmarkPlaceId(data.location);
-    }
 
     //only check for placeDetails, if a placeId exists
     //and we haven't already determined there is none

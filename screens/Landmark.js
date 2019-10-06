@@ -36,19 +36,18 @@ export default class LandmarkScreen extends React.Component {
   }
 
   render() {
+    const { landmarkDetails } = this.props;
     const {
-      landmarkDetails: {
-        formatted_address,
-        formatted_phone_number,
-        location,
-        name,
-        opening_hours
-      }
-    } = this.props;
+      formatted_address,
+      formatted_phone_number,
+      location,
+      name,
+      opening_hours
+    } = landmarkDetails;
 
     const address = formatted_address || location;
 
-    let description = this.props.landmarkDetails.description;
+    let description = landmarkDetails.description;
     let descriptionMaxWordLength = 500;
     let shortDescriptionMaxWordLength = 100;
 
@@ -73,7 +72,7 @@ export default class LandmarkScreen extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={reusableStyles.button}
-              onPress={() => this.saveLandmark(this.props.landmarkDetails)}
+              onPress={() => this.saveLandmark(landmarkDetails)}
             >
               <Text style={reusableStyles.header2}>SAVE</Text>
             </TouchableOpacity>
