@@ -65,12 +65,11 @@ export default class HomeScreen extends React.Component {
 
     //only check for placeDetails, if a placeId exists
     //and we haven't already determined there is none
-    if (placeId !== "none") {
+    if (placeId) {
       const placeDetails = await this.fetchLandmarkDetails(placeId);
-      selectedLandmark =
-        placeDetails !== "none"
-          ? { ...selectedLandmark, ...placeDetails }
-          : selectedLandmark;
+      selectedLandmark = placeDetails
+        ? { ...selectedLandmark, ...placeDetails }
+        : selectedLandmark;
     }
 
     this.setState({
