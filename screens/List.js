@@ -46,21 +46,16 @@ export default class List extends React.Component {
     const { savedLandmarks } = this.state;
 
     const landmarksList = (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text
-          style={{ fontSize: 30, fontWeight: "bold" }}
-          onPress={() => this.props.setScreen(screenNames.home)}
-        >
-          X
-        </Text>
-        <Text>My Saved Landmarks:</Text>
+      <View>
         {savedLandmarks &&
-          savedLandmarks.map((landmark, i) => {
+          savedLandmarks.map(landmark => {
             return (
-              <View style={specificStyles.listItemWithIcon}>
-                <Text key={landmark.name} style={reusableStyles.header2}>
-                  Landmark {i + 1}: {landmark.name}
-                </Text>
+              <View key={landmark.name} style={specificStyles.listItemWithIcon}>
+                <View style={reusableStyles.listIcon} />
+                <View>
+                  <Text style={reusableStyles.header2}>{landmark.name}</Text>
+                  <Text style={reusableStyles.text1}>{landmark.location}</Text>
+                </View>
                 <Button
                   title="delete"
                   onPress={() => this.deleteLandmark(landmark.name)}
@@ -73,13 +68,7 @@ export default class List extends React.Component {
     );
 
     const noLandmarks = (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text
-          style={{ fontSize: 30, fontWeight: "bold" }}
-          onPress={() => this.props.setScreen(screenNames.home)}
-        >
-          X
-        </Text>
+      <View>
         <Text>You haven't saved anything yet!</Text>
       </View>
     );
