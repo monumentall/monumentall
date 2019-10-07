@@ -1,11 +1,11 @@
 import React from "react";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import { AppState } from "react-native";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
+import { AppState, Platform } from "react-native";
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
-import CenterBtn from "./CenterBtn";
-import layout from "../constants/Layout";
+import {specificStyles} from "../styles"
+
 
 export default class Map extends React.Component {
   constructor(props) {
@@ -39,7 +39,7 @@ export default class Map extends React.Component {
       let { permissions, status } = await Permissions.getAsync(
         Permissions.LOCATION
       );
-      const locationOn = permissions.location.ios.scope === "whenInUse";
+      const locationOn = Platform.OS === 'ios' ? permissions.location.ios.scope === "whenInUse" : permissions.location.android.scope === 'fine';
 
       if (status === "denied" && locationOn) {
         //This condition is to protect against the case where a user initially denies access or opens the app with denied access from a previous session (i.e. Permission status for location will never flip from 'denied'). If both conditions are met, it prompts the user to re-allow access to their location.
@@ -88,9 +88,10 @@ export default class Map extends React.Component {
 
   render() {
     return (
+      <>
       <MapView
         provider={PROVIDER_GOOGLE}
-        style={{ height: layout.window.height, width: layout.window.width }}
+        style={specificStyles.mapContainer}
         showsUserLocation={
           this.state.locationResult === "denied" ? false : true
         }
@@ -98,12 +99,6 @@ export default class Map extends React.Component {
         zoomEnabled={true}
         initialRegion={this.state.initialRegion}
       >
-        <MenuBtn setScreen={this.props.setScreen} />
-        {/* @TODO: refactor C Button because it doesn't recenter on user's location anymore. Possibly use built in showsMyLocationButton */}
-        <CenterBtn
-          locationAccess={this.state.locationResult}
-          setMapRegion={this._setMapRegionAsync}
-        />
         {this.props.markers.map(marker => (
           <MapView.Marker
             key={marker.name}
@@ -113,6 +108,9 @@ export default class Map extends React.Component {
           />
         ))}
       </MapView>
-    );
+       {/* @TODO: refactor menu so list screen doesn't unmount the map and therefore reset initialRegion */}
+       <MenuBtn setScreen={this.props.setScreen} />
+       </>
+    )
   }
 }

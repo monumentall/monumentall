@@ -21,6 +21,7 @@
     "expo-asset": "^6.0.0",
     "expo-constants": "^6.0.0",
     "expo-font": "~6.0.0",
+    "expo-intent-launcher": "^7.0.0",
     "expo-web-browser": "6.0.0",
     "firebase": "^6.3.3",
     "react": "16.8.3",
