@@ -6,6 +6,7 @@ import List from "./List";
 import { specificStyles } from "../styles";
 import screenNames from "../constants/ScreenNames";
 import { database } from "../db.js";
+import Constants from "../constants/APIKeys";
 
 
 export default class HomeScreen extends React.Component {
@@ -39,11 +40,44 @@ export default class HomeScreen extends React.Component {
     header: null
   };
 
-  selectLandmark = data => {
+  fetchLandmarkDetails(googlePlaceId) {
+    return fetch(
+      `https://maps.googleapis.com/maps/api/place/details/json?place_id=${googlePlaceId}&fields=opening_hours,formatted_phone_number,formatted_address&key=${Constants.google.apiKey}`
+    )
+      .then(responseDetails => {
+        return responseDetails.json();
+      })
+      .then(placeDetails => {
+        return placeDetails.result;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  formatLandmarkText(text) {
+    let words = text.split(" ");
+    return words.join("%20");
+  }
+
+  async selectLandmark(data) {
+    let placeId = data.placeId;
+    let selectedLandmark = { ...data };
+
+    //only check for placeDetails, if a placeId exists
+    //and we haven't already determined there is none
+    if (placeId !== "none") {
+      const placeDetails = await this.fetchLandmarkDetails(placeId);
+      selectedLandmark =
+        placeDetails !== "none"
+          ? { ...selectedLandmark, ...placeDetails }
+          : selectedLandmark;
+    }
+
     this.setState({
-      selectedLandmark: data
+      selectedLandmark
     });
-  };
+  }
 
   setScreen = screen => {
     this.setState({

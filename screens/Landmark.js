@@ -37,6 +37,15 @@ export default class LandmarkScreen extends React.Component {
 
   render() {
     const { landmarkDetails } = this.props;
+    const {
+      formatted_address,
+      formatted_phone_number,
+      location,
+      name,
+      opening_hours
+    } = landmarkDetails;
+
+    const address = formatted_address || location;
 
     let description = landmarkDetails.description;
     let descriptionMaxWordLength = 500;
@@ -50,7 +59,7 @@ export default class LandmarkScreen extends React.Component {
       <View>
         <View style={reusableStyles.block}>
           <View style={specificStyles.insetPic} />
-          <Text style={reusableStyles.header1}>{landmarkDetails.name}</Text>
+          <Text style={reusableStyles.header1}>{name}</Text>
           <Text style={reusableStyles.text1}>
             {description.slice(0, shortDescriptionMaxWordLength)}
           </Text>
@@ -78,7 +87,22 @@ export default class LandmarkScreen extends React.Component {
         </ScrollView>
         <View style={reusableStyles.block}>
           <Text style={reusableStyles.header2}>Contact Details</Text>
-          <Text style={reusableStyles.text1}>{landmarkDetails.location}</Text>
+          <Text style={reusableStyles.text1}>Address: {address}</Text>
+
+          {formatted_phone_number && (
+            <Text style={reusableStyles.text1}>
+              Phone Number: {formatted_phone_number}
+            </Text>
+          )}
+
+          {opening_hours && (
+            <View>
+              <Text style={reusableStyles.header2}>Open Hours</Text>
+              {opening_hours.weekday_text.map(weekday => {
+                return <Text style={reusableStyles.text1}>{weekday}</Text>;
+              })}
+            </View>
+          )}
         </View>
       </View>
     );

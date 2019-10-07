@@ -1,35 +1,66 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
+import NearMe from "./NearMe";
+import List from "./List";
+import Landmark from "./Landmark";
 
 export default class ExploreBrooklyn extends React.Component {
-  render() {
-    const landmarks = this.props.landmarks;
-    if (landmarks.length) {
-      return (
-        <View style={reusableStyles.block}>
-          <Text style={{ ...reusableStyles.header1, textAlign: "center" }}>
-            ExploreBrooklyn
-          </Text>
-          <View>
-            {landmarks.map(landmark => (
-              <View key={landmark.name} style={specificStyles.listItemWithIcon}>
-                <View style={reusableStyles.listIcon} />
-                <View>
-                  <Text style={reusableStyles.header2}>{landmark.name}</Text>
-                  <Text style={reusableStyles.text1}>{landmark.location}</Text>
-                </View>
-              </View>
-            ))}
-          </View>
-        </View>
-      );
-    } else {
-      return (
-        <View>
-          <Text>Explore Brooklyn</Text>
-        </View>
-      );
+  constructor(props) {
+    super(props);
+    this.state = {
+      showSavedList: false,
+      showNearMe: true
+    };
+  }
+
+  showSavedListView = () => {
+    this.setState({
+      showNearMe: false,
+      showSavedList: true
+    });
+  };
+
+  showNearMeView = () => {
+    this.setState({
+      showNearMe: true,
+      showSavedList: false
+    });
+  };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.landmarkDetails !== this.props.landmarkDetails) {
+      this.setState({
+        showNearMe: false,
+        showSavedList: false
+      });
     }
+  }
+
+  render() {
+    const { showNearMe, showSavedList } = this.state;
+    const showLandmarkDetails =
+      this.props.landmarkDetails.name && !showNearMe && !showSavedList;
+
+    return (
+      <View style={reusableStyles.block}>
+        <View style={reusableStyles.flexrow}>
+          <TouchableOpacity onPress={this.showNearMeView}>
+            <Text style={specificStyles.drawerButtons}>Near Me</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.showSavedListView}>
+            <Text style={specificStyles.drawerButtons}>Saved</Text>
+          </TouchableOpacity>
+        </View>
+
+        {showLandmarkDetails && (
+          <Landmark landmarkDetails={this.props.landmarkDetails} />
+        )}
+
+        {this.state.showSavedList && <List />}
+
+        {this.state.showNearMe && <NearMe landmarks={this.props.landmarks} />}
+      </View>
+    );
   }
 }

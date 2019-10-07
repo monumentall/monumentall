@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, AsyncStorage } from "react-native";
+import { View, Text, AsyncStorage, Button } from "react-native";
 import screenNames from "../constants/ScreenNames";
+import { reusableStyles, specificStyles } from "../styles";
 
 export default class List extends React.Component {
   constructor() {
@@ -8,6 +9,7 @@ export default class List extends React.Component {
     this.state = {
       savedLandmarks: []
     };
+    this.deleteList = this.deleteList.bind(this);
   }
 
   componentDidMount() {
@@ -27,37 +29,46 @@ export default class List extends React.Component {
     this.setState({ savedLandmarks: [] });
   }
 
+  deleteLandmark(selectedLandmarkName) {
+    if (this.state.savedLandmarks) {
+      const updatedLandmarks = this.state.savedLandmarks.filter(landmark => {
+        return landmark.name !== selectedLandmarkName;
+      });
+      AsyncStorage.setItem("savedLandmarks", JSON.stringify(updatedLandmarks))
+        .then(() => {
+          this.setState({ savedLandmarks: updatedLandmarks });
+        })
+        .catch(err => console.error(err));
+    }
+  }
+
   render() {
     const { savedLandmarks } = this.state;
 
     const landmarksList = (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text
-          style={{ fontSize: 30, fontWeight: "bold" }}
-          onPress={() => this.props.setScreen(screenNames.home)}
-        >
-          X
-        </Text>
-        <Text>My Saved Landmarks:</Text>
+      <View>
         {savedLandmarks &&
-          savedLandmarks.map((landmark, i) => {
+          savedLandmarks.map(landmark => {
             return (
-              <Text key={landmark.name}>
-                Landmark {i + 1}: {landmark.name}
-              </Text>
+              <View key={landmark.name} style={specificStyles.listItemWithIcon}>
+                <View style={reusableStyles.listIcon} />
+                <View>
+                  <Text style={reusableStyles.header2}>{landmark.name}</Text>
+                  <Text style={reusableStyles.text1}>{landmark.location}</Text>
+                </View>
+                <Button
+                  title="delete"
+                  onPress={() => this.deleteLandmark(landmark.name)}
+                />
+              </View>
             );
           })}
+        <Button title="Delete All" onPress={this.deleteList} />
       </View>
     );
 
     const noLandmarks = (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text
-          style={{ fontSize: 30, fontWeight: "bold" }}
-          onPress={() => this.props.setScreen(screenNames.home)}
-        >
-          X
-        </Text>
+      <View>
         <Text>You haven't saved anything yet!</Text>
       </View>
     );

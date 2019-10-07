@@ -1,6 +1,5 @@
 import React from "react";
 import BottomDrawer from "rn-bottom-drawer";
-import Landmark from "./Landmark";
 import layout from "../constants/Layout";
 import ExploreBrooklyn from "./ExploreBrooklyn";
 
@@ -8,11 +7,12 @@ const screenHeight = layout.window.height;
 
 export default class Drawer extends React.Component {
   renderContent = () => {
-    if (this.props.selectedLandmark.name) {
-      return <Landmark landmarkDetails={this.props.selectedLandmark} />;
-    } else {
-      return <ExploreBrooklyn landmarks={this.props.landmarks} />;
-    }
+    return (
+      <ExploreBrooklyn
+        landmarks={this.props.landmarks}
+        landmarkDetails={this.props.selectedLandmark}
+      />
+    );
   };
 
   render() {

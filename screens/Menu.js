@@ -36,9 +36,6 @@ export default class Menu extends React.Component {
               <Text onPress={this.changeLocationSettings}>
                 Toggle Location Settings
               </Text>
-              <Text onPress={() => this.props.setScreen(screenNames.list)}>
-                Go To My List
-              </Text>
             </View>
           </View>
         )}
