@@ -1,6 +1,6 @@
 import React from "react";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
-import { AppState, Platform } from "react-native";
+import { AppState, Platform, TouchableOpacity, Image } from "react-native";
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
@@ -13,6 +13,7 @@ export default class Map extends React.Component {
     this.state = {
       locationResult: "denied",
       initialRegion: null,
+      region: null,
       appState: AppState.currentState
     };
   }
@@ -95,9 +96,10 @@ export default class Map extends React.Component {
         showsUserLocation={
           this.state.locationResult === "denied" ? false : true
         }
-        showsMyLocationButton={true}
+        showsMyLocationButton={false}
         zoomEnabled={true}
         initialRegion={this.state.initialRegion}
+        region={this.state.region}
       >
         {this.props.markers.map(marker => (
           <MapView.Marker
@@ -110,7 +112,9 @@ export default class Map extends React.Component {
       </MapView>
        {/* @TODO: refactor menu so list screen doesn't unmount the map and therefore reset initialRegion */}
        <MenuBtn setScreen={this.props.setScreen} />
+       {this.state.locationResult === 'granted' && <TouchableOpacity style={specificStyles.centerBtnContainer} onPress={() => {this._setMapRegionAsync('region')}} ><Image style={{width: 50, height: 50}} source={require('../assets/images/placeholder-map-icon.png')} /></TouchableOpacity>}
        </>
     )
   }
 }
+
