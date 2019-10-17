@@ -84,6 +84,12 @@ export default class Map extends React.Component {
   };
 
   handlePress = marker => {
+    this.regionChange({
+      ...event.nativeEvent.coordinate, 
+      latitudeDelta: 0.005,
+      longitudeDelta: 0.005,
+    })
+    
     this.props.selectLandmark(marker);
   };
 
@@ -106,7 +112,7 @@ export default class Map extends React.Component {
             key={marker.name}
             coordinate={marker.coordinate}
             title={marker.name}
-            onPress={() => this.handlePress(marker)}
+            onPress={(e) => this.handlePress(e, marker)}
           />
         ))}
       </MapView>
