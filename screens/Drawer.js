@@ -11,6 +11,7 @@ export default class Drawer extends React.Component {
       <ExploreBrooklyn
         landmarks={this.props.landmarks}
         landmarkDetails={this.props.selectedLandmark}
+        getDirections={this.props.getDirections}
       />
     );
   };
