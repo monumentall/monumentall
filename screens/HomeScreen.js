@@ -44,7 +44,7 @@ export default class HomeScreen extends React.Component {
     header: null
   };
 
-  fetchLandmarkDetails(googlePlaceId) {
+  fetchLandmarkDetailsById(googlePlaceId) {
     return fetch(
       `https://maps.googleapis.com/maps/api/place/details/json?place_id=${googlePlaceId}&fields=opening_hours,formatted_phone_number,formatted_address&key=${Constants.google.apiKey}`
     )
@@ -53,6 +53,27 @@ export default class HomeScreen extends React.Component {
       })
       .then(placeDetails => {
         return placeDetails.result;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
+  fetchLandmarkDetailsByAddress(address) {
+    return fetch(
+      `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${address}&inputtype=textquery&fields=place_id&key=${Constants.google.apiKey}`
+    )
+      .then(responseDetails => {
+        return responseDetails.json();
+      })
+      .then(placeDetails => {
+        if (placeDetails.candidates[0]) {
+          return this.fetchLandmarkDetailsById(
+            placeDetails.candidates[0]["place_id"]
+          );
+        } else {
+          return {};
+        }
       })
       .catch(error => {
         console.error(error);
@@ -71,9 +92,19 @@ export default class HomeScreen extends React.Component {
     //only check for placeDetails, if a placeId exists
     //and we haven't already determined there is none
     if (placeId) {
-      const placeDetails = await this.fetchLandmarkDetails(placeId);
+      const placeDetails = await this.fetchLandmarkDetailsById(placeId);
       selectedLandmark = placeDetails
         ? { ...selectedLandmark, ...placeDetails }
+        : selectedLandmark;
+    } else {
+      const placeDetails = await this.fetchLandmarkDetailsByAddress(
+        this.formatLandmarkText(selectedLandmark.location)
+      );
+      selectedLandmark = placeDetails
+        ? {
+            ...selectedLandmark,
+            ...placeDetails
+          }
         : selectedLandmark;
     }
 
