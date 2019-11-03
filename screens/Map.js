@@ -1,5 +1,5 @@
 import React from "react";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from "react-native-maps";
 import {
   AppState,
   Platform,
@@ -99,7 +99,6 @@ export default class Map extends React.Component {
         longitudeDelta: 0.005
       }
     });
-
     this.props.selectLandmark(marker);
   };
 
@@ -118,13 +117,19 @@ export default class Map extends React.Component {
           region={this.state.region}
         >
           {this.props.markers.map(marker => (
-            <MapView.Marker
+            <Marker
               key={marker.name}
               coordinate={marker.coordinate}
               title={marker.name}
               onPress={event => this.setRegionAndSelectLandmark(event, marker)}
             />
           ))}
+          {this.props.polyline.show && (
+            <Polyline
+              coordinates={this.props.polyline.coordinates}
+              strokeWidth={4}
+            />
+          )}
         </MapView>
         <MenuBtn setScreen={this.props.setScreen} />
         {this.state.locationResult === "granted" && (

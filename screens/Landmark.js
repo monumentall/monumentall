@@ -66,7 +66,9 @@ export default class LandmarkScreen extends React.Component {
           <View style={reusableStyles.flexrow}>
             <TouchableOpacity
               style={reusableStyles.button}
-              onPress={() => console.log("pressed directions")}
+              onPress={() =>
+                this.props.getDirections(landmarkDetails.coordinate)
+              }
             >
               <Text style={reusableStyles.header2}>DIRECTIONS</Text>
             </TouchableOpacity>

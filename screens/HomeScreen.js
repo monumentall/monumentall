@@ -7,7 +7,7 @@ import { specificStyles } from "../styles";
 import screenNames from "../constants/ScreenNames";
 import { database } from "../db.js";
 import Constants from "../constants/APIKeys";
-
+import * as Location from "expo-location";
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -15,7 +15,11 @@ export default class HomeScreen extends React.Component {
     this.state = {
       landmarks: [],
       selectedLandmark: {},
-      screen: screenNames.home
+      screen: screenNames.home,
+      polyline: {
+        show: false,
+        coordinates: []
+      }
     };
     this.db = database.ref();
     this.selectLandmark = this.selectLandmark.bind(this);
@@ -78,6 +82,63 @@ export default class HomeScreen extends React.Component {
     });
   }
 
+  getDirections = async landmarkCoordinates => {
+    const location = await Location.getCurrentPositionAsync({});
+
+    const {
+      coords: { latitude: initialLat, longitude: initialLong }
+    } = location;
+    const { latitude: finalLat, longitude: finalLong } = landmarkCoordinates;
+
+    let response = await fetch(
+      `https://maps.googleapis.com/maps/api/directions/json?origin=${initialLat},${initialLong}&destination=${finalLat},${finalLong}&mode=walking&key=${Constants.google.apiKey}`
+    );
+    let data = await response.json();
+    if (data.routes.length) {
+      const coordinates = this.decode(data.routes[0].overview_polyline.points);
+      this.setState({
+        polyline: {
+          show: true,
+          coordinates
+        }
+      });
+    }
+    // TODO: need some kind of error handling if no directions are available
+    // TODO: close drawer when get directions (reset drawer height?)
+  };
+
+  // oh no i am so sorry about this autoformating. we could move this into a util or something to clean up.
+  decode = (t, e) => {
+    for (
+      var n,
+        o,
+        u = 0,
+        l = 0,
+        r = 0,
+        d = [],
+        h = 0,
+        i = 0,
+        a = null,
+        c = Math.pow(10, e || 5);
+      u < t.length;
+
+    ) {
+      (a = null), (h = 0), (i = 0);
+      do (a = t.charCodeAt(u++) - 63), (i |= (31 & a) << h), (h += 5);
+      while (a >= 32);
+      (n = 1 & i ? ~(i >> 1) : i >> 1), (h = i = 0);
+      do (a = t.charCodeAt(u++) - 63), (i |= (31 & a) << h), (h += 5);
+      while (a >= 32);
+      (o = 1 & i ? ~(i >> 1) : i >> 1),
+        (l += n),
+        (r += o),
+        d.push([l / c, r / c]);
+    }
+    return (d = d.map(function(t) {
+      return { latitude: t[0], longitude: t[1] };
+    }));
+  };
+
   setScreen = screen => {
     this.setState({
       screen
@@ -94,10 +155,12 @@ export default class HomeScreen extends React.Component {
             markers={this.state.landmarks}
             selectLandmark={this.selectLandmark}
             setScreen={this.setScreen}
+            polyline={this.state.polyline}
           />
           <Drawer
             landmarks={this.state.landmarks}
             selectedLandmark={this.state.selectedLandmark}
+            getDirections={this.getDirections}
           />
         </View>
       );
