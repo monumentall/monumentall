@@ -43,8 +43,8 @@ export default class ExploreBrooklyn extends React.Component {
       this.props.landmarkDetails.name && !showNearMe && !showSavedList;
 
     return (
-      <View style={reusableStyles.block}>
-        <View style={reusableStyles.flexrow}>
+      <View>
+        <View style={specificStyles.drawerButtonsBlock}>
           <TouchableOpacity onPress={this.showNearMeView}>
             <Text style={specificStyles.drawerButtons}>Near Me</Text>
           </TouchableOpacity>
