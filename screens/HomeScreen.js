@@ -36,6 +36,7 @@ export default class HomeScreen extends React.Component {
     });
   };
 
+  //What is this for?
   static navigationOptions = {
     header: null
   };
@@ -78,22 +79,15 @@ export default class HomeScreen extends React.Component {
     });
   }
 
-  setScreen = screen => {
-    this.setState({
-      screen
-    });
-  };
-
   selectComponent = () => {
     if (this.state.screen === screenNames.list) {
-      return <List setScreen={this.setScreen} />;
+      return <List />;
     } else {
       return (
         <View>
           <Map
             markers={this.state.landmarks}
             selectLandmark={this.selectLandmark}
-            setScreen={this.setScreen}
           />
           <Drawer
             landmarks={this.state.landmarks}

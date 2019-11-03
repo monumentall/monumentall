@@ -126,7 +126,7 @@ export default class Map extends React.Component {
             />
           ))}
         </MapView>
-        <MenuBtn setScreen={this.props.setScreen} />
+        <MenuBtn />
         {this.state.locationResult === "granted" && (
           <TouchableOpacity
             style={specificStyles.centerBtnContainer}
