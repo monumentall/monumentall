@@ -7,11 +7,19 @@ const screenHeight = layout.window.height;
 
 export default class Drawer extends React.Component {
   renderContent = () => {
+    const {
+      getDirections,
+      landmarks,
+      nearbyLandmarks,
+      selectedLandmark
+    } = this.props;
+
     return (
       <ExploreBrooklyn
-        landmarks={this.props.landmarks}
-        landmarkDetails={this.props.selectedLandmark}
-        getDirections={this.props.getDirections}
+        nearbyLandmarks={nearbyLandmarks}
+        landmarks={landmarks}
+        landmarkDetails={selectedLandmark}
+        getDirections={getDirections}
       />
     );
   };

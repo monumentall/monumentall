@@ -159,6 +159,7 @@ export default class HomeScreen extends React.Component {
           />
           <Drawer
             landmarks={this.state.landmarks}
+            nearbyLandmark={this.state.landmarks}
             selectedLandmark={this.state.selectedLandmark}
             getDirections={this.getDirections}
           />

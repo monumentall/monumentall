@@ -4,11 +4,12 @@ import { reusableStyles, specificStyles } from "../styles";
 
 export default class NearMe extends React.Component {
   render() {
-    const landmarks = this.props.landmarks;
-    if (landmarks.length) {
+    const nearbyLandmarks = this.props.nearbyLandmarks;
+
+    if (nearbyLandmarks.length) {
       return (
         <View>
-          {landmarks.map(landmark => (
+          {nearbyLandmarks.map(landmark => (
             <View key={landmark.name} style={specificStyles.listItemWithIcon}>
               <View style={reusableStyles.listIcon} />
               <View>

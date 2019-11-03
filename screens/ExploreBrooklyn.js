@@ -42,6 +42,8 @@ export default class ExploreBrooklyn extends React.Component {
     const showLandmarkDetails =
       this.props.landmarkDetails.name && !showNearMe && !showSavedList;
 
+    const { getDirections, landmarks, nearbyLandmarks } = this.props;
+
     return (
       <View style={reusableStyles.block}>
         <View style={reusableStyles.flexrow}>
@@ -55,14 +57,14 @@ export default class ExploreBrooklyn extends React.Component {
 
         {showLandmarkDetails && (
           <Landmark
-            landmarkDetails={this.props.landmarkDetails}
-            getDirections={this.props.getDirections}
+            landmarkDetails={landmarkDetails}
+            getDirections={getDirections}
           />
         )}
 
         {this.state.showSavedList && <List />}
 
-        {this.state.showNearMe && <NearMe landmarks={this.props.landmarks} />}
+        {this.state.showNearMe && <NearMe nearbyLandmarks={nearbyLandmarks} />}
       </View>
     );
   }
