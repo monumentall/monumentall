@@ -85,11 +85,10 @@ export default class HomeScreen extends React.Component {
   getDirections = async landmarkCoordinates => {
     const location = await Location.getCurrentPositionAsync({});
 
-    // is there a cuter es6 way to assign these variables?
-    const initialLat = location.coords.latitude;
-    const initialLong = location.coords.longitude;
-    const finalLat = landmarkCoordinates.latitude;
-    const finalLong = landmarkCoordinates.longitude;
+    const {
+      coords: { latitude: initialLat, longitude: initialLong }
+    } = location;
+    const { latitude: finalLat, longitude: finalLong } = landmarkCoordinates;
 
     let response = await fetch(
       `https://maps.googleapis.com/maps/api/directions/json?origin=${initialLat},${initialLong}&destination=${finalLat},${finalLong}&mode=walking&key=${Constants.google.apiKey}`
