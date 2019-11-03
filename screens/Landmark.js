@@ -99,7 +99,11 @@ export default class LandmarkScreen extends React.Component {
             <View>
               <Text style={reusableStyles.header2}>Open Hours</Text>
               {opening_hours.weekday_text.map(weekday => {
-                return <Text style={reusableStyles.text1}>{weekday}</Text>;
+                return (
+                  <Text style={reusableStyles.text1} key={weekday}>
+                    {weekday}
+                  </Text>
+                );
               })}
             </View>
           )}

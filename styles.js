@@ -85,11 +85,12 @@ export const specificStyles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center"
   },
-  centerBtn: {
-    marginTop: 25,
-    marginLeft: 250,
-    fontSize: 40,
-    width: 40
+  centerBtnContainer: {
+    position: 'absolute',
+    top: layout.window.height - layout.window.height / 1.05,
+    left: layout.window.width - layout.window.width * .15,
+    width: 50,
+    height: 50,
   },
   listItemWithIcon: {
     flexDirection: "row",

@@ -1,11 +1,16 @@
 import React from "react";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps"
-import { AppState, Platform } from "react-native";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import {
+  AppState,
+  Platform,
+  TouchableOpacity,
+  Image,
+  View
+} from "react-native";
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
-import {specificStyles} from "../styles"
-
+import { specificStyles } from "../styles";
 
 export default class Map extends React.Component {
   constructor(props) {
@@ -13,6 +18,7 @@ export default class Map extends React.Component {
     this.state = {
       locationResult: "denied",
       initialRegion: null,
+      region: null,
       appState: AppState.currentState
     };
   }
@@ -39,7 +45,10 @@ export default class Map extends React.Component {
       let { permissions, status } = await Permissions.getAsync(
         Permissions.LOCATION
       );
-      const locationOn = Platform.OS === 'ios' ? permissions.location.ios.scope === "whenInUse" : permissions.location.android.scope === 'fine';
+      const locationOn =
+        Platform.OS === "ios"
+          ? permissions.location.ios.scope === "whenInUse"
+          : permissions.location.android.scope === "fine";
 
       if (status === "denied" && locationOn) {
         //This condition is to protect against the case where a user initially denies access or opens the app with denied access from a previous session (i.e. Permission status for location will never flip from 'denied'). If both conditions are met, it prompts the user to re-allow access to their location.
@@ -82,35 +91,56 @@ export default class Map extends React.Component {
     });
   };
 
-  handlePress = marker => {
+  setRegionAndSelectLandmark = (event, marker) => {
+    this.setState({
+      region: {
+        ...event.nativeEvent.coordinate,
+        latitudeDelta: 0.005,
+        longitudeDelta: 0.005
+      }
+    });
+
     this.props.selectLandmark(marker);
   };
 
   render() {
     return (
-      <>
-      <MapView
-        provider={PROVIDER_GOOGLE}
-        style={specificStyles.mapContainer}
-        showsUserLocation={
-          this.state.locationResult === "denied" ? false : true
-        }
-        showsMyLocationButton={true}
-        zoomEnabled={true}
-        initialRegion={this.state.initialRegion}
-      >
-        {this.props.markers.map(marker => (
-          <MapView.Marker
-            key={marker.name}
-            coordinate={marker.coordinate}
-            title={marker.name}
-            onPress={() => this.handlePress(marker)}
-          />
-        ))}
-      </MapView>
-       {/* @TODO: refactor menu so list screen doesn't unmount the map and therefore reset initialRegion */}
-       <MenuBtn setScreen={this.props.setScreen} />
-       </>
-    )
+      <View>
+        <MapView
+          provider={PROVIDER_GOOGLE}
+          style={specificStyles.mapContainer}
+          showsUserLocation={
+            this.state.locationResult === "denied" ? false : true
+          }
+          showsMyLocationButton={false}
+          zoomEnabled={true}
+          initialRegion={this.state.initialRegion}
+          region={this.state.region}
+        >
+          {this.props.markers.map(marker => (
+            <MapView.Marker
+              key={marker.name}
+              coordinate={marker.coordinate}
+              title={marker.name}
+              onPress={event => this.setRegionAndSelectLandmark(event, marker)}
+            />
+          ))}
+        </MapView>
+        <MenuBtn setScreen={this.props.setScreen} />
+        {this.state.locationResult === "granted" && (
+          <TouchableOpacity
+            style={specificStyles.centerBtnContainer}
+            onPress={() => {
+              this._setMapRegionAsync("region");
+            }}
+          >
+            <Image
+              style={{ width: 50, height: 50 }}
+              source={require("../assets/images/placeholder-map-icon.png")}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
+    );
   }
 }
