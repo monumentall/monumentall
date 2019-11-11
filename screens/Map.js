@@ -1,5 +1,5 @@
 import React from "react";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from "react-native-maps";
 import {
   AppState,
   Platform,
@@ -12,6 +12,19 @@ import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
 import { specificStyles } from "../styles";
 
+const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
+  if (markers)
+    return markers.map(marker => (
+      <Marker
+        key={marker.name}
+        coordinate={marker.coordinate}
+        title={marker.name}
+        onPress={event => setRegionAndSelectLandmark(event, marker)}
+      />
+    ));
+  return null;
+};
+
 export default class Map extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +34,9 @@ export default class Map extends React.Component {
       region: null,
       appState: AppState.currentState
     };
+    this.setRegionAndSelectLandmark = this.setRegionAndSelectLandmark.bind(
+      this
+    );
   }
 
   static navigationOptions = {
@@ -99,7 +115,6 @@ export default class Map extends React.Component {
         longitudeDelta: 0.005
       }
     });
-
     this.props.selectLandmark(marker);
   };
 
@@ -117,14 +132,16 @@ export default class Map extends React.Component {
           initialRegion={this.state.initialRegion}
           region={this.state.region}
         >
-          {this.props.markers.map(marker => (
-            <MapView.Marker
-              key={marker.name}
-              coordinate={marker.coordinate}
-              title={marker.name}
-              onPress={event => this.setRegionAndSelectLandmark(event, marker)}
+            <MapMarkers
+              markers={this.props.markers || []}
+              setRegionAndSelectLandmark={this.setRegionAndSelectLandmark}
             />
-          ))}
+          {this.props.polyline.show && (
+            <Polyline
+              coordinates={this.props.polyline.coordinates}
+              strokeWidth={4}
+            />
+          )}
         </MapView>
         <MenuBtn />
         {this.state.locationResult === "granted" && (

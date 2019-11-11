@@ -1,45 +1,39 @@
 import React from "react";
+import { connect } from 'react-redux'
 import { View } from "react-native";
 import Map from "./Map";
 import Drawer from "./Drawer";
-import List from "./List";
 import { specificStyles } from "../styles";
-import screenNames from "../constants/ScreenNames";
 import { database } from "../db.js";
 import Constants from "../constants/APIKeys";
+import * as Location from "expo-location";
+import { decode } from '../util'
+import {fetchLandmarks} from '../store/landmarks'
+// import screenNames from "../constants/ScreenNames";
 
-
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      landmarks: [],
       selectedLandmark: {},
-      screen: screenNames.home
+      polyline: {
+        show: false,
+        coordinates: []
+      }
+      // screen: screenNames.home,
     };
     this.db = database.ref();
     this.selectLandmark = this.selectLandmark.bind(this);
   }
 
   componentDidMount = async () => {
-    this._fetchMarkersFromDatabase(this.db);
-  };
-
-  _fetchMarkersFromDatabase = db => {
-    db.once("value", snap => {
-      const data = [];
-      snap.forEach(child => {
-        const childObj = child.toJSON();
-        data.push({ ...childObj });
-      });
-      this.setState({ landmarks: data });
-    });
+    await this.props.getLandmarks(this.db)
   };
 
   //What is this for?
-  static navigationOptions = {
-    header: null
-  };
+  // static navigationOptions = {
+  //   header: null
+  // };
 
   fetchLandmarkDetails(googlePlaceId) {
     return fetch(
@@ -54,11 +48,6 @@ export default class HomeScreen extends React.Component {
       .catch(error => {
         console.error(error);
       });
-  }
-
-  formatLandmarkText(text) {
-    let words = text.split(" ");
-    return words.join("%20");
   }
 
   async selectLandmark(data) {
@@ -79,26 +68,58 @@ export default class HomeScreen extends React.Component {
     });
   }
 
-  selectComponent = () => {
-    if (this.state.screen === screenNames.list) {
-      return <List />;
-    } else {
-      return (
-        <View>
-          <Map
-            markers={this.state.landmarks}
-            selectLandmark={this.selectLandmark}
-          />
-          <Drawer
-            landmarks={this.state.landmarks}
-            selectedLandmark={this.state.selectedLandmark}
-          />
-        </View>
-      );
+  getDirections = async landmarkCoordinates => {
+    const location = await Location.getCurrentPositionAsync({});
+
+    const {
+      coords: { latitude: initialLat, longitude: initialLong }
+    } = location;
+    const { latitude: finalLat, longitude: finalLong } = landmarkCoordinates;
+
+    let response = await fetch(
+      `https://maps.googleapis.com/maps/api/directions/json?origin=${initialLat},${initialLong}&destination=${finalLat},${finalLong}&mode=walking&key=${Constants.google.apiKey}`
+    );
+    let data = await response.json();
+    if (data.routes.length) {
+      const coordinates = decode(data.routes[0].overview_polyline.points);
+      this.setState({
+        polyline: {
+          show: true,
+          coordinates
+        }
+      });
     }
+    // TODO: need some kind of error handling if no directions are available
+    // TODO: close drawer when get directions (reset drawer height?)
   };
 
   render() {
-    return <View style={specificStyles.main}>{this.selectComponent()}</View>;
+    return (
+    <View style={specificStyles.main}>
+      <View>
+          <Map
+            markers={this.props.landmarks}
+            selectLandmark={this.selectLandmark}
+            polyline={this.state.polyline}
+          />
+          <Drawer
+            landmarks={this.props.landmarks}
+            selectedLandmark={this.state.selectedLandmark}
+            getDirections={this.getDirections}
+          />
+        </View>
+    </View>
+    )
   }
 }
+
+
+const mapStateToProps = state => ({
+  landmarks: state.landmarks || [],
+})
+
+const mapDispatchToProps = dispatch => ({
+  getLandmarks: (db) => dispatch(fetchLandmarks(db))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

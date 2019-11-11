@@ -54,7 +54,10 @@ export default class ExploreBrooklyn extends React.Component {
         </View>
 
         {showLandmarkDetails && (
-          <Landmark landmarkDetails={this.props.landmarkDetails} />
+          <Landmark
+            landmarkDetails={this.props.landmarkDetails}
+            getDirections={this.props.getDirections}
+          />
         )}
 
         {this.state.showSavedList && <List />}

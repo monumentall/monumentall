@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, AsyncStorage, Button } from "react-native";
-import screenNames from "../constants/ScreenNames";
 import { reusableStyles, specificStyles } from "../styles";
 
 export default class List extends React.Component {

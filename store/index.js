@@ -1,8 +1,9 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import {createLogger} from "redux-logger";
+import logger from "redux-logger";
 import thunkMiddleware from "redux-thunk";
+import landmarks from './landmarks'
 
-const reducer = combineReducers({});
+const reducer = combineReducers({landmarks});
 
 const store = createStore(
   reducer,
