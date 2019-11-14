@@ -11,6 +11,7 @@ import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
 import { specificStyles } from "../styles";
+import haversine from 'haversine'
 
 export default class Map extends React.Component {
   constructor(props) {
@@ -99,7 +100,20 @@ export default class Map extends React.Component {
         longitudeDelta: 0.005
       }
     });
+
+    const start = {
+      latitude: 30.849635,
+      longitude: -83.24559
+    }
+
+    const end = {
+      latitude: 27.950575,
+      longitude: -82.457178
+    }
+
+    console.log('Haversine is working: ', haversine(start, end, {unit: 'mile'}))
     this.props.selectLandmark(marker);
+
   };
 
   render() {
