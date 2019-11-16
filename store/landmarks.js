@@ -1,9 +1,11 @@
 
 //Action Constants
 const GOT_LANDMARKS = "GOT_LANDMARKS"
+const THREW_ERROR = "THREW_ERROR"
 
 //Action Creators
 const gotLandmarks = landmarks => ({type: GOT_LANDMARKS, landmarks})
+const threwError = err => ({type: THREW_ERROR, err})
 
 //Thunks
 export const fetchLandmarks = (db) => async dispatch => {
@@ -17,17 +19,19 @@ export const fetchLandmarks = (db) => async dispatch => {
         dispatch(gotLandmarks(data))
       });
   } catch (error) {
-    console.log("Error fetching from database.")
+    console.log(error)
+    dispatch(threwError(error))
   }
 }
 
 
 //Sub-Reducer
-const initialState = []
+const initialState = {}
 
 const landmarks = (state = initialState, action) => {
   switch(action.type) {
-    case GOT_LANDMARKS: return action.landmarks;
+    case GOT_LANDMARKS: return {...state, data: action.landmarks, err: false}
+    case THREW_ERROR: return {...state, err: true}
     default: return state;
   }
 }

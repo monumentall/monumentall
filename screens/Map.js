@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux"
 import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from "react-native-maps";
 import {
   AppState,
@@ -11,6 +12,7 @@ import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
 import { specificStyles } from "../styles";
+import { setLandmark } from '../store/selectedLandmark'
 
 const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
   if (markers)
@@ -25,7 +27,7 @@ const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
   return null;
 };
 
-export default class Map extends React.Component {
+class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,10 +40,6 @@ export default class Map extends React.Component {
       this
     );
   }
-
-  static navigationOptions = {
-    header: null
-  };
 
   componentDidMount = async () => {
     AppState.addEventListener("change", this._handleAppStateChange);
@@ -161,3 +159,13 @@ export default class Map extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  polyline: state.directions
+})
+
+const mapDispatchToProps = dispatch => ({
+  selectLandmark: landmark => dispatch(setLandmark(landmark))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map)

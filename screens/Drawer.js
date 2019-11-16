@@ -6,16 +6,6 @@ import ExploreBrooklyn from "./ExploreBrooklyn";
 const screenHeight = layout.window.height;
 
 export default class Drawer extends React.Component {
-  renderContent = () => {
-    return (
-      <ExploreBrooklyn
-        landmarks={this.props.landmarks}
-        landmarkDetails={this.props.selectedLandmark}
-        getDirections={this.props.getDirections}
-      />
-    );
-  };
-
   render() {
     return (
       <BottomDrawer
@@ -26,8 +16,9 @@ export default class Drawer extends React.Component {
         downDisplay={screenHeight - screenHeight / 2.65}
         backgroundColor={"transparent"}
       >
-        {this.renderContent()}
+        <ExploreBrooklyn />
       </BottomDrawer>
     );
   }
 }
+

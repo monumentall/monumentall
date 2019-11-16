@@ -1,11 +1,12 @@
 import React from "react";
+import { connect } from "react-redux"
 import { View, Text, TouchableOpacity } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
 import NearMe from "./NearMe";
 import List from "./List";
 import Landmark from "./Landmark";
 
-export default class ExploreBrooklyn extends React.Component {
+class ExploreBrooklyn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -56,7 +57,6 @@ export default class ExploreBrooklyn extends React.Component {
         {showLandmarkDetails && (
           <Landmark
             landmarkDetails={this.props.landmarkDetails}
-            getDirections={this.props.getDirections}
           />
         )}
 
@@ -67,3 +67,10 @@ export default class ExploreBrooklyn extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+    landmarks: state.landmarks.data || [],
+    landmarkDetails: state.selectedLandmark || {}
+  })
+
+export default connect(mapStateToProps)(ExploreBrooklyn)

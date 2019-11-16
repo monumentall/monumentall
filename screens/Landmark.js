@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux"
 import {
   Text,
   AsyncStorage,
@@ -7,8 +8,10 @@ import {
   ScrollView
 } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
+import { getDirections } from '../store/directions'
 
-export default class LandmarkScreen extends React.Component {
+
+class LandmarkScreen extends React.Component {
   async saveLandmark(landmarkToSave) {
     //grab the current saved landmarks from async storage
     try {
@@ -67,7 +70,7 @@ export default class LandmarkScreen extends React.Component {
             <TouchableOpacity
               style={reusableStyles.button}
               onPress={() =>
-                this.props.getDirections(landmarkDetails.coordinate)
+                this.props.fetchDirections(landmarkDetails.coordinate)
               }
             >
               <Text style={reusableStyles.header2}>DIRECTIONS</Text>
@@ -114,3 +117,9 @@ export default class LandmarkScreen extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  fetchDirections: (coordinate) => dispatch(getDirections(coordinate))
+})
+
+export default connect(null, mapDispatchToProps)(LandmarkScreen)
