@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, AsyncStorage, Button } from "react-native";
+import { View, Text, AsyncStorage, TouchableOpacity } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
 
 export default class List extends React.Component {
@@ -49,7 +49,7 @@ export default class List extends React.Component {
         {savedLandmarks &&
           savedLandmarks.map(landmark => {
             return (
-              <View style={reusableStyles.block}>
+              <View style={reusableStyles.block} key={landmark.name}>
                 <View
                   key={landmark.name}
                   style={specificStyles.listItemWithIcon}

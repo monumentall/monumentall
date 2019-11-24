@@ -1,6 +1,6 @@
 //Action Constants
 const GOT_LANDMARKS = "GOT_LANDMARKS";
-const THREW_ERROR = "THREW_ERROR";
+const ERROR_GETTING_LANDMARKS = "ERROR_GETTING_LANDMARKS";
 
 //Action Creators
 const gotLandmarks = landmarks => ({ type: GOT_LANDMARKS, landmarks });
@@ -25,7 +25,7 @@ export const fetchLandmarks = db => async dispatch => {
 
 //Sub-Reducer
 const initialState = {
-  data: {},
+  data: [],
   err: false
 };
 
@@ -33,7 +33,7 @@ const landmarks = (state = initialState, action) => {
   switch (action.type) {
     case GOT_LANDMARKS:
       return { ...state, data: action.landmarks, err: false };
-    case THREW_ERROR:
+    case ERROR_GETTING_LANDMARKS:
       return { ...state, err: true };
     default:
       return state;
