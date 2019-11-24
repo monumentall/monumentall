@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
 
 export default class NearMe extends React.Component {
@@ -7,7 +7,7 @@ export default class NearMe extends React.Component {
     const landmarks = this.props.landmarks;
     if (landmarks.length) {
       return (
-        <View>
+        <ScrollView style={reusableStyles.block}>
           {landmarks.map(landmark => (
             <View key={landmark.name} style={specificStyles.listItemWithIcon}>
               <View style={reusableStyles.listIcon} />
@@ -17,7 +17,7 @@ export default class NearMe extends React.Component {
               </View>
             </View>
           ))}
-        </View>
+        </ScrollView>
       );
     } else {
       return (
