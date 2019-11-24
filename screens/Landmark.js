@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux"
+import { connect } from "react-redux";
 import {
   Text,
   AsyncStorage,
@@ -8,8 +8,7 @@ import {
   ScrollView
 } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
-import { getDirections } from '../store/directions'
-
+import { getDirections } from "../store/directions";
 
 class LandmarkScreen extends React.Component {
   async saveLandmark(landmarkToSave) {
@@ -90,7 +89,7 @@ class LandmarkScreen extends React.Component {
             <Text style={reusableStyles.header2}>See More</Text>
           </TouchableOpacity>
         </ScrollView>
-        <View style={reusableStyles.block}>
+        <ScrollView style={reusableStyles.block}>
           <Text style={reusableStyles.header2}>Contact Details</Text>
           <Text style={reusableStyles.text1}>Address: {address}</Text>
 
@@ -101,7 +100,7 @@ class LandmarkScreen extends React.Component {
           )}
 
           {opening_hours && (
-            <View>
+            <ScrollView>
               <Text style={reusableStyles.header2}>Open Hours</Text>
               {opening_hours.weekday_text.map(weekday => {
                 return (
@@ -110,16 +109,19 @@ class LandmarkScreen extends React.Component {
                   </Text>
                 );
               })}
-            </View>
+            </ScrollView>
           )}
-        </View>
+        </ScrollView>
       </View>
     );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchDirections: (coordinate) => dispatch(getDirections(coordinate))
-})
+  fetchDirections: coordinate => dispatch(getDirections(coordinate))
+});
 
-export default connect(null, mapDispatchToProps)(LandmarkScreen)
+export default connect(
+  null,
+  mapDispatchToProps
+)(LandmarkScreen);

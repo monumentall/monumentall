@@ -49,20 +49,33 @@ export default class List extends React.Component {
         {savedLandmarks &&
           savedLandmarks.map(landmark => {
             return (
-              <View key={landmark.name} style={specificStyles.listItemWithIcon}>
-                <View style={reusableStyles.listIcon} />
-                <View>
-                  <Text style={reusableStyles.header2}>{landmark.name}</Text>
-                  <Text style={reusableStyles.text1}>{landmark.location}</Text>
+              <View style={reusableStyles.block}>
+                <View
+                  key={landmark.name}
+                  style={specificStyles.listItemWithIcon}
+                >
+                  <View style={reusableStyles.listIcon} />
+                  <View style={reusableStyles.block}>
+                    <Text style={reusableStyles.header2}>{landmark.name}</Text>
+                    <Text style={reusableStyles.text1}>
+                      {landmark.location}
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => this.deleteLandmark(landmark.name)}
+                    >
+                      <Text style={specificStyles.listButtons}>Delete</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <Button
-                  title="delete"
-                  onPress={() => this.deleteLandmark(landmark.name)}
-                />
               </View>
             );
           })}
-        <Button title="Delete All" onPress={this.deleteList} />
+
+        <View style={reusableStyles.block}>
+          <TouchableOpacity onPress={this.deleteList}>
+            <Text style={specificStyles.listButtons}>Delete All</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
 

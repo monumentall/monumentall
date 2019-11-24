@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import layout from "./constants/Layout"
+import layout from "./constants/Layout";
 
 export const reusableStyles = StyleSheet.create({
   listIcon: {
@@ -61,7 +61,7 @@ export const specificStyles = StyleSheet.create({
   mapContainer: {
     ...StyleSheet.absoluteFillObject,
     height: layout.window.height,
-    width: layout.window.width,
+    width: layout.window.width
   },
   menuBtn: {
     marginTop: 25,
@@ -86,11 +86,11 @@ export const specificStyles = StyleSheet.create({
     alignItems: "center"
   },
   centerBtnContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: layout.window.height - layout.window.height / 1.05,
-    left: layout.window.width - layout.window.width * .15,
+    left: layout.window.width - layout.window.width * 0.15,
     width: 50,
-    height: 50,
+    height: 50
   },
   listItemWithIcon: {
     flexDirection: "row",
@@ -103,5 +103,24 @@ export const specificStyles = StyleSheet.create({
     borderColor: "black",
     borderRadius: 6,
     padding: 5
+  },
+  drawerButtonsBlock: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    margin: 5,
+    padding: 15,
+    borderRadius: 20,
+    backgroundColor: "white",
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0
+  },
+  listButtons: {
+    fontFamily: "nunito-bold",
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: "black",
+    borderRadius: 6,
+    padding: 5,
+    textAlign: "center"
   }
 });

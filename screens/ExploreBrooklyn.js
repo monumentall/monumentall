@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux"
+import { connect } from "react-redux";
 import { View, Text, TouchableOpacity } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
 import NearMe from "./NearMe";
@@ -44,8 +44,8 @@ class ExploreBrooklyn extends React.Component {
       this.props.landmarkDetails.name && !showNearMe && !showSavedList;
 
     return (
-      <View style={reusableStyles.block}>
-        <View style={reusableStyles.flexrow}>
+      <View>
+        <View style={specificStyles.drawerButtonsBlock}>
           <TouchableOpacity onPress={this.showNearMeView}>
             <Text style={specificStyles.drawerButtons}>Near Me</Text>
           </TouchableOpacity>
@@ -55,9 +55,7 @@ class ExploreBrooklyn extends React.Component {
         </View>
 
         {showLandmarkDetails && (
-          <Landmark
-            landmarkDetails={this.props.landmarkDetails}
-          />
+          <Landmark landmarkDetails={this.props.landmarkDetails} />
         )}
 
         {this.state.showSavedList && <List />}
@@ -69,8 +67,8 @@ class ExploreBrooklyn extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    landmarks: state.landmarks.data || [],
-    landmarkDetails: state.selectedLandmark || {}
-  })
+  landmarks: state.landmarks.data || [],
+  landmarkDetails: state.selectedLandmark || {}
+});
 
-export default connect(mapStateToProps)(ExploreBrooklyn)
+export default connect(mapStateToProps)(ExploreBrooklyn);
