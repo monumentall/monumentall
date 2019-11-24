@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux"
 import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from "react-native-maps";
 import {
   AppState,
@@ -11,8 +12,22 @@ import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
 import { specificStyles } from "../styles";
+import { setLandmark } from '../store/selectedLandmark'
 
-export default class Map extends React.Component {
+const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
+  if (markers)
+    return markers.map(marker => (
+      <Marker
+        key={marker.name}
+        coordinate={marker.coordinate}
+        title={marker.name}
+        onPress={event => setRegionAndSelectLandmark(event, marker)}
+      />
+    ));
+  return null;
+};
+
+class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,11 +36,10 @@ export default class Map extends React.Component {
       region: null,
       appState: AppState.currentState
     };
+    this.setRegionAndSelectLandmark = this.setRegionAndSelectLandmark.bind(
+      this
+    );
   }
-
-  static navigationOptions = {
-    header: null
-  };
 
   componentDidMount = async () => {
     AppState.addEventListener("change", this._handleAppStateChange);
@@ -116,14 +130,10 @@ export default class Map extends React.Component {
           initialRegion={this.state.initialRegion}
           region={this.state.region}
         >
-          {this.props.markers.map(marker => (
-            <Marker
-              key={marker.name}
-              coordinate={marker.coordinate}
-              title={marker.name}
-              onPress={event => this.setRegionAndSelectLandmark(event, marker)}
+            <MapMarkers
+              markers={this.props.markers || []}
+              setRegionAndSelectLandmark={this.setRegionAndSelectLandmark}
             />
-          ))}
           {this.props.polyline.show && (
             <Polyline
               coordinates={this.props.polyline.coordinates}
@@ -131,7 +141,7 @@ export default class Map extends React.Component {
             />
           )}
         </MapView>
-        <MenuBtn setScreen={this.props.setScreen} />
+        <MenuBtn />
         {this.state.locationResult === "granted" && (
           <TouchableOpacity
             style={specificStyles.centerBtnContainer}
@@ -149,3 +159,13 @@ export default class Map extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  polyline: state.directions
+})
+
+const mapDispatchToProps = dispatch => ({
+  selectLandmark: landmark => dispatch(setLandmark(landmark))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map)

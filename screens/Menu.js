@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, Linking, Platform } from "react-native";
 import { specificStyles } from "../styles";
 import * as IntentLauncher from 'expo-intent-launcher';
-import screenNames from "../constants/ScreenNames";
 
 export default class Menu extends React.Component {
   constructor(props) {

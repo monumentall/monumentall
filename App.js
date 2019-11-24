@@ -1,5 +1,7 @@
 import React from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
+import { Provider } from "react-redux";
+import store from "./store";
 import { AppLoading } from "expo";
 import * as Icon from "@expo/vector-icons";
 import * as Font from "expo-font";
@@ -21,10 +23,12 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <View style={styles.container}>
-          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-          <HomeScreen />
-        </View>
+        <Provider store={store}>
+          <View style={styles.container}>
+            {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+            <HomeScreen />
+          </View>
+        </Provider>
       );
     }
   }

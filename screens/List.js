@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  AsyncStorage,
-  Button,
-  TouchableOpacity
-} from "react-native";
+import { View, Text, AsyncStorage, Button } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
 
 export default class List extends React.Component {
