@@ -1,5 +1,5 @@
 import React from "react";
-import { configure, mount, shallow } from "enzyme";
+import { configure, shallow } from "enzyme";
 import App from "../App";
 import Adapter from "enzyme-adapter-react-16";
 
@@ -26,13 +26,3 @@ describe("App", () => {
     expect(wrapper.find("Provider")).toHaveLength(1);
   });
 });
-
-// it(`renders the loading screen`, () => {
-//   const tree = renderer.create(<App />).toJSON();
-//   expect(tree).toMatchSnapshot();
-// });
-
-// it(`renders the root without loading screen`, () => {
-//   const tree = renderer.create(<App skipLoadingScreen />).toJSON();
-//   expect(tree).toMatchSnapshot();
-// });
