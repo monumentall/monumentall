@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { configure, mount, shallow } from "enzyme";
+import { Text } from "react-native";
+import { configure, shallow } from "enzyme";
 import { HomeScreen } from "../screens/HomeScreen";
 import Adapter from "enzyme-adapter-react-16";
 
