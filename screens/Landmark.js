@@ -8,7 +8,7 @@ import {
   ScrollView
 } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
-import { getDirections } from "../store/directions";
+import { getDirections, clearDirections } from "../store/directions";
 
 class LandmarkScreen extends React.Component {
   async saveLandmark(landmarkToSave) {
@@ -60,7 +60,12 @@ class LandmarkScreen extends React.Component {
     return (
       <View>
         <View style={reusableStyles.block}>
-          <View style={specificStyles.insetPic} />
+          <View style={reusableStyles.flexrow}>
+            <View style={specificStyles.insetPic} />
+            <TouchableOpacity onPress={() => this.props.clearDirections()}>
+              <Text style={reusableStyles.header1}> X </Text>
+            </TouchableOpacity>
+          </View>
           <Text style={reusableStyles.header1}>{name}</Text>
           <Text style={reusableStyles.text1}>
             {description.slice(0, shortDescriptionMaxWordLength)}
@@ -118,7 +123,8 @@ class LandmarkScreen extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchDirections: coordinate => dispatch(getDirections(coordinate))
+  fetchDirections: coordinate => dispatch(getDirections(coordinate)),
+  clearDirections: () => dispatch(clearDirections())
 });
 
 export default connect(
