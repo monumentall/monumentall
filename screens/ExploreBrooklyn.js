@@ -44,7 +44,7 @@ class ExploreBrooklyn extends React.Component {
       this.props.landmarkDetails.name && !showNearMe && !showSavedList;
 
     return (
-      <View>
+      <View >
         <View style={specificStyles.drawerButtonsBlock}>
           <TouchableOpacity onPress={this.showNearMeView}>
             <Text style={specificStyles.drawerButtons}>Near Me</Text>
