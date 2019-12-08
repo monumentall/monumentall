@@ -1,12 +1,13 @@
+import Constants from "expo-constants";
 
 //Action Constants
-const SET_LANDMARK = "SET_LANDMARK"
+const SET_LANDMARK = "SET_LANDMARK";
 
 //Action Creators
-export const setLandmark = (landmark) => ({type: SET_LANDMARK, landmark})
+export const setLandmark = landmark => ({ type: SET_LANDMARK, landmark });
 
 //Thunks
-export const selectLandmark = (data) => async dispatch => {
+export const selectLandmark = data => async dispatch => {
   let placeId = data.placeId;
   let selectedLandmark = { ...data };
 
@@ -18,12 +19,12 @@ export const selectLandmark = (data) => async dispatch => {
       ? { ...selectedLandmark, ...placeDetails }
       : selectedLandmark;
   }
- dispatch(setLandmark(selectedLandmark))
-}
+  dispatch(setLandmark(selectedLandmark));
+};
 
-const fetchLandmarkDetails = (googlePlaceId) => {
+const fetchLandmarkDetails = googlePlaceId => {
   return fetch(
-    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${googlePlaceId}&fields=opening_hours,formatted_phone_number,formatted_address&key=${Constants.google.apiKey}`
+    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${googlePlaceId}&fields=opening_hours,formatted_phone_number,formatted_address&key=${Constants.manifest.extra.googleApiKey}`
   )
     .then(responseDetails => {
       return responseDetails.json();
@@ -34,18 +35,18 @@ const fetchLandmarkDetails = (googlePlaceId) => {
     .catch(error => {
       console.error(error);
     });
-}
-
+};
 
 //Sub-Reducer
-const initialState = {}
-
+const initialState = {};
 
 const selectedLandmark = (state = initialState, action) => {
   switch (action.type) {
-  case SET_LANDMARK: return action.landmark
-  default: return state;
+    case SET_LANDMARK:
+      return action.landmark;
+    default:
+      return state;
   }
-}
+};
 
 export default selectedLandmark;

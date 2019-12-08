@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.4",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -22,14 +22,27 @@
     "assetBundlePatterns": [
       "assets/*"
     ],
+    "extra": {
+      "firebaseConfig": {
+        apiKey: "APIKEY",
+        authDomain: "AUTHDOMAIN",
+        databaseURL: "DB_URL",
+        projectId: "monumentall",
+        storageBucket: "STORAGE",
+        messagingSenderId: "SENDER_ID",
+        appId: "APP_ID"
+      },
+    },
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "This app uses current location to provide information about relevant nearby landmarks"
       },
       "bundleIdentifier": "com.monumentall.beta",
+      "buildNumber": "4",
       "config": {
-        "usesNonExemptEncryption": false
+        "usesNonExemptEncryption": false,
+        "googleMapsApiKey": "APIKEY"
       }
     },
     "android": {
