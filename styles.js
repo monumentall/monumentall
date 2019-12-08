@@ -44,7 +44,8 @@ export const reusableStyles = StyleSheet.create({
     flex: 1,
     margin: 5,
     padding: 2,
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
 

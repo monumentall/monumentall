@@ -1,5 +1,5 @@
 import React from "react";
-import { connect } from "react-redux"
+import { connect } from "react-redux";
 import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from "react-native-maps";
 import {
   AppState,
@@ -12,7 +12,7 @@ import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
 import { specificStyles } from "../styles";
-import { setLandmark } from '../store/selectedLandmark'
+import { setLandmark } from "../store/selectedLandmark";
 
 const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
   if (markers)
@@ -130,10 +130,10 @@ class Map extends React.Component {
           initialRegion={this.state.initialRegion}
           region={this.state.region}
         >
-            <MapMarkers
-              markers={this.props.markers || []}
-              setRegionAndSelectLandmark={this.setRegionAndSelectLandmark}
-            />
+          <MapMarkers
+            markers={this.props.markers || []}
+            setRegionAndSelectLandmark={this.setRegionAndSelectLandmark}
+          />
           {this.props.polyline.show && (
             <Polyline
               coordinates={this.props.polyline.coordinates}
@@ -161,11 +161,15 @@ class Map extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  polyline: state.directions
-})
+  polyline: state.directions,
+  markers: state.landmarks.data || []
+});
 
 const mapDispatchToProps = dispatch => ({
   selectLandmark: landmark => dispatch(setLandmark(landmark))
-})
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Map)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Map);

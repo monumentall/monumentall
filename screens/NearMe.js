@@ -1,21 +1,27 @@
 import React from "react";
-import { View, ScrollView, Text } from "react-native";
+import { connect } from "react-redux";
+import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
+import { setLandmark } from "../store/selectedLandmark";
 
-export default class NearMe extends React.Component {
+class NearMe extends React.Component {
   render() {
     const landmarks = this.props.landmarks;
     if (landmarks.length) {
       return (
         <ScrollView style={reusableStyles.block}>
           {landmarks.map(landmark => (
-            <View key={landmark.name} style={specificStyles.listItemWithIcon}>
+            <TouchableOpacity
+              key={landmark.name}
+              style={specificStyles.listItemWithIcon}
+              onPress={() => this.props.selectLandmark(landmark)}
+            >
               <View style={reusableStyles.listIcon} />
               <View>
                 <Text style={reusableStyles.header2}>{landmark.name}</Text>
                 <Text style={reusableStyles.text1}>{landmark.location}</Text>
               </View>
-            </View>
+            </TouchableOpacity>
           ))}
         </ScrollView>
       );
@@ -28,3 +34,17 @@ export default class NearMe extends React.Component {
     }
   }
 }
+
+const mapStateToProps = state => ({
+  landmarks: state.landmarks.data || [],
+  landmarkDetails: state.selectedLandmark || {}
+});
+
+const mapDispatchToProps = dispatch => ({
+  selectLandmark: landmark => dispatch(setLandmark(landmark))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NearMe);
