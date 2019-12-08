@@ -32,6 +32,7 @@
         messagingSenderId: "SENDER_ID",
         appId: "APP_ID"
       },
+      "googleApiKey": "APIKEY"
     },
     "ios": {
       "supportsTablet": true,
@@ -48,7 +49,13 @@
     "android": {
       "permissions" : [
         "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION"]
+        "ACCESS_FINE_LOCATION"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "APIKEY"
+        }  
+      }
     }
   }
 }
