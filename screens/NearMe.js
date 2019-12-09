@@ -1,6 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
-import { View, ScrollView, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
 import { setLandmark } from "../store/selectedLandmark";
 
@@ -9,7 +8,7 @@ class NearMe extends React.Component {
     const landmarks = this.props.landmarks;
     if (landmarks.length) {
       return (
-        <ScrollView style={reusableStyles.block}>
+        <View style={reusableStyles.block}>
           {landmarks.map(landmark => (
             <TouchableOpacity
               key={landmark.name}
@@ -23,7 +22,7 @@ class NearMe extends React.Component {
               </View>
             </TouchableOpacity>
           ))}
-        </ScrollView>
+        </View>
       );
     } else {
       return (

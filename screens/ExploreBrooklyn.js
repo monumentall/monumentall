@@ -5,6 +5,10 @@ import { reusableStyles, specificStyles } from "../styles";
 import NearMe from "./NearMe";
 import List from "./List";
 import Landmark from "./Landmark";
+import BottomSheet from 'reanimated-bottom-sheet'
+import layout from "../constants/Layout";
+
+const screenHeight = layout.window.height;
 
 class ExploreBrooklyn extends React.Component {
   constructor(props) {
@@ -13,6 +17,8 @@ class ExploreBrooklyn extends React.Component {
       showSavedList: false,
       showNearMe: true
     };
+
+    this.bs = React.createRef()
   }
 
   showSavedListView = () => {
@@ -38,13 +44,8 @@ class ExploreBrooklyn extends React.Component {
     }
   }
 
-  render() {
-    const { showNearMe, showSavedList } = this.state;
-    const showLandmarkDetails =
-      this.props.landmarkDetails.name && !showNearMe && !showSavedList;
-
+  displayHeader = () => {
     return (
-      <View >
         <View style={specificStyles.drawerButtonsBlock}>
           <TouchableOpacity onPress={this.showNearMeView}>
             <Text style={specificStyles.drawerButtons}>Near Me</Text>
@@ -53,16 +54,37 @@ class ExploreBrooklyn extends React.Component {
             <Text style={specificStyles.drawerButtons}>Saved</Text>
           </TouchableOpacity>
         </View>
+    )
+}
 
-        {showLandmarkDetails && (
-          <Landmark landmarkDetails={this.props.landmarkDetails} />
-        )}
+minimizeDrawer = () => {
+  this.bs.current.snapTo(0)
+}
 
-        {this.state.showSavedList && <List />}
+displayContent = () => {
+  const {showNearMe, showSavedList} = this.state
+  const showLandmarkDetails =
+  this.props.landmarkDetails.name && !showNearMe && !showSavedList;
+  return (
+    <View >
+      {showLandmarkDetails && (
+        <Landmark landmarkDetails={this.props.landmarkDetails} closeDrawer={this.minimizeDrawer}/>
+      )}
+      {showSavedList && <List />}
+      {showNearMe && <NearMe landmarks={this.props.landmarks} />}
+    </View>
+  );
+}
 
-        {this.state.showNearMe && <NearMe />}
-      </View>
-    );
+  render() {
+    return <BottomSheet
+        ref={this.bs}
+        snapPoints={[-500, 0]}
+        initialSnap={0}
+        renderContent={this.displayContent}
+        renderHeader={this.displayHeader}
+        enabledBottomClamp={true}
+      />
   }
 }
 

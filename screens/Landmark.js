@@ -73,8 +73,9 @@ class LandmarkScreen extends React.Component {
           <View style={reusableStyles.flexrow}>
             <TouchableOpacity
               style={reusableStyles.button}
-              onPress={() =>
-                this.props.fetchDirections(landmarkDetails.coordinate)
+              onPress={() =>{
+                this.props.closeDrawer()
+                this.props.fetchDirections(landmarkDetails.coordinate)}
               }
             >
               <Text style={reusableStyles.header2}>DIRECTIONS</Text>
@@ -87,14 +88,14 @@ class LandmarkScreen extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-        <ScrollView style={reusableStyles.block}>
+        <View style={reusableStyles.block}>
           <Text style={reusableStyles.header2}>Her Story</Text>
           <Text style={reusableStyles.text1}>{description}</Text>
           <TouchableOpacity onPress={() => console.log("pressed see more")}>
             <Text style={reusableStyles.header2}>See More</Text>
           </TouchableOpacity>
-        </ScrollView>
-        <ScrollView style={reusableStyles.block}>
+        </View>
+        <View style={reusableStyles.block}>
           <Text style={reusableStyles.header2}>Contact Details</Text>
           <Text style={reusableStyles.text1}>Address: {address}</Text>
 
@@ -116,7 +117,7 @@ class LandmarkScreen extends React.Component {
               })}
             </ScrollView>
           )}
-        </ScrollView>
+        </View>
       </View>
     );
   }
