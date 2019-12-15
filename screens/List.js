@@ -1,8 +1,10 @@
 import React from "react";
+import { connect } from "react-redux";
 import { View, Text, AsyncStorage, TouchableOpacity } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
+import { setLandmark } from "../store/selectedLandmark";
 
-export default class List extends React.Component {
+class List extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -55,17 +57,21 @@ export default class List extends React.Component {
                   style={specificStyles.listItemWithIcon}
                 >
                   <View style={reusableStyles.listIcon} />
-                  <View style={reusableStyles.block}>
+                  <TouchableOpacity
+                    style={reusableStyles.block}
+                    onPress={() => this.props.selectLandmark(landmark)}
+                  >
                     <Text style={reusableStyles.header2}>{landmark.name}</Text>
                     <Text style={reusableStyles.text1}>
                       {landmark.location}
                     </Text>
-                    <TouchableOpacity
-                      onPress={() => this.deleteLandmark(landmark.name)}
-                    >
-                      <Text style={specificStyles.listButtons}>Delete</Text>
-                    </TouchableOpacity>
-                  </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => this.deleteLandmark(landmark.name)}
+                    style={reusableStyles.button}
+                  >
+                    <Text style={reusableStyles.header2}>X</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             );
@@ -90,3 +96,14 @@ export default class List extends React.Component {
     return haveLandmarks ? landmarksList : noLandmarks;
   }
 }
+
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = dispatch => ({
+  selectLandmark: landmark => dispatch(setLandmark(landmark))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(List);

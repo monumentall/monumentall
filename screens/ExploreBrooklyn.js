@@ -60,14 +60,13 @@ class ExploreBrooklyn extends React.Component {
 
         {this.state.showSavedList && <List />}
 
-        {this.state.showNearMe && <NearMe landmarks={this.props.landmarks} />}
+        {this.state.showNearMe && <NearMe />}
       </View>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  landmarks: state.landmarks.data || [],
   landmarkDetails: state.selectedLandmark || {}
 });
 
