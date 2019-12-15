@@ -37,6 +37,11 @@ class LandmarkScreen extends React.Component {
     }
   }
 
+  getDirectionsToLandmark = landmarkCoordinates => {
+    this.props.fetchDirections(landmarkCoordinates);
+    this.props.closeDrawer();
+  };
+
   render() {
     const { landmarkDetails } = this.props;
     const {
@@ -58,11 +63,15 @@ class LandmarkScreen extends React.Component {
     }
 
     return (
-      <View>
+      <ScrollView
+        style={specificStyles.landmarkContainer}
+        contentContainerStyle={reusableStyles.scrollblockcontent}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={reusableStyles.block}>
           <View style={reusableStyles.flexrow}>
             <View style={specificStyles.insetPic} />
-            <TouchableOpacity onPress={() => this.props.clearDirections()}>
+            <TouchableOpacity onPress={() => this.props.eraseDirections()}>
               <Text style={reusableStyles.header1}> X </Text>
             </TouchableOpacity>
           </View>
@@ -73,9 +82,8 @@ class LandmarkScreen extends React.Component {
           <View style={reusableStyles.flexrow}>
             <TouchableOpacity
               style={reusableStyles.button}
-              onPress={() =>{
-                this.props.closeDrawer()
-                this.props.fetchDirections(landmarkDetails.coordinate)}
+              onPress={() =>
+                this.getDirectionsToLandmark(landmarkDetails.coordinate)
               }
             >
               <Text style={reusableStyles.header2}>DIRECTIONS</Text>
@@ -88,13 +96,13 @@ class LandmarkScreen extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={reusableStyles.block}>
+        <ScrollView style={reusableStyles.block}>
           <Text style={reusableStyles.header2}>Her Story</Text>
           <Text style={reusableStyles.text1}>{description}</Text>
           <TouchableOpacity onPress={() => console.log("pressed see more")}>
             <Text style={reusableStyles.header2}>See More</Text>
           </TouchableOpacity>
-        </View>
+        </ScrollView>
         <View style={reusableStyles.block}>
           <Text style={reusableStyles.header2}>Contact Details</Text>
           <Text style={reusableStyles.text1}>Address: {address}</Text>
@@ -118,17 +126,14 @@ class LandmarkScreen extends React.Component {
             </ScrollView>
           )}
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   fetchDirections: coordinate => dispatch(getDirections(coordinate)),
-  clearDirections: () => dispatch(clearDirections())
+  eraseDirections: () => dispatch(clearDirections())
 });
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(LandmarkScreen);
+export default connect(null, mapDispatchToProps)(LandmarkScreen);

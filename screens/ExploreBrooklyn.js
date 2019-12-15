@@ -83,7 +83,7 @@ displayContent = () => {
         initialSnap={0}
         renderContent={this.displayContent}
         renderHeader={this.displayHeader}
-        enabledBottomClamp={true}
+        enabledContentGestureInteraction={false}
       />
   }
 }

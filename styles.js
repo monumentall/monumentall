@@ -33,6 +33,16 @@ export const reusableStyles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "white"
   },
+  scrollblock: {
+    margin: 5,
+    padding: 15,
+    borderRadius: 20,
+    backgroundColor: "white",
+    height: layout.window.height * .8
+  },
+  scrollblockcontent: {
+    paddingBottom: 50
+  },
   flexrow: {
     flexDirection: "row",
     justifyContent: "space-between"
@@ -58,6 +68,11 @@ export const specificStyles = StyleSheet.create({
   },
   main: {
     flex: 1
+  },
+  landmarkContainer : {
+    margin: 5,
+    borderRadius: 20,
+    height: layout.window.height * .8
   },
   mapContainer: {
     ...StyleSheet.absoluteFillObject,
