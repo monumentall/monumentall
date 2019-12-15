@@ -13,6 +13,7 @@ import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
 import { specificStyles } from "../styles";
 import { setLandmark } from "../store/selectedLandmark";
+import { setMapRegion } from "../store/mapDetails"
 
 const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
   if (markers)
@@ -95,14 +96,18 @@ class Map extends React.Component {
   _setMapRegionAsync = async regionType => {
     let location = await Location.getCurrentPositionAsync({});
 
-    this.setState({
-      [regionType]: {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        longitudeDelta: 0.005,
-        latitudeDelta: 0.005
-      }
-    });
+    const newMapRegion = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      longitudeDelta: 0.005,
+      latitudeDelta: 0.005
+    }
+
+     this.setState({
+       [regionType]: newMapRegion
+     });
+
+    this.props.setMapRegion(newMapRegion)
   };
 
   setRegionAndSelectLandmark = (event, marker) => {
@@ -166,7 +171,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  selectLandmark: landmark => dispatch(setLandmark(landmark))
+  selectLandmark: landmark => dispatch(setLandmark(landmark)),
+  setMapRegion: coordinates => dispatch(setMapRegion(coordinates)),
 });
 
 export default connect(
