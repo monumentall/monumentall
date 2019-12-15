@@ -11,6 +11,12 @@ import { reusableStyles, specificStyles } from "../styles";
 import { getDirections, clearDirections } from "../store/directions";
 
 class LandmarkScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      seeMoreSelected: false
+    }
+  }
   async saveLandmark(landmarkToSave) {
     //grab the current saved landmarks from async storage
     try {
@@ -37,10 +43,32 @@ class LandmarkScreen extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState){
+    if (this.props.landmarkDetails.name !== prevProps.landmarkDetails.name){
+      this.setState({seeMoreSelected: false})
+    }
+  }
+
   getDirectionsToLandmark = landmarkCoordinates => {
     this.props.fetchDirections(landmarkCoordinates);
     this.props.closeDrawer();
   };
+
+  getDescription = (type) => {
+    const { landmarkDetails } = this.props
+    let description = landmarkDetails.description;
+    let descriptionMaxWordLength = 500;
+    let shortDescriptionMaxWordLength = 100;
+
+    if (type === 'teaser') {
+      description = description.slice(0, shortDescriptionMaxWordLength)
+    }
+
+    else if (description.length > descriptionMaxWordLength && !this.state.seeMoreSelected) {
+      description = description.slice(0, descriptionMaxWordLength) + "...";
+    }
+    return description
+  }
 
   render() {
     const { landmarkDetails } = this.props;
@@ -53,14 +81,6 @@ class LandmarkScreen extends React.Component {
     } = landmarkDetails;
 
     const address = formatted_address || location;
-
-    let description = landmarkDetails.description;
-    let descriptionMaxWordLength = 500;
-    let shortDescriptionMaxWordLength = 100;
-
-    if (description.length > descriptionMaxWordLength) {
-      description = description.slice(0, descriptionMaxWordLength) + "...";
-    }
 
     return (
       <ScrollView
@@ -77,7 +97,7 @@ class LandmarkScreen extends React.Component {
           </View>
           <Text style={reusableStyles.header1}>{name}</Text>
           <Text style={reusableStyles.text1}>
-            {description.slice(0, shortDescriptionMaxWordLength)}
+            {this.getDescription('teaser')}
           </Text>
           <View style={reusableStyles.flexrow}>
             <TouchableOpacity
@@ -98,10 +118,14 @@ class LandmarkScreen extends React.Component {
         </View>
         <ScrollView style={reusableStyles.block}>
           <Text style={reusableStyles.header2}>Her Story</Text>
-          <Text style={reusableStyles.text1}>{description}</Text>
-          <TouchableOpacity onPress={() => console.log("pressed see more")}>
+          <Text style={reusableStyles.text1}>{this.getDescription()}</Text>
+          {this.state.seeMoreSelected ?
+          <TouchableOpacity onPress={() => this.setState({seeMoreSelected: false})}>
+            <Text style={reusableStyles.header2}>See Less</Text>
+          </TouchableOpacity> :
+          <TouchableOpacity onPress={() => this.setState({seeMoreSelected: true})}>
             <Text style={reusableStyles.header2}>See More</Text>
-          </TouchableOpacity>
+          </TouchableOpacity>}
         </ScrollView>
         <View style={reusableStyles.block}>
           <Text style={reusableStyles.header2}>Contact Details</Text>

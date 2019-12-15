@@ -8,8 +8,6 @@ import Landmark from "./Landmark";
 import BottomSheet from 'reanimated-bottom-sheet'
 import layout from "../constants/Layout";
 
-const screenHeight = layout.window.height;
-
 class ExploreBrooklyn extends React.Component {
   constructor(props) {
     super(props);

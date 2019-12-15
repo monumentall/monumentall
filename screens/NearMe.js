@@ -1,7 +1,9 @@
 import React from "react";
-import { ScrollView, View, Text } from "react-native";
+import { ScrollView, View, Text, TouchableOpacity } from "react-native";
+import {connect} from 'react-redux'
 import { reusableStyles, specificStyles } from "../styles";
 import { setLandmark } from "../store/selectedLandmark";
+
 
 class NearMe extends React.Component {
   render() {
