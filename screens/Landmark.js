@@ -9,8 +9,13 @@ import {
 } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
 import { getDirections, clearDirections } from "../store/directions";
+import { clearLandmark } from "../store/selectedLandmark";
 
 class LandmarkScreen extends React.Component {
+  componentWillUnmount = () => {
+    this.props.clearLandmark();
+  };
+
   async saveLandmark(landmarkToSave) {
     //grab the current saved landmarks from async storage
     try {
@@ -124,7 +129,8 @@ class LandmarkScreen extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   fetchDirections: coordinate => dispatch(getDirections(coordinate)),
-  clearDirections: () => dispatch(clearDirections())
+  clearDirections: () => dispatch(clearDirections()),
+  clearLandmark: () => dispatch(clearLandmark())
 });
 
 export default connect(
