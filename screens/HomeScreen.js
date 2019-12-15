@@ -29,12 +29,9 @@ class HomeScreen extends React.Component {
     <View style={specificStyles.main}>
       <View>
         <ExploreBrooklyn/>
-          <Map
-            markers={this.props.landmarks}
-          />
+          <Map/>
         </View>
-      </View>
-    ) : (
+      </View> :
       <View style={specificStyles.main}>
         <Text>There was a problem loading the landmarks.</Text>
         <TouchableOpacity onClick={() => this.props.getLandmarks(this.db)}>
