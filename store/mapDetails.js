@@ -3,7 +3,10 @@ import Constants from "expo-constants";
 
 const initialState = {
     initialRegion: {},
-    region: {},
+    region: {
+        latitude: 40.673868,
+        longitude: -73.970089,
+    },
 };
 
 //Action constants
