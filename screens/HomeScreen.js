@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { View, Text, TouchableOpacity } from "react-native";
 import Map from "./Map";
-import Drawer from "./Drawer";
+import ExploreBrooklyn from "./ExploreBrooklyn"
 import { specificStyles } from "../styles";
 import { database } from "../db.js";
 import { fetchLandmarks } from "../store/landmarks";
@@ -24,14 +24,14 @@ class HomeScreen extends React.Component {
   };
 
   render() {
-    return !this.props.err ? (
-      <View style={specificStyles.main}>
-        <View>
-          <Map />
-          <Drawer />
+    return (
+    !this.props.err ?
+    <View style={specificStyles.main}>
+      <View>
+        <ExploreBrooklyn/>
+          <Map/>
         </View>
-      </View>
-    ) : (
+      </View> :
       <View style={specificStyles.main}>
         <Text>There was a problem loading the landmarks.</Text>
         <TouchableOpacity onClick={() => this.props.getLandmarks(this.db)}>

@@ -13,7 +13,6 @@ export const clearDirections = () => ({ type: CLEAR_DIRECTIONS });
 //Thunks
 export const getDirections = landmarkCoordinates => async dispatch => {
   const location = await Location.getCurrentPositionAsync({});
-
   const {
     coords: { latitude: initialLat, longitude: initialLong }
   } = location;
