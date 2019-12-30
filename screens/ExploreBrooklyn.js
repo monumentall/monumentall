@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { View, Text, TouchableOpacity } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
-import NearMe from "./NearMe";
+import Nearby from "./Nearby";
 import List from "./List";
 import Landmark from "./Landmark";
 
@@ -11,20 +11,20 @@ class ExploreBrooklyn extends React.Component {
     super(props);
     this.state = {
       showSavedList: false,
-      showNearMe: true
+      showNearby: true
     };
   }
 
   showSavedListView = () => {
     this.setState({
-      showNearMe: false,
+      showNearby: false,
       showSavedList: true
     });
   };
 
-  showNearMeView = () => {
+  showNearbyView = () => {
     this.setState({
-      showNearMe: true,
+      showNearby: true,
       showSavedList: false
     });
   };
@@ -32,22 +32,22 @@ class ExploreBrooklyn extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.landmarkDetails !== this.props.landmarkDetails) {
       this.setState({
-        showNearMe: false,
+        showNearby: false,
         showSavedList: false
       });
     }
   }
 
   render() {
-    const { showNearMe, showSavedList } = this.state;
+    const { showNearby, showSavedList } = this.state;
     const showLandmarkDetails =
-      this.props.landmarkDetails.name && !showNearMe && !showSavedList;
+      this.props.landmarkDetails.name && !showNearby && !showSavedList;
 
     return (
       <View>
         <View style={specificStyles.drawerButtonsBlock}>
-          <TouchableOpacity onPress={this.showNearMeView}>
-            <Text style={specificStyles.drawerButtons}>Near Me</Text>
+          <TouchableOpacity onPress={this.showNearbyView}>
+            <Text style={specificStyles.drawerButtons}>Nearby</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={this.showSavedListView}>
             <Text style={specificStyles.drawerButtons}>Saved</Text>
@@ -60,7 +60,7 @@ class ExploreBrooklyn extends React.Component {
 
         {this.state.showSavedList && <List />}
 
-        {this.state.showNearMe && <NearMe />}
+        {this.state.showNearby && <Nearby />}
       </View>
     );
   }
