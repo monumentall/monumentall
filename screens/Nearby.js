@@ -7,7 +7,7 @@ import { getDistance } from "geolib";
 import { convertDistance, getDistance, orderByDistance } from "geolib";
 import { roundToOneDecimalPlace } from "../util/index"
 
-class NearMe extends React.Component {
+class Nearby extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,12 +26,12 @@ class NearMe extends React.Component {
     })
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     if (this.state.currentMapRegion !== this.props.mapRegion) {
-
-      // this.setState({
-      //   currentMapRegion: this.props.mapRegion,
-      // });
+      console.log('things changed')
+      this.setState({
+        currentMapRegion: this.props.mapRegion,
+      });
     }
   }
 
@@ -63,7 +63,9 @@ class NearMe extends React.Component {
 
     if (landmarks.length && currentMapRegion.latitude) {
       const improvedLandmarks = this.reformatLandmarkData(landmarks)
-      const orderedLandmarks = (orderByDistance(currentMapRegion, improvedLandmarks)).slice(0, 6)
+      let orderedLandmarks = (orderByDistance(currentMapRegion, improvedLandmarks)).slice(0, 7)
+
+      orderedLandmarks = orderedLandmarks[0].distance == 0 ? orderedLandmarks.slice(1, 7) : orderedLandmarks.slice(0, 6)
 
       return (
         <ScrollView style={reusableStyles.block}>
@@ -106,4 +108,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NearMe);
+)(Nearby);
