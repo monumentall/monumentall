@@ -151,9 +151,7 @@ class Map extends React.Component {
           zoomEnabled={true}
           initialRegion={this.state.initialRegion}
           region={this.state.region}
-          onRegionChange = {
-            this.changeMapRechangeMapRegion
-          }
+          onRegionChangeComplete={this.changeMapRegion}
         >
           <MapMarkers
             markers={this.props.markers || []}
