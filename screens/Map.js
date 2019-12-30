@@ -111,14 +111,17 @@ class Map extends React.Component {
   };
 
   setRegionAndSelectLandmark = (event, marker) => {
+    const region = {
+      ...event.nativeEvent.coordinate,
+      latitudeDelta: 0.005,
+      longitudeDelta: 0.005
+    };
+
     this.setState({
-      region: {
-        ...event.nativeEvent.coordinate,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005
-      }
+      region,
     });
     this.props.selectLandmark(marker);
+    this.props.setMapRegion(region)
   };
 
   render() {
