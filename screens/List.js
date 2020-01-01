@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { View, Text, AsyncStorage, TouchableOpacity } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
-import { setLandmark } from "../store/selectedLandmark";
+import { selectLandmarkAction } from "../store/selectedLandmark";
 
 class List extends React.Component {
   constructor() {
@@ -100,7 +100,7 @@ class List extends React.Component {
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
-  selectLandmark: landmark => dispatch(setLandmark(landmark))
+  selectLandmark: landmark => dispatch(selectLandmarkAction(landmark))
 });
 
 export default connect(

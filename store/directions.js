@@ -8,10 +8,10 @@ const CLEAR_DIRECTIONS = "CLEAR_DIRECTIONS";
 
 //Action creators
 const setDirections = directions => ({ type: SET_DIRECTIONS, directions });
-export const clearDirections = () => ({ type: CLEAR_DIRECTIONS });
+export const clearDirectionsAction = () => ({ type: CLEAR_DIRECTIONS });
 
 //Thunks
-export const getDirections = landmarkCoordinates => async dispatch => {
+export const getDirectionsAction = landmarkCoordinates => async dispatch => {
   const location = await Location.getCurrentPositionAsync({});
   const {
     coords: { latitude: initialLat, longitude: initialLong }

@@ -5,11 +5,11 @@ const SET_LANDMARK = "SET_LANDMARK";
 const CLEAR_LANDMARK = "CLEAR_LANDMARK";
 
 //Action Creators
-export const setLandmark = landmark => ({ type: SET_LANDMARK, landmark });
-export const clearLandmark = () => ({ type: CLEAR_LANDMARK });
+const setLandmark = landmark => ({ type: SET_LANDMARK, landmark });
+export const clearLandmarkAction = () => ({ type: CLEAR_LANDMARK });
 
 //Thunks
-export const selectLandmark = data => async dispatch => {
+export const selectLandmarkAction = data => async dispatch => {
   let placeId = data.placeId;
   let selectedLandmark = { ...data };
 

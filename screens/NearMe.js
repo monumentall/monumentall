@@ -1,9 +1,8 @@
 import React from "react";
 import { ScrollView, View, Text, TouchableOpacity } from "react-native";
-import {connect} from 'react-redux'
+import { connect } from "react-redux";
 import { reusableStyles, specificStyles } from "../styles";
-import { setLandmark } from "../store/selectedLandmark";
-
+import { selectLandmarkAction } from "../store/selectedLandmark";
 
 class NearMe extends React.Component {
   render() {
@@ -46,7 +45,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  selectLandmark: landmark => dispatch(setLandmark(landmark))
+  selectLandmark: landmark => dispatch(selectLandmarkAction(landmark))
 });
 
 export default connect(
