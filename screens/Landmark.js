@@ -60,7 +60,7 @@ class LandmarkScreen extends React.Component {
   getDirectionsToLandmark = landmarkCoordinates => {
     this.props.getDirections(landmarkCoordinates);
     this.props.closeDrawer();
-  }
+  };
 
   getDescription = type => {
     const { landmarkDetails } = this.props;
