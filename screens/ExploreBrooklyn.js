@@ -34,7 +34,11 @@ class ExploreBrooklyn extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.landmarkDetails !== this.props.landmarkDetails) {
+    const propsChanged =
+      prevProps.landmarkDetails !== this.props.landmarkDetails;
+    const haveLandmark = !!this.props.landmarkDetails.name;
+
+    if (propsChanged && haveLandmark) {
       this.setState({
         showNearMe: false,
         showSavedList: false

@@ -2,10 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { View, Text, TouchableOpacity } from "react-native";
 import Map from "./Map";
-import ExploreBrooklyn from "./ExploreBrooklyn"
+import ExploreBrooklyn from "./ExploreBrooklyn";
 import { specificStyles } from "../styles";
 import { database } from "../db.js";
-import { fetchLandmarks } from "../store/landmarks";
+import { getLandmarksAction } from "../store/landmarks";
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -24,14 +24,14 @@ class HomeScreen extends React.Component {
   };
 
   render() {
-    return (
-    !this.props.err ?
-    <View style={specificStyles.main}>
-      <View>
-        <ExploreBrooklyn/>
-          <Map/>
+    return !this.props.err ? (
+      <View style={specificStyles.main}>
+        <View>
+          <ExploreBrooklyn />
+          <Map />
         </View>
-      </View> :
+      </View>
+    ) : (
       <View style={specificStyles.main}>
         <Text>There was a problem loading the landmarks.</Text>
         <TouchableOpacity onClick={() => this.props.getLandmarks(this.db)}>
@@ -48,7 +48,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getLandmarks: db => dispatch(fetchLandmarks(db))
+  getLandmarks: db => dispatch(getLandmarksAction(db))
 });
 
 export default connect(

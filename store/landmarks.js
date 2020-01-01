@@ -7,7 +7,7 @@ const gotLandmarks = landmarks => ({ type: GOT_LANDMARKS, landmarks });
 const threwError = err => ({ type: ERROR_GETTING_LANDMARKS, err });
 
 //Thunks
-export const fetchLandmarks = db => async dispatch => {
+export const getLandmarksAction = db => async dispatch => {
   try {
     db.once("value", snap => {
       const data = [];

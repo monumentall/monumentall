@@ -2,12 +2,14 @@ import Constants from "expo-constants";
 
 //Action Constants
 const SET_LANDMARK = "SET_LANDMARK";
+const CLEAR_LANDMARK = "CLEAR_LANDMARK";
 
 //Action Creators
-export const setLandmark = landmark => ({ type: SET_LANDMARK, landmark });
+const setLandmark = landmark => ({ type: SET_LANDMARK, landmark });
+export const clearLandmarkAction = () => ({ type: CLEAR_LANDMARK });
 
 //Thunks
-export const selectLandmark = data => async dispatch => {
+export const selectLandmarkAction = data => async dispatch => {
   let placeId = data.placeId;
   let selectedLandmark = { ...data };
 
@@ -44,6 +46,8 @@ const selectedLandmark = (state = initialState, action) => {
   switch (action.type) {
     case SET_LANDMARK:
       return action.landmark;
+    case CLEAR_LANDMARK:
+      return {};
     default:
       return state;
   }
