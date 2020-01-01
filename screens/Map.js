@@ -13,6 +13,8 @@ import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
 import { specificStyles } from "../styles";
 import { selectLandmarkAction } from "../store/selectedLandmark";
+import { setRegionAction } from "../store/region";
+import Constants from "../constants/Constants";
 
 const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
   if (markers)
@@ -31,9 +33,7 @@ class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      locationResult: "denied",
-      initialRegion: null,
-      region: null,
+      locationPermissions: Constants.denied,
       appState: AppState.currentState
     };
     this.setRegionAndSelectLandmark = this.setRegionAndSelectLandmark.bind(
@@ -42,131 +42,129 @@ class Map extends React.Component {
   }
 
   componentDidMount = async () => {
-    AppState.addEventListener("change", this._handleAppStateChange);
-    await this._getLocationAsync();
+    AppState.addEventListener(Constants.change, this._handleAppStateChange);
+    await this.centerMapOnUserAsync();
   };
 
   componentWillUnmount() {
-    AppState.removeEventListener("change", this._handleAppStateChange);
+    AppState.removeEventListener(Constants.change, this._handleAppStateChange);
   }
 
   _handleAppStateChange = async nextAppState => {
     if (
       this.state.appState.match(/inactive|background/) &&
-      nextAppState === "active"
+      nextAppState === Constants.active
     ) {
       console.log("App has come to the foreground!");
       let { permissions, status } = await Permissions.getAsync(
         Permissions.LOCATION
       );
       const locationOn =
-        Platform.OS === "ios"
-          ? permissions.location.ios.scope === "whenInUse"
-          : permissions.location.android.scope === "fine";
+        Platform.OS === Constants.ios
+          ? permissions.location.ios.scope === Constants.whenInUse
+          : permissions.location.android.scope === Constants.fine;
 
-      if (status === "denied" && locationOn) {
+      if (status === Constants.denied && locationOn) {
         //This condition is to protect against the case where a user initially denies access or opens the app with denied access from a previous session (i.e. Permission status for location will never flip from 'denied'). If both conditions are met, it prompts the user to re-allow access to their location.
         const refresh = await Permissions.askAsync(Permissions.LOCATION);
         status = refresh.status;
       }
-      this.setState({ locationResult: status });
+      this.setState({ locationPermissions: status });
     }
     this.setState({ appState: nextAppState });
   };
 
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === "granted") {
-      this._setMapRegionAsync("initialRegion");
-    } else {
-      this.setState({
-        initialRegion: {
-          latitude: 40.673868,
-          longitude: -73.970089,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421
-        }
-      });
-    }
-    this.setState({ locationResult: status });
-  };
-
-  //Sets the map region to user's location. Used for both initializing the map and the "center" button.
-  _setMapRegionAsync = async regionType => {
-    let location = await Location.getCurrentPositionAsync({});
-
-    this.setState({
-      [regionType]: {
+  centerMapOnUserAsync = async () => {
+    let status = await this.getLocationPermissionsAsync();
+    let region = {
+      latitude: 40.673868,
+      longitude: -73.970089,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421
+    };
+    if (status === Constants.granted) {
+      let location = await Location.getCurrentPositionAsync({});
+      region = {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-        longitudeDelta: 0.005,
-        latitudeDelta: 0.005
-      }
-    });
+        longitudeDelta: Constants.latLongDelta,
+        latitudeDelta: Constants.latLongDelta
+      };
+    }
+    this.props.setRegion(region);
+  };
+
+  getLocationPermissionsAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    this.setState({ locationPermissions: status });
+    return status;
   };
 
   setRegionAndSelectLandmark = (event, marker) => {
-    this.setState({
-      region: {
-        ...event.nativeEvent.coordinate,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005
-      }
+    this.props.setRegion({
+      ...event.nativeEvent.coordinate,
+      latitudeDelta: Constants.latLongDelta,
+      longitudeDelta: Constants.latLongDelta
     });
     this.props.selectLandmark(marker);
   };
 
   render() {
+    const haveRegion = !!this.props.region.latitude;
     return (
-      <View>
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          style={specificStyles.mapContainer}
-          showsUserLocation={
-            this.state.locationResult === "denied" ? false : true
-          }
-          showsMyLocationButton={false}
-          zoomEnabled={true}
-          initialRegion={this.state.initialRegion}
-          region={this.state.region}
-        >
-          <MapMarkers
-            markers={this.props.markers || []}
-            setRegionAndSelectLandmark={this.setRegionAndSelectLandmark}
-          />
-          {this.props.polyline.show && (
-            <Polyline
-              coordinates={this.props.polyline.coordinates}
-              strokeWidth={4}
-            />
-          )}
-        </MapView>
-        <MenuBtn />
-        {this.state.locationResult === "granted" && (
-          <TouchableOpacity
-            style={specificStyles.centerBtnContainer}
-            onPress={() => {
-              this._setMapRegionAsync("region");
-            }}
+      haveRegion && (
+        <View>
+          <MapView
+            provider={PROVIDER_GOOGLE}
+            style={specificStyles.mapContainer}
+            showsUserLocation={
+              this.state.locationPermissions === Constants.denied ? false : true
+            }
+            showsMyLocationButton={false}
+            zoomEnabled={true}
+            initialRegion={this.props.region}
+            region={this.props.region}
           >
-            <Image
-              style={{ width: 50, height: 50 }}
-              source={require("../assets/images/placeholder-map-icon.png")}
+            <MapMarkers
+              markers={this.props.markers || []}
+              setRegionAndSelectLandmark={this.setRegionAndSelectLandmark}
             />
-          </TouchableOpacity>
-        )}
-      </View>
+            {this.props.polyline.show && (
+              <Polyline
+                coordinates={this.props.polyline.coordinates}
+                strokeWidth={4}
+              />
+            )}
+          </MapView>
+          <MenuBtn />
+          {this.state.locationPermissions === Constants.granted && (
+            <TouchableOpacity
+              style={specificStyles.centerBtnContainer}
+              onPress={() => {
+                this.centerMapOnUserAsync(Constants.granted);
+              }}
+            >
+              <Image
+                style={{ width: 50, height: 50 }}
+                source={require("../assets/images/placeholder-map-icon.png")}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+      )
     );
   }
 }
 
 const mapStateToProps = state => ({
   polyline: state.directions,
-  markers: state.landmarks.data || []
+  markers: state.landmarks.data || [],
+  region: state.region
 });
 
 const mapDispatchToProps = dispatch => ({
-  selectLandmark: landmark => dispatch(selectLandmarkAction(landmark))
+  selectLandmark: landmark => dispatch(selectLandmarkAction(landmark)),
+  setRegion: region => dispatch(setRegionAction(region))
 });
 
 export default connect(
