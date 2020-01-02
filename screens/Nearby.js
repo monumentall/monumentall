@@ -49,16 +49,23 @@ class NearMe extends React.Component {
     });
   }
 
+  sortLandmarks (landmarks) {
+    let orderedLandmarks = (orderByDistance(this.state.currentMapRegion, landmarks)).slice(0, 7);
+
+    //prevents the user from seeng the landmark they've selected
+    //as the first nearby landmark
+    orderedLandmarks = orderedLandmarks[0].distance == 0 ? orderedLandmarks.slice(1, 7) : orderedLandmarks.slice(0, 6);
+
+    return orderedLandmarks;
+  }
+
   render() {
     const { landmarks } = this.props
     const { currentMapRegion } = this.state
 
-
     if (landmarks.length && currentMapRegion.latitude) {
-      const improvedLandmarks = this.reformatLandmarkData(landmarks)
-      let orderedLandmarks = (orderByDistance(currentMapRegion, improvedLandmarks)).slice(0, 7)
-
-      orderedLandmarks = orderedLandmarks[0].distance == 0 ? orderedLandmarks.slice(1, 7) : orderedLandmarks.slice(0, 6)
+      const improvedLandmarks = this.reformatLandmarkData(landmarks);
+      const orderedLandmarks = this.sortLandmarks( improvedLandmarks );
 
       return (
         <ScrollView style={reusableStyles.block}>
