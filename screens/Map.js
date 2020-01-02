@@ -12,8 +12,8 @@ import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
 import { specificStyles } from "../styles";
-import { setLandmark } from "../store/selectedLandmark";
-import { setMapRegion } from "../store/mapDetails"
+import { selectLandmarkAction } from "../store/selectedLandmark";
+import { setMapRegion } from "../store/mapDetails";
 
 const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
   if (markers)
@@ -40,7 +40,7 @@ class Map extends React.Component {
     this.setRegionAndSelectLandmark = this.setRegionAndSelectLandmark.bind(
       this
     );
-    this.changeMapRegion = this.changeMapRegion.bind( this )
+    this.changeMapRegion = this.changeMapRegion.bind(this);
   }
 
   componentDidMount = async () => {
@@ -97,6 +97,21 @@ class Map extends React.Component {
   _setMapRegionAsync = async regionType => {
     let location = await Location.getCurrentPositionAsync({});
 
+    this.setState({
+      [regionType]: {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        longitudeDelta: 0.005,
+        latitudeDelta: 0.005
+      }
+    });
+
+    this.props.setMapRegion(newMapRegion)
+  };
+
+  _setMapRegionAsync = async regionType => {
+    let location = await Location.getCurrentPositionAsync({});
+
     const newMapRegion = {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
@@ -118,9 +133,7 @@ class Map extends React.Component {
       longitudeDelta: 0.005
     };
 
-    this.setState({
-      region,
-    });
+    this.setState({ region });
     this.props.selectLandmark(marker);
     this.props.setMapRegion(region)
   };
@@ -135,7 +148,7 @@ class Map extends React.Component {
     };
 
     this.props.setMapRegion(region)
-  }
+  };
 
   render() {
     return (
@@ -188,7 +201,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  selectLandmark: landmark => dispatch(setLandmark(landmark)),
+  selectLandmark: landmark => dispatch(selectLandmarkAction(landmark)),
   setMapRegion: coordinates => dispatch(setMapRegion(coordinates)),
 });
 
