@@ -1,16 +1,62 @@
+import * as Permissions from "expo-permissions";
+import * as Location from "expo-location";
+import Constants from "../constants/Constants";
+
 //Action Constants
 const SET_REGION = "SET_REGION";
+const SET_LOCATION_PERMISSIONS = "SET_LOCATION_PERMISSIONS";
+const ERROR_GETTING_REGION = "ERROR_GETTING_REGION";
 
 //Action Creators
 export const setRegionAction = region => ({ type: SET_REGION, region });
+export const setLocationPermissions = locationPermissions => ({
+  type: SET_LOCATION_PERMISSIONS,
+  locationPermissions
+});
+const threwError = err => ({
+  type: ERROR_GETTING_REGION,
+  err
+});
+
+//Thunks
+export const getLocationPermissionsAsync = async () => {
+  try {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    dispatch(setLocationPermissions(status));
+  } catch (error) {
+      console.log(error);
+      dispatch(threwError(error));
+  };
+};
+
+export const getUserLocationAsync = async () => {
+  try {
+    let location = await Location.getCurrentPositionAsync({});
+    region = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      longitudeDelta: Constants.latLongDelta,
+      latitudeDelta: Constants.latLongDelta
+    }
+    return region;
+  } catch (error) {
+      console.log(error);
+  };
+};
 
 //Sub-Reducer
-const initialState = {};
+const initialState = {
+  region: {},
+  locationPermission: Constants.denied,
+  err: false,
+};
 
 const region = (state = initialState, action) => {
   switch (action.type) {
     case SET_REGION:
-      return action.region;
+      return { ...state, region: action.region, err: false };
+    case ERROR_GETTING_REGION:
+      return { ...state, err: true };
     default:
       return state;
   }

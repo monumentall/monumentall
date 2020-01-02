@@ -3,52 +3,29 @@ import { ScrollView, View, Text, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { reusableStyles, specificStyles } from "../styles";
 import { selectLandmarkAction } from "../store/selectedLandmark";
-import { setRegionAction } from "../store/region";
+import { setRegionAction, getLocationPermissionsAsync, getUserLocationAsync } from "../store/region";
 import Constants from "../constants/Constants";
 import { getDistance } from "geolib";
 import { convertDistance, getDistance, orderByDistance } from "geolib";
 import { roundToOneDecimalPlace } from "../util/index"
 
 class Nearby extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     currentMapRegion: {},
-  //   };
-  // }
 
-  // componentDidUpdate(prevProps) {
-  //     if (prevProps.mapRegion !== this.props.mapRegion) {
-  //       this.setState({
-  //         currentMapRegion: this.props.mapRegion,
-  //       });
-  //     }
-
-  setRegionAndSelectLandmark(landmark) {
-    this.props.selectLandmark(landmark);
-    this.props.setRegion({
-      latitude: landmark.coordinate.latitude,
-      longitude: landmark.coordinate.longitude,
-      longitudeDelta: Constants.latLongDelta,
-      latitudeDelta: Constants.latLongDelta
-    });
-  }
-
-  componentDidUpdate() {
-    if (this.state.currentMapRegion !== this.props.mapRegion) {
-      this.setState({
-        currentMapRegion: this.props.mapRegion,
-      });
-    }
-  }
+  getMapRegion = async () => {
+    let region = this.props.mapRegion;
+    if (this.props.locationPermissions === Constants.granted) {
+      region = await getUserLocationAsync()
+    };
+    return region;
+  };
 
   reformatLandmarkData ( landmarks ) {
-    const { currentMapRegion } = this.state
+    const mapRegion = this.getMapRegion();
 
     return landmarks.map(landmark => {
       let distance = getDistance({
-        latitude: currentMapRegion.latitude,
-        longitude: currentMapRegion.longitude
+        latitude: mapRegion.latitude,
+        longitude: mapRegion.longitude
       }, {
         latitude: landmark.coordinate.latitude,
         longitude: landmark.coordinate.longitude
@@ -64,7 +41,7 @@ class Nearby extends React.Component {
   }
 
   sortLandmarks (landmarks) {
-    let orderedLandmarks = (orderByDistance(this.state.currentMapRegion, landmarks)).slice(0, 7);
+    let orderedLandmarks = (orderByDistance(this.props.mapRegion, landmarks)).slice(0, 7);
 
     //prevents the user from seeng the landmark they've selected
     //as the first nearby landmark
@@ -74,10 +51,10 @@ class Nearby extends React.Component {
   }
 
   render() {
-    const { landmarks } = this.props
-    const { currentMapRegion } = this.state
+    const { landmarks } = this.props;
+    const haveRegion = !!this.props.region.latitude;
 
-    if (landmarks.length && currentMapRegion.latitude) {
+    if (haveRegion) {
       const improvedLandmarks = this.reformatLandmarkData(landmarks);
       const orderedLandmarks = this.sortLandmarks( improvedLandmarks );
 
@@ -112,18 +89,19 @@ class Nearby extends React.Component {
 const mapStateToProps = state => ({
   landmarks: state.landmarks.data || [],
   landmarkDetails: state.selectedLandmark || {},
-  mapRegion: state.mapDetails.region || {
+  locationPermissions: state.region.locationPermissions,
+  mapRegion: state.region || {
     latitude: 40.673868,
     longitude: -73.970089,
-  }
+  },
 });
 
 const mapDispatchToProps = dispatch => ({
   selectLandmark: landmark => dispatch(selectLandmarkAction(landmark)),
-  setRegion: region => dispatch(setRegionAction(region))
+  setRegion: region => dispatch(setRegionAction(region)),
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Nearby);
