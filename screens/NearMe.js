@@ -5,6 +5,8 @@ import { reusableStyles, specificStyles } from "../styles";
 import { selectLandmarkAction } from "../store/selectedLandmark";
 import { setRegionAction } from "../store/region";
 import Constants from "../constants/Constants";
+import { getDistance } from "geolib";
+import { sortByDistance } from "../util/index"
 
 class NearMe extends React.Component {
   setRegionAndSelectLandmark(landmark) {
@@ -19,6 +21,7 @@ class NearMe extends React.Component {
 
   render() {
     const landmarks = this.props.landmarks;
+    sortByDistance(landmarks)
     if (landmarks.length) {
       return (
         <ScrollView
@@ -53,7 +56,8 @@ class NearMe extends React.Component {
 
 const mapStateToProps = state => ({
   landmarks: state.landmarks.data || [],
-  landmarkDetails: state.selectedLandmark || {}
+  landmarkDetails: state.selectedLandmark || {},
+  mapRegion: state.mapDetails.region || {}
 });
 
 const mapDispatchToProps = dispatch => ({

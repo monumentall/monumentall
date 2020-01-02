@@ -15,6 +15,7 @@ import { specificStyles } from "../styles";
 import { selectLandmarkAction } from "../store/selectedLandmark";
 import { setRegionAction } from "../store/region";
 import Constants from "../constants/Constants";
+import { setMapRegion } from "../store/mapDetails"
 
 const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
   if (markers)
