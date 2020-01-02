@@ -46,11 +46,7 @@ class ExploreBrooklyn extends React.Component {
     }
   }
 
-  render() {
-    const { showNearby, showSavedList } = this.state;
-    const showLandmarkDetails =
-      this.props.landmarkDetails.name && !showNearby && !showSavedList;
-
+  displayHeader = () => {
     return (
         <View style={specificStyles.drawerButtonsBlock}>
           <TouchableOpacity onPress={this.showNearbyView}>
@@ -82,9 +78,15 @@ displayContent = () => {
   );
 }
 
-        {this.state.showNearby && <Nearby />}
-      </View>
-    );
+  render() {
+    return <BottomSheet
+        ref={this.bs}
+        snapPoints={[-500, 0]}
+        initialSnap={0}
+        renderContent={this.displayContent}
+        renderHeader={this.displayHeader}
+        enabledContentGestureInteraction={false}
+      />
   }
 }
 
