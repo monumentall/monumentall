@@ -36,7 +36,6 @@ class Nearby extends React.Component {
 
   componentDidUpdate() {
     if (this.state.currentMapRegion !== this.props.mapRegion) {
-      console.log('things changed')
       this.setState({
         currentMapRegion: this.props.mapRegion,
       });
