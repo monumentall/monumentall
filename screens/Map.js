@@ -12,7 +12,7 @@ import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
 import { specificStyles } from "../styles";
-import { selectLandmarkAction } from "../store/selectedLandmark";
+import { setLandmark } from "../store/selectedLandmark";
 import { setMapRegion } from "../store/mapDetails"
 
 const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
@@ -188,7 +188,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  selectLandmark: landmark => dispatch(selectLandmarkAction(landmark)),
+  selectLandmark: landmark => dispatch(setLandmark(landmark)),
   setMapRegion: coordinates => dispatch(setMapRegion(coordinates)),
 });
 
