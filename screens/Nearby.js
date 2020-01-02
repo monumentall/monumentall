@@ -56,7 +56,9 @@ class NearMe extends React.Component {
 
     if (landmarks.length && currentMapRegion.latitude) {
       const improvedLandmarks = this.reformatLandmarkData(landmarks)
-      const orderedLandmarks = (orderByDistance(currentMapRegion, improvedLandmarks)).slice(0, 6)
+      let orderedLandmarks = (orderByDistance(currentMapRegion, improvedLandmarks)).slice(0, 7)
+
+      orderedLandmarks = orderedLandmarks[0].distance == 0 ? orderedLandmarks.slice(1, 7) : orderedLandmarks.slice(0, 6)
 
       return (
         <ScrollView style={reusableStyles.block}>
@@ -100,4 +102,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NearMe);
+)(Nearby);

@@ -40,6 +40,7 @@ class Map extends React.Component {
     this.setRegionAndSelectLandmark = this.setRegionAndSelectLandmark.bind(
       this
     );
+    this.changeMapRegion = this.changeMapRegion.bind( this )
   }
 
   componentDidMount = async () => {
@@ -110,6 +111,19 @@ class Map extends React.Component {
     this.props.selectLandmark(marker);
     this.props.setMapRegion(region)
   };
+
+  changeMapRegion (event) {
+    console.log('changeMap fire')
+    const { latitude, longitude } = event;
+    const region = {
+      latitude,
+      longitude,
+      latitudeDelta: 0.005,
+      longitudeDelta: 0.005
+    };
+
+    this.props.setMapRegion(region)
+  }
 
   render() {
     const haveRegion = !!this.props.region.latitude;
