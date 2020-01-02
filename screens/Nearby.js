@@ -3,7 +3,6 @@ import { ScrollView, View, Text, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { reusableStyles, specificStyles } from "../styles";
 import { selectLandmarkAction } from "../store/selectedLandmark";
-import { getDistance } from "geolib";
 import { convertDistance, getDistance, orderByDistance } from "geolib";
 import { roundToOneDecimalPlace } from "../util/index"
 
@@ -13,17 +12,6 @@ class Nearby extends React.Component {
     this.state = {
       currentMapRegion: {},
     };
-  }
-
-  componentDidMount () {
-    const currentMapRegion = this.props.mapRegion ?
-      this.props.mapRegion : {
-        latitude: 40.673868,
-        longitude: -73.970089,
-      };
-    this.setState({
-      currentMapRegion,
-    })
   }
 
   componentDidUpdate() {
@@ -104,7 +92,10 @@ class Nearby extends React.Component {
 const mapStateToProps = state => ({
   landmarks: state.landmarks.data || [],
   landmarkDetails: state.selectedLandmark || {},
-  mapRegion: state.mapDetails.region || {}
+  mapRegion: state.mapDetails.region || {
+    latitude: 40.673868,
+    longitude: -73.970089,
+  }
 });
 
 const mapDispatchToProps = dispatch => ({
