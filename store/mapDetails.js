@@ -1,5 +1,6 @@
 
 const initialState = {
+    initialRegion: {},
     region: {
         latitude: 40.673868,
         longitude: -73.970089,
