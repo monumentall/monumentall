@@ -9,7 +9,13 @@ import { getDistance } from "geolib";
 import { convertDistance, getDistance, orderByDistance } from "geolib";
 import { roundToOneDecimalPlace } from "../util/index"
 
-class NearMe extends React.Component {
+class Nearby extends React.Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     currentMapRegion: {},
+  //   };
+  // }
 
   // componentDidUpdate(prevProps) {
   //     if (prevProps.mapRegion !== this.props.mapRegion) {
@@ -30,6 +36,7 @@ class NearMe extends React.Component {
 
   componentDidUpdate() {
     if (this.state.currentMapRegion !== this.props.mapRegion) {
+      console.log('things changed')
       this.setState({
         currentMapRegion: this.props.mapRegion,
       });

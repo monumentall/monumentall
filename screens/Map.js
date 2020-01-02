@@ -125,6 +125,19 @@ class Map extends React.Component {
     this.props.setMapRegion(region)
   }
 
+  changeMapRegion (event) {
+    console.log('changeMap fire')
+    const { latitude, longitude } = event;
+    const region = {
+      latitude,
+      longitude,
+      latitudeDelta: 0.005,
+      longitudeDelta: 0.005
+    };
+
+    this.props.setMapRegion(region)
+  }
+
   render() {
     const haveRegion = !!this.props.region.latitude;
     return (
