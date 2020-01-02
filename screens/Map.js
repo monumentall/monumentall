@@ -108,6 +108,7 @@ class Map extends React.Component {
       longitudeDelta: Constants.latLongDelta
     });
     this.props.selectLandmark(marker);
+    this.props.setMapRegion(region)
   };
 
   render() {
