@@ -48,38 +48,35 @@ class ExploreBrooklyn extends React.Component {
 
   displayHeader = () => {
     return (
-      <View style={specificStyles.drawerButtonsBlock}>
-        <TouchableOpacity onPress={this.showNearMeView}>
-          <Text style={specificStyles.drawerButtons}>Near Me</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.showSavedListView}>
-          <Text style={specificStyles.drawerButtons}>Saved</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
+        <View style={specificStyles.drawerButtonsBlock}>
+          <TouchableOpacity onPress={this.showNearbyView}>
+            <Text style={specificStyles.drawerButtons}>Nearby</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={this.showSavedListView}>
+            <Text style={specificStyles.drawerButtons}>Saved</Text>
+          </TouchableOpacity>
+        </View>
+    )
+}
 
   minimizeDrawer = () => {
     this.bs.current.snapTo(0);
   };
 
   displayContent = () => {
-    const { showNearMe, showSavedList } = this.state;
+    const {showNearby, showSavedList} = this.state
     const showLandmarkDetails =
-      this.props.landmarkDetails.name && !showNearMe && !showSavedList;
+    this.props.landmarkDetails.name && !showNearby && !showSavedList;
     return (
-      <View>
+      <View >
         {showLandmarkDetails && (
-          <Landmark
-            landmarkDetails={this.props.landmarkDetails}
-            closeDrawer={this.minimizeDrawer}
-          />
+          <Landmark landmarkDetails={this.props.landmarkDetails} closeDrawer={this.minimizeDrawer}/>
         )}
         {showSavedList && <List />}
-        {showNearMe && <NearMe landmarks={this.props.landmarks} />}
+        {showNearby && <Nearby landmarks={this.props.landmarks} />}
       </View>
     );
-  };
+  }
 
   render() {
     return (

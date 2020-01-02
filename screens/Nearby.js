@@ -5,11 +5,20 @@ import { reusableStyles, specificStyles } from "../styles";
 import { selectLandmarkAction } from "../store/selectedLandmark";
 import { setRegionAction, getLocationPermissionsAsync, getUserLocationAsync } from "../store/region";
 import Constants from "../constants/Constants";
-import { getDistance } from "geolib";
 import { convertDistance, getDistance, orderByDistance } from "geolib";
 import { roundToOneDecimalPlace } from "../util/index"
 
 class Nearby extends React.Component {
+
+  setRegionAndSelectLandmark(landmark) {
+    this.props.selectLandmark(landmark);
+    this.props.setRegion({
+      latitude: landmark.coordinate.latitude,
+      longitude: landmark.coordinate.longitude,
+      longitudeDelta: Constants.latLongDelta,
+      latitudeDelta: Constants.latLongDelta
+    });
+  }
 
   getMapRegion = async () => {
     let region = this.props.mapRegion;
@@ -90,7 +99,7 @@ const mapStateToProps = state => ({
   landmarks: state.landmarks.data || [],
   landmarkDetails: state.selectedLandmark || {},
   locationPermissions: state.region.locationPermissions,
-  mapRegion: state.region || {
+  mapRegion: state.region.region || {
     latitude: 40.673868,
     longitude: -73.970089,
   },
