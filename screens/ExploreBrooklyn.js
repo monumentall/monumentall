@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View, Text, TouchableOpacity } from "react-native";
-import { specificStyles } from "../styles";
+import { reusableStyles, specificStyles } from "../styles";
 import Nearby from "./Nearby";
 import List from "./List";
 import Landmark from "./Landmark";
@@ -46,7 +46,11 @@ class ExploreBrooklyn extends React.Component {
     }
   }
 
-  displayHeader = () => {
+  render() {
+    const { showNearby, showSavedList } = this.state;
+    const showLandmarkDetails =
+      this.props.landmarkDetails.name && !showNearby && !showSavedList;
+
     return (
       <View style={specificStyles.drawerButtonsBlock}>
         <TouchableOpacity onPress={this.showNearMeView}>
