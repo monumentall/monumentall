@@ -28,6 +28,14 @@ class NearMe extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    if (this.state.currentMapRegion !== this.props.mapRegion) {
+      this.setState({
+        currentMapRegion: this.props.mapRegion,
+      });
+    }
+  }
+
   reformatLandmarkData ( landmarks ) {
     const { currentMapRegion } = this.state
 
@@ -98,7 +106,10 @@ class NearMe extends React.Component {
 const mapStateToProps = state => ({
   landmarks: state.landmarks.data || [],
   landmarkDetails: state.selectedLandmark || {},
-  mapRegion: state.mapDetails.region || {}
+  mapRegion: state.mapDetails.region || {
+    latitude: 40.673868,
+    longitude: -73.970089,
+  }
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View, Text, TouchableOpacity } from "react-native";
-import { reusableStyles, specificStyles } from "../styles";
+import { specificStyles } from "../styles";
 import Nearby from "./Nearby";
 import List from "./List";
 import Landmark from "./Landmark";
