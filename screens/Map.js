@@ -15,8 +15,8 @@ import { specificStyles } from "../styles";
 import { selectLandmarkAction } from "../store/selectedLandmark";
 import { setRegionAction } from "../store/region";
 import Constants from "../constants/Constants";
-import { setLandmark } from "../store/selectedLandmark";
 import { setMapRegion } from "../store/mapDetails"
+import { setMapRegion } from "../store/mapDetails";
 
 const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
   if (markers)
@@ -41,7 +41,7 @@ class Map extends React.Component {
     this.setRegionAndSelectLandmark = this.setRegionAndSelectLandmark.bind(
       this
     );
-    this.changeMapRegion = this.changeMapRegion.bind( this )
+    this.changeMapRegion = this.changeMapRegion.bind(this);
   }
 
   componentDidMount = async () => {
@@ -135,7 +135,7 @@ class Map extends React.Component {
     };
 
     this.props.setMapRegion(region)
-  }
+  };
 
   render() {
     const haveRegion = !!this.props.region.latitude;
