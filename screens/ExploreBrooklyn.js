@@ -5,7 +5,7 @@ import { reusableStyles, specificStyles } from "../styles";
 import NearMe from "./NearMe";
 import List from "./List";
 import Landmark from "./Landmark";
-import BottomSheet from 'reanimated-bottom-sheet'
+import BottomSheet from "reanimated-bottom-sheet";
 import layout from "../constants/Layout";
 
 class ExploreBrooklyn extends React.Component {
@@ -16,7 +16,7 @@ class ExploreBrooklyn extends React.Component {
       showNearMe: true
     };
 
-    this.bs = React.createRef()
+    this.bs = React.createRef();
   }
 
   showSavedListView = () => {
@@ -48,38 +48,42 @@ class ExploreBrooklyn extends React.Component {
 
   displayHeader = () => {
     return (
-        <View style={specificStyles.drawerButtonsBlock}>
-          <TouchableOpacity onPress={this.showNearMeView}>
-            <Text style={specificStyles.drawerButtons}>Near Me</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.showSavedListView}>
-            <Text style={specificStyles.drawerButtons}>Saved</Text>
-          </TouchableOpacity>
-        </View>
-    )
-}
+      <View style={specificStyles.drawerButtonsBlock}>
+        <TouchableOpacity onPress={this.showNearMeView}>
+          <Text style={specificStyles.drawerButtons}>Near Me</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.showSavedListView}>
+          <Text style={specificStyles.drawerButtons}>Saved</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
-minimizeDrawer = () => {
-  this.bs.current.snapTo(0)
-}
+  minimizeDrawer = () => {
+    this.bs.current.snapTo(0);
+  };
 
-displayContent = () => {
-  const {showNearMe, showSavedList} = this.state
-  const showLandmarkDetails =
-  this.props.landmarkDetails.name && !showNearMe && !showSavedList;
-  return (
-    <View >
-      {showLandmarkDetails && (
-        <Landmark landmarkDetails={this.props.landmarkDetails} closeDrawer={this.minimizeDrawer}/>
-      )}
-      {showSavedList && <List />}
-      {showNearMe && <NearMe landmarks={this.props.landmarks} />}
-    </View>
-  );
-}
+  displayContent = () => {
+    const { showNearMe, showSavedList } = this.state;
+    const showLandmarkDetails =
+      this.props.landmarkDetails.name && !showNearMe && !showSavedList;
+    return (
+      <View>
+        {showLandmarkDetails && (
+          <Landmark
+            landmarkDetails={this.props.landmarkDetails}
+            closeDrawer={this.minimizeDrawer}
+          />
+        )}
+        {showSavedList && <List />}
+        {showNearMe && <NearMe landmarks={this.props.landmarks} />}
+      </View>
+    );
+  };
 
   render() {
-    return <BottomSheet
+    return (
+      <BottomSheet
         ref={this.bs}
         snapPoints={[-500, 0]}
         initialSnap={0}
@@ -87,6 +91,7 @@ displayContent = () => {
         renderHeader={this.displayHeader}
         enabledContentGestureInteraction={false}
       />
+    );
   }
 }
 

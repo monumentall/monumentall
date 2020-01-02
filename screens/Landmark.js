@@ -13,6 +13,7 @@ import {
   clearDirectionsAction
 } from "../store/directions";
 import { clearLandmarkAction } from "../store/selectedLandmark";
+import Constants from "../constants/Constants";
 
 class LandmarkScreen extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class LandmarkScreen extends React.Component {
   async saveLandmark(landmarkToSave) {
     //grab the current saved landmarks from async storage
     try {
-      let currentSaves = await AsyncStorage.getItem("savedLandmarks");
+      let currentSaves = await AsyncStorage.getItem(Constants.savedLandmarks);
       currentSaves = JSON.parse(currentSaves);
       let newList;
       //check that we aren't trying to add a landmark that we've
@@ -40,11 +41,17 @@ class LandmarkScreen extends React.Component {
         //if there are no dupes, we can just add the new landmark
         if (!duplicate.length) {
           newList = [...currentSaves, landmarkToSave];
-          await AsyncStorage.setItem("savedLandmarks", JSON.stringify(newList));
+          await AsyncStorage.setItem(
+            Constants.savedLandmarks,
+            JSON.stringify(newList)
+          );
         }
       } else {
         newList = [landmarkToSave];
-        await AsyncStorage.setItem("savedLandmarks", JSON.stringify(newList));
+        await AsyncStorage.setItem(
+          Constants.savedLandmarks,
+          JSON.stringify(newList)
+        );
       }
     } catch (error) {
       console.error(error);

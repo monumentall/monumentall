@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { View, Text, AsyncStorage, TouchableOpacity } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
 import { selectLandmarkAction } from "../store/selectedLandmark";
+import { setRegionAction } from "../store/region";
+import Constants from "../constants/Constants";
 
 class List extends React.Component {
   constructor() {
@@ -43,6 +45,16 @@ class List extends React.Component {
     }
   }
 
+  setRegionAndSelectLandmark(landmark) {
+    this.props.selectLandmark(landmark);
+    this.props.setRegion({
+      latitude: landmark.coordinate.latitude,
+      longitude: landmark.coordinate.longitude,
+      longitudeDelta: Constants.latLongDelta,
+      latitudeDelta: Constants.latLongDelta
+    });
+  }
+
   render() {
     const { savedLandmarks } = this.state;
 
@@ -59,7 +71,7 @@ class List extends React.Component {
                   <View style={reusableStyles.listIcon} />
                   <TouchableOpacity
                     style={reusableStyles.block}
-                    onPress={() => this.props.selectLandmark(landmark)}
+                    onPress={() => this.setRegionAndSelectLandmark(landmark)}
                   >
                     <Text style={reusableStyles.header2}>{landmark.name}</Text>
                     <Text style={reusableStyles.text1}>
@@ -100,7 +112,8 @@ class List extends React.Component {
 const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => ({
-  selectLandmark: landmark => dispatch(selectLandmarkAction(landmark))
+  selectLandmark: landmark => dispatch(selectLandmarkAction(landmark)),
+  setRegion: region => dispatch(setRegionAction(region))
 });
 
 export default connect(
