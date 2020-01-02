@@ -34,8 +34,3 @@ export const convertSpacesURLEncoding = text => {
   return words.join("%20");
 }
 
-export const sortByDistance = locations => {
-  locations.sort((a, b) => {
-    return a.value - b.value;
-  })
-}
