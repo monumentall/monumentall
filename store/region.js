@@ -41,6 +41,19 @@ export const getUserLocationAsync = () => async () => {
   };
 };
 
+export const getNearbyMapRegion = ()=> async dispatch => {
+  try {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === Constants.granted) {
+      const region = await dispatch(getUserLocationAsync())
+      dispatch(setNearbyRegionAction(region))
+    }
+  } catch (error) {
+      console.log(error);
+      dispatch(threwError(error));
+  };
+};
+
 
 //Sub-Reducer
 const initialState = {

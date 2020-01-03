@@ -97,6 +97,7 @@ class Map extends React.Component {
   };
 
   changeNearbyMapRegion (event) {
+    const { locationPermissions, setNearbyRegion } = this.props;
     const { latitude, longitude } = event;
     const region = {
       latitude,
@@ -105,7 +106,9 @@ class Map extends React.Component {
       longitudeDelta: Constants.latLongDelta
     };
 
-    this.props.setNearbyRegion(region)
+    if (locationPermissions === Constants.denied) {
+      setNearbyRegion(region)
+    }
   }
 
   setRegionAndSelectLandmark = (event, marker) => {

@@ -13,6 +13,6 @@ const reducer = combineReducers({
   region
 });
 
-const store = createStore(reducer, applyMiddleware(thunkMiddleware));
+const store = createStore(reducer, applyMiddleware(thunkMiddleware, logger));
 
 export default store;
