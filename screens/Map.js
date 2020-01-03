@@ -9,7 +9,6 @@ import {
   View
 } from "react-native";
 import * as Permissions from "expo-permissions";
-import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
 import { specificStyles } from "../styles";
 import { selectLandmarkAction } from "../store/selectedLandmark";

@@ -37,9 +37,3 @@ export const convertSpacesURLEncoding = text => {
 export const roundToOneDecimalPlace = number => {
   return (Math.round(number * 10) / 10).toFixed(1)
 };
-
-export const sortByDistance = locations => {
-  locations.sort((a, b) => {
-    return a.value - b.value;
-  });
-};
