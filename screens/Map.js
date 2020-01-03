@@ -13,7 +13,7 @@ import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
 import { specificStyles } from "../styles";
 import { selectLandmarkAction } from "../store/selectedLandmark";
-import { setRegionAction } from "../store/region";
+import { setRegionAction, setNearbyRegionAction } from "../store/region";
 import Constants from "../constants/Constants";
 
 const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
@@ -37,6 +37,9 @@ class Map extends React.Component {
       appState: AppState.currentState
     };
     this.setRegionAndSelectLandmark = this.setRegionAndSelectLandmark.bind(
+      this
+    );
+    this.changeNearbyMapRegion = this.changeNearbyMapRegion.bind(
       this
     );
   }
@@ -100,12 +103,26 @@ class Map extends React.Component {
     return status;
   };
 
+  changeNearbyMapRegion (event) {
+    const { latitude, longitude } = event;
+    const region = {
+      latitude,
+      longitude,
+      latitudeDelta: Constants.latLongDelta,
+      longitudeDelta: Constants.latLongDelta
+    };
+
+    this.props.setNearbyRegion(region)
+  }
+
   setRegionAndSelectLandmark = (event, marker) => {
-    this.props.setRegion({
+    const region = {
       ...event.nativeEvent.coordinate,
       latitudeDelta: Constants.latLongDelta,
       longitudeDelta: Constants.latLongDelta
-    });
+    }
+    this.props.setRegion(region);
+    this.changeNearbyMapRegion(region);
     this.props.selectLandmark(marker);
   };
 
@@ -124,6 +141,7 @@ class Map extends React.Component {
             zoomEnabled={true}
             initialRegion={this.props.region}
             region={this.props.region}
+            onRegionChangeComplete={this.changeNearbyMapRegion}
           >
             <MapMarkers
               markers={this.props.markers || []}
@@ -159,12 +177,13 @@ class Map extends React.Component {
 const mapStateToProps = state => ({
   polyline: state.directions,
   markers: state.landmarks.data || [],
-  region: state.region
+  region: state.region.region
 });
 
 const mapDispatchToProps = dispatch => ({
   selectLandmark: landmark => dispatch(selectLandmarkAction(landmark)),
-  setRegion: region => dispatch(setRegionAction(region))
+  setRegion: region => dispatch(setRegionAction(region)),
+  setNearbyRegion: region => dispatch(setNearbyRegionAction(region))
 });
 
 export default connect(
