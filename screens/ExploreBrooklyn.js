@@ -40,7 +40,7 @@ class ExploreBrooklyn extends React.Component {
 
     if (propsChanged && haveLandmark) {
       this.setState({
-        showNearMe: false,
+        showNearby: false,
         showSavedList: false
       });
     }
