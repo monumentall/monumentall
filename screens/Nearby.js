@@ -18,16 +18,16 @@ class Nearby extends React.Component {
       distanceInterval: 1610,
     }, async () => {
       await this.props.getNearbyMapRegion()
-    })
-  }
+    });
+  };
 
   componentDidUpdate = async (prevProps) => {
   // if the user changes their permission settings
   // after this is already mounted, adjust the nearby region
     if (this.props.locationPermissions !== prevProps.locationPermissions) {
       await this.props.getNearbyMapRegion()
-    }
-  }
+    };
+  };
 
   setRegionAndSelectLandmark(landmark) {
     this.props.selectLandmark(landmark);

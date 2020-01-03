@@ -5,7 +5,7 @@ import Constants from "../constants/Constants";
 //Action Constants
 const SET_REGION = "SET_REGION";
 const SET_LOCATION_PERMISSIONS = "SET_LOCATION_PERMISSIONS";
-const SET_NEARBY_REGION = "SET_NEARBY_REGION"
+const SET_NEARBY_REGION = "SET_NEARBY_REGION";
 
 //Action Creators
 export const setRegionAction = region => ({ type: SET_REGION, region });
