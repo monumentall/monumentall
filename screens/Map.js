@@ -9,11 +9,16 @@ import {
   View
 } from "react-native";
 import * as Permissions from "expo-permissions";
-import * as Location from "expo-location";
 import MenuBtn from "./MenuBtn";
 import { specificStyles } from "../styles";
 import { selectLandmarkAction } from "../store/selectedLandmark";
-import { setRegionAction } from "../store/region";
+import {
+  setLocationPermissions,
+  setRegionAction,
+  setNearbyRegionAction,
+  getLocationPermissionsAsync,
+  getUserLocationAsync,
+} from "../store/region";
 import Constants from "../constants/Constants";
 
 const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
@@ -33,10 +38,12 @@ class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      locationPermissions: Constants.denied,
       appState: AppState.currentState
     };
     this.setRegionAndSelectLandmark = this.setRegionAndSelectLandmark.bind(
+      this
+    );
+    this.changeNearbyMapRegion = this.changeNearbyMapRegion.bind(
       this
     );
   }
@@ -69,43 +76,47 @@ class Map extends React.Component {
         const refresh = await Permissions.askAsync(Permissions.LOCATION);
         status = refresh.status;
       }
-      this.setState({ locationPermissions: status });
+      this.setLocationPermissions(status);
     }
     this.setState({ appState: nextAppState });
   };
 
   centerMapOnUserAsync = async () => {
-    let status = await this.getLocationPermissionsAsync();
+    await this.props.getLocationPermissionsAsync();
     let region = {
       latitude: 40.673868,
       longitude: -73.970089,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421
     };
-    if (status === Constants.granted) {
-      let location = await Location.getCurrentPositionAsync({});
-      region = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        longitudeDelta: Constants.latLongDelta,
-        latitudeDelta: Constants.latLongDelta
-      };
+    if (this.props.locationPermissions === Constants.granted) {
+      region = await this.props.getUserLocationAsync();
     }
     this.props.setRegion(region);
   };
 
-  getLocationPermissionsAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    this.setState({ locationPermissions: status });
-    return status;
+  changeNearbyMapRegion (event) {
+    const { locationPermissions, setNearbyRegion } = this.props;
+    const { latitude, longitude } = event;
+
+    if (locationPermissions === Constants.denied) {
+      setNearbyRegion({
+        latitude,
+        longitude,
+        latitudeDelta: Constants.latLongDelta,
+        longitudeDelta: Constants.latLongDelta
+      });
+    };
   };
 
   setRegionAndSelectLandmark = (event, marker) => {
-    this.props.setRegion({
+    const region = {
       ...event.nativeEvent.coordinate,
       latitudeDelta: Constants.latLongDelta,
       longitudeDelta: Constants.latLongDelta
-    });
+    }
+    this.props.setRegion(region);
+    this.changeNearbyMapRegion(region);
     this.props.selectLandmark(marker);
   };
 
@@ -118,12 +129,13 @@ class Map extends React.Component {
             provider={PROVIDER_GOOGLE}
             style={specificStyles.mapContainer}
             showsUserLocation={
-              this.state.locationPermissions === Constants.denied ? false : true
+              this.props.locationPermissions === Constants.denied ? false : true
             }
             showsMyLocationButton={false}
             zoomEnabled={true}
             initialRegion={this.props.region}
             region={this.props.region}
+            onRegionChangeComplete={this.changeNearbyMapRegion}
           >
             <MapMarkers
               markers={this.props.markers || []}
@@ -137,7 +149,7 @@ class Map extends React.Component {
             )}
           </MapView>
           <MenuBtn />
-          {this.state.locationPermissions === Constants.granted && (
+          {this.props.locationPermissions === Constants.granted && (
             <TouchableOpacity
               style={specificStyles.centerBtnContainer}
               onPress={() => {
@@ -159,12 +171,17 @@ class Map extends React.Component {
 const mapStateToProps = state => ({
   polyline: state.directions,
   markers: state.landmarks.data || [],
-  region: state.region
+  region: state.region.region,
+  locationPermissions: state.region.locationPermissions,
 });
 
 const mapDispatchToProps = dispatch => ({
   selectLandmark: landmark => dispatch(selectLandmarkAction(landmark)),
-  setRegion: region => dispatch(setRegionAction(region))
+  setLocationPermissions: status => dispatch(setLocationPermissions(status)),
+  setRegion: region => dispatch(setRegionAction(region)),
+  setNearbyRegion: region => dispatch(setNearbyRegionAction(region)),
+  getLocationPermissionsAsync: () => dispatch(getLocationPermissionsAsync()),
+  getUserLocationAsync: () => dispatch(getUserLocationAsync())
 });
 
 export default connect(

@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { View, Text, TouchableOpacity } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
-import NearMe from "./NearMe";
+import Nearby from "./Nearby";
 import List from "./List";
 import Landmark from "./Landmark";
 import BottomSheet from "reanimated-bottom-sheet";
@@ -13,7 +13,7 @@ class ExploreBrooklyn extends React.Component {
     super(props);
     this.state = {
       showSavedList: false,
-      showNearMe: true
+      showNearby: true
     };
 
     this.bs = React.createRef();
@@ -21,14 +21,14 @@ class ExploreBrooklyn extends React.Component {
 
   showSavedListView = () => {
     this.setState({
-      showNearMe: false,
+      showNearby: false,
       showSavedList: true
     });
   };
 
-  showNearMeView = () => {
+  showNearbyView = () => {
     this.setState({
-      showNearMe: true,
+      showNearby: true,
       showSavedList: false
     });
   };
@@ -40,7 +40,7 @@ class ExploreBrooklyn extends React.Component {
 
     if (propsChanged && haveLandmark) {
       this.setState({
-        showNearMe: false,
+        showNearby: false,
         showSavedList: false
       });
     }
@@ -49,8 +49,8 @@ class ExploreBrooklyn extends React.Component {
   displayHeader = () => {
     return (
       <View style={specificStyles.drawerButtonsBlock}>
-        <TouchableOpacity onPress={this.showNearMeView}>
-          <Text style={specificStyles.drawerButtons}>Near Me</Text>
+        <TouchableOpacity onPress={this.showNearbyView}>
+          <Text style={specificStyles.drawerButtons}>Nearby</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.showSavedListView}>
           <Text style={specificStyles.drawerButtons}>Saved</Text>
@@ -64,9 +64,9 @@ class ExploreBrooklyn extends React.Component {
   };
 
   displayContent = () => {
-    const { showNearMe, showSavedList } = this.state;
+    const { showNearby, showSavedList } = this.state;
     const showLandmarkDetails =
-      this.props.landmarkDetails.name && !showNearMe && !showSavedList;
+      this.props.landmarkDetails.name && !showNearby && !showSavedList;
     return (
       <View>
         {showLandmarkDetails && (
@@ -76,7 +76,7 @@ class ExploreBrooklyn extends React.Component {
           />
         )}
         {showSavedList && <List />}
-        {showNearMe && <NearMe landmarks={this.props.landmarks} />}
+        {showNearby && <Nearby landmarks={this.props.landmarks} />}
       </View>
     );
   };

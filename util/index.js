@@ -33,3 +33,7 @@ export const convertSpacesURLEncoding = text => {
   let words = text.split(" ");
   return words.join("%20");
 }
+
+export const roundToOneDecimalPlace = number => {
+  return (Math.round(number * 10) / 10).toFixed(1)
+};
