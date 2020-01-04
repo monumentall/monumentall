@@ -12,13 +12,18 @@ import * as Location from "expo-location";
 class Nearby extends React.Component {
 
   componentWillMount = async () => {
-    return locationWatch = await Location.watchPositionAsync({
-      // only provide an update, when the user's location changes by
-      // at least a mile
-      distanceInterval: 1610,
-    }, async () => {
-      await this.props.getNearbyMapRegion()
-    });
+    try {
+      return locationWatch = await Location.watchPositionAsync({
+        // only provide an update, when the user's location changes by
+        // at least a mile
+        distanceInterval: 1610,
+      }, async () => {
+        await this.props.getNearbyMapRegion()
+      });
+    } catch (error) {
+      console.log(error)
+    }
+
   };
 
   componentDidUpdate = async (prevProps) => {
