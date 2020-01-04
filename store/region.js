@@ -26,6 +26,20 @@ export const getLocationPermissionsAsync = () => async dispatch => {
   };
 };
 
+export const getNearbyMapRegion = ()=> async dispatch => {
+  try {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === Constants.granted) {
+      const region = await dispatch(getUserLocationAsync())
+      dispatch(setNearbyRegionAction(region))
+    }
+  } catch (error) {
+      console.log(error);
+      dispatch(threwError(error));
+  };
+};
+
+//Helpers
 export const getUserLocationAsync = () => async () => {
   try {
     const location = await Location.getCurrentPositionAsync({});
@@ -40,20 +54,6 @@ export const getUserLocationAsync = () => async () => {
       console.log(error);
   };
 };
-
-export const getNearbyMapRegion = ()=> async dispatch => {
-  try {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === Constants.granted) {
-      const region = await dispatch(getUserLocationAsync())
-      dispatch(setNearbyRegionAction(region))
-    }
-  } catch (error) {
-      console.log(error);
-      dispatch(threwError(error));
-  };
-};
-
 
 //Sub-Reducer
 const initialState = {

@@ -13,17 +13,18 @@ class Nearby extends React.Component {
 
   componentWillMount = async () => {
     try {
-      return locationWatch = await Location.watchPositionAsync({
+      if (this.props.locationPermissions === Constants.granted) {
+        return locationWatch = await Location.watchPositionAsync({
         // only provide an update, when the user's location changes by
         // at least a mile
-        distanceInterval: 1610,
-      }, async () => {
-        await this.props.getNearbyMapRegion()
-      });
+          distanceInterval: 1610,
+        }, async () => {
+          await this.props.getNearbyMapRegion()
+        });
+      };
     } catch (error) {
       console.log(error)
-    }
-
+    };
   };
 
   componentDidUpdate = async (prevProps) => {
