@@ -27,11 +27,4 @@ describe("Home Screen", () => {
         .html()
     ).toEqual("<Text>There was a problem loading the landmarks.</Text>");
   });
-
-  // it( 'should render the map if there is no error', () => {
-  //   const props = {...baseProps, err: true};
-
-  //   const wrapper = shallow(<HomeScreen  {...props} /> );
-  //   expect( wrapper.find('Map')).toHaveLength(1);
-  // } );
 });
