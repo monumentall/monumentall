@@ -1,12 +1,12 @@
 language: node_js
 node_js:
-  - node
-  - lts/*
+  - 12
 cache:
   directories:
     - ~/.npm
 warnings_are_errors: false
-
+before_script:
+  - npm install -g npm@latest
 script:
   - npm ci
   - node console.log(process.env.googleApiKey)
