@@ -11,3 +11,13 @@ an app designed to honor people of diverse genders in public spaces
 - run tests with `npm test`
 - update snapshot tests with `npx jest --updateSnapshot`
 
+## component tree
+- App
+  - Homescreen
+    - Explore
+      - Landmark
+      - Saved
+      - Nearby
+    - Map
+      - MenuBtn
+      - Menu
