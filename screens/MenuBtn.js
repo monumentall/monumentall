@@ -23,7 +23,6 @@ export default class MenuBtn extends React.Component {
         </Text>
         <Menu
           visible={this.state.showMenu}
-          setScreen={this.props.setScreen}
           toggleShowMenu={this.toggleShowMenu}
         />
       </View>

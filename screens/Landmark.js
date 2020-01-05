@@ -22,11 +22,18 @@ class LandmarkScreen extends React.Component {
       seeMoreSelected: false
     };
   }
+
   componentWillUnmount = () => {
     this.props.clearLandmark();
   };
 
-  async saveLandmark(landmarkToSave) {
+  componentDidUpdate = prevProps => {
+    if (this.props.landmarkDetails.name !== prevProps.landmarkDetails.name) {
+      this.setState({ seeMoreSelected: false });
+    }
+  };
+
+  saveLandmark = async landmarkToSave => {
     //grab the current saved landmarks from async storage
     try {
       let currentSaves = await AsyncStorage.getItem(Constants.savedLandmarks);
@@ -56,13 +63,7 @@ class LandmarkScreen extends React.Component {
     } catch (error) {
       console.error(error);
     }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.landmarkDetails.name !== prevProps.landmarkDetails.name) {
-      this.setState({ seeMoreSelected: false });
-    }
-  }
+  };
 
   getDirectionsToLandmark = landmarkCoordinates => {
     this.props.getDirections(landmarkCoordinates);

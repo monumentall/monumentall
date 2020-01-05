@@ -17,7 +17,7 @@ import {
   setRegionAction,
   setNearbyRegionAction,
   getLocationPermissionsAsync,
-  getUserLocationAsync,
+  getUserLocationAsync
 } from "../store/region";
 import Constants from "../constants/Constants";
 
@@ -40,24 +40,18 @@ class Map extends React.Component {
     this.state = {
       appState: AppState.currentState
     };
-    this.setRegionAndSelectLandmark = this.setRegionAndSelectLandmark.bind(
-      this
-    );
-    this.changeNearbyMapRegion = this.changeNearbyMapRegion.bind(
-      this
-    );
   }
 
   componentDidMount = async () => {
-    AppState.addEventListener(Constants.change, this._handleAppStateChange);
+    AppState.addEventListener(Constants.change, this.handleAppStateChange);
     await this.centerMapOnUserAsync();
   };
 
-  componentWillUnmount() {
-    AppState.removeEventListener(Constants.change, this._handleAppStateChange);
-  }
+  componentWillUnmount = () => {
+    AppState.removeEventListener(Constants.change, this.handleAppStateChange);
+  };
 
-  _handleAppStateChange = async nextAppState => {
+  handleAppStateChange = async nextAppState => {
     if (
       this.state.appState.match(/inactive|background/) &&
       nextAppState === Constants.active
@@ -95,7 +89,7 @@ class Map extends React.Component {
     this.props.setRegion(region);
   };
 
-  changeNearbyMapRegion (event) {
+  changeNearbyMapRegion = event => {
     const { locationPermissions, setNearbyRegion } = this.props;
     const { latitude, longitude } = event;
 
@@ -106,7 +100,7 @@ class Map extends React.Component {
         latitudeDelta: Constants.latLongDelta,
         longitudeDelta: Constants.latLongDelta
       });
-    };
+    }
   };
 
   setRegionAndSelectLandmark = (event, marker) => {
@@ -114,7 +108,7 @@ class Map extends React.Component {
       ...event.nativeEvent.coordinate,
       latitudeDelta: Constants.latLongDelta,
       longitudeDelta: Constants.latLongDelta
-    }
+    };
     this.props.setRegion(region);
     this.changeNearbyMapRegion(region);
     this.props.selectLandmark(marker);
@@ -172,7 +166,7 @@ const mapStateToProps = state => ({
   polyline: state.directions,
   markers: state.landmarks.data || [],
   region: state.region.region,
-  locationPermissions: state.region.locationPermissions,
+  locationPermissions: state.region.locationPermissions
 });
 
 const mapDispatchToProps = dispatch => ({
