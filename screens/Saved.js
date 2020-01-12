@@ -6,7 +6,7 @@ import { selectLandmarkAction } from "../store/selectedLandmark";
 import { setRegionAction } from "../store/region";
 import Constants from "../constants/Constants";
 
-class List extends React.Component {
+class Saved extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -15,7 +15,7 @@ class List extends React.Component {
     this.deleteList = this.deleteList.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     AsyncStorage.getItem("savedLandmarks")
       .then(storedLandmarks => {
         let savedLandmarks = JSON.parse(storedLandmarks);
@@ -25,14 +25,14 @@ class List extends React.Component {
         }
       })
       .catch(err => console.error(err));
-  }
+  };
 
-  async deleteList() {
+  deleteList = async () => {
     await AsyncStorage.removeItem("savedLandmarks");
     this.setState({ savedLandmarks: [] });
-  }
+  };
 
-  deleteLandmark(selectedLandmarkName) {
+  deleteLandmark = selectedLandmarkName => {
     if (this.state.savedLandmarks) {
       const updatedLandmarks = this.state.savedLandmarks.filter(landmark => {
         return landmark.name !== selectedLandmarkName;
@@ -43,9 +43,9 @@ class List extends React.Component {
         })
         .catch(err => console.error(err));
     }
-  }
+  };
 
-  setRegionAndSelectLandmark(landmark) {
+  setRegionAndSelectLandmark = landmark => {
     this.props.selectLandmark(landmark);
     this.props.setRegion({
       latitude: landmark.coordinate.latitude,
@@ -53,7 +53,7 @@ class List extends React.Component {
       longitudeDelta: Constants.latLongDelta,
       latitudeDelta: Constants.latLongDelta
     });
-  }
+  };
 
   render() {
     const { savedLandmarks } = this.state;
@@ -88,7 +88,6 @@ class List extends React.Component {
               </View>
             );
           })}
-
         <View style={reusableStyles.block}>
           <TouchableOpacity onPress={this.deleteList}>
             <Text style={specificStyles.listButtons}>Delete All</Text>
@@ -109,14 +108,12 @@ class List extends React.Component {
   }
 }
 
-const mapStateToProps = () => ({});
-
 const mapDispatchToProps = dispatch => ({
   selectLandmark: landmark => dispatch(selectLandmarkAction(landmark)),
   setRegion: region => dispatch(setRegionAction(region))
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
-)(List);
+)(Saved);

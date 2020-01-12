@@ -21,7 +21,7 @@ export default class Menu extends React.Component {
         Linking.openURL(Constants.appSettings);
       }
     } else {
-      const intent = await IntentLauncher.startActivityAsync(
+      await IntentLauncher.startActivityAsync(
         IntentLauncher.ACTION_MANAGE_APPLICATIONS_SETTINGS
       );
     }

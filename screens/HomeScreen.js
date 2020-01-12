@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { View, Text, TouchableOpacity } from "react-native";
 import Map from "./Map";
-import ExploreBrooklyn from "./ExploreBrooklyn";
+import Explore from "./Explore";
 import { specificStyles } from "../styles";
 import { database } from "../db.js";
 import { getLandmarksAction } from "../store/landmarks";
@@ -10,12 +10,6 @@ import { getLandmarksAction } from "../store/landmarks";
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      polyline: {
-        show: false,
-        coordinates: []
-      }
-    };
     this.db = database.ref();
   }
 
@@ -27,7 +21,7 @@ class HomeScreen extends React.Component {
     return !this.props.err ? (
       <View style={specificStyles.main}>
         <View>
-          <ExploreBrooklyn />
+          <Explore />
           <Map />
         </View>
       </View>

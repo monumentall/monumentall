@@ -1,21 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View, Text, TouchableOpacity } from "react-native";
-import { reusableStyles, specificStyles } from "../styles";
+import { specificStyles } from "../styles";
 import Nearby from "./Nearby";
-import List from "./List";
+import Saved from "./Saved";
 import Landmark from "./Landmark";
 import BottomSheet from "reanimated-bottom-sheet";
-import layout from "../constants/Layout";
 
-class ExploreBrooklyn extends React.Component {
+class Explore extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       showSavedList: false,
       showNearby: true
     };
-
     this.bs = React.createRef();
   }
 
@@ -33,7 +31,7 @@ class ExploreBrooklyn extends React.Component {
     });
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate = prevProps => {
     const propsChanged =
       prevProps.landmarkDetails !== this.props.landmarkDetails;
     const haveLandmark = !!this.props.landmarkDetails.name;
@@ -44,7 +42,7 @@ class ExploreBrooklyn extends React.Component {
         showSavedList: false
       });
     }
-  }
+  };
 
   displayHeader = () => {
     return (
@@ -75,7 +73,7 @@ class ExploreBrooklyn extends React.Component {
             closeDrawer={this.minimizeDrawer}
           />
         )}
-        {showSavedList && <List />}
+        {showSavedList && <Saved />}
         {showNearby && <Nearby landmarks={this.props.landmarks} />}
       </View>
     );
@@ -99,4 +97,4 @@ const mapStateToProps = state => ({
   landmarkDetails: state.selectedLandmark || {}
 });
 
-export default connect(mapStateToProps)(ExploreBrooklyn);
+export default connect(mapStateToProps)(Explore);
