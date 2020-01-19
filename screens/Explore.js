@@ -8,7 +8,7 @@ import Saved from "./Saved";
 import Landmark from "./Landmark";
 import BottomSheet from "reanimated-bottom-sheet";
 
-class Explore extends React.Component {
+export class Explore extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
