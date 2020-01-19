@@ -9,5 +9,4 @@ before_script:
   - npm install -g npm@latest
 script:
   - npm ci
-  - sh echo process.env.googleApiKey
   - npx jest --ci
