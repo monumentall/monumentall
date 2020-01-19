@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { View, Text, TouchableOpacity } from "react-native";
 import { specificStyles } from "../styles";
@@ -96,5 +97,9 @@ class Explore extends React.Component {
 const mapStateToProps = state => ({
   landmarkDetails: state.selectedLandmark || {}
 });
+
+Explore.propTypes = {
+  landmarkDetails: PropTypes.object.isRequired,
+};
 
 export default connect(mapStateToProps)(Explore);

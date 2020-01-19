@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { View, Text, AsyncStorage, TouchableOpacity } from "react-native";
 import { reusableStyles, specificStyles } from "../styles";
@@ -112,6 +113,11 @@ const mapDispatchToProps = dispatch => ({
   selectLandmark: landmark => dispatch(selectLandmarkAction(landmark)),
   setRegion: region => dispatch(setRegionAction(region))
 });
+
+Saved.propTypes = {
+  selectLandmark: PropTypes.func.isRequired,
+  setRegion: PropTypes.func.isRequired,
+};
 
 export default connect(
   null,

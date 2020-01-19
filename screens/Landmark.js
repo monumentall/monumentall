@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import {
   Text,
@@ -181,8 +182,16 @@ class LandmarkScreen extends React.Component {
 const mapDispatchToProps = dispatch => ({
   getDirections: coordinate => dispatch(getDirectionsAction(coordinate)),
   clearDirections: () => dispatch(clearDirectionsAction()),
-  clearLandmark: () => dispatch(clearLandmarkAction())
+  clearLandmark: () => dispatch(clearLandmarkAction()),
 });
+
+LandmarkScreen.propTypes = {
+  clearDirections: PropTypes.func.isRequired,
+  clearLandmark: PropTypes.func.isRequired,
+  closeDrawer: PropTypes.func.isRequired,
+  getDirections: PropTypes.func.isRequired,
+  landmarkDetails: PropTypes.object.isRequired,
+};
 
 export default connect(
   null,

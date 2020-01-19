@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { View, Text, TouchableOpacity } from "react-native";
 import Map from "./Map";
@@ -44,6 +45,27 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getLandmarks: db => dispatch(getLandmarksAction(db))
 });
+
+HomeScreen.propTypes = {
+  err: PropTypes.bool.isRequired,
+  getLandmarks: PropTypes.func.isRequired,
+  landmarks: PropTypes.arrayOf(
+    PropTypes.shape({
+      coordinates: PropTypes.objectOf(
+        PropTypes.shape({
+          latitude: PropTypes.number.isRequired,
+          latitudeDelta: PropTypes.number.isRequired,
+          longitude: PropTypes.number.isRequired,
+          longitudeDelta: PropTypes.number.isRequired,
+        }),
+      ),
+      description: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      location: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ),
+};
 
 export default connect(
   mapStateToProps,

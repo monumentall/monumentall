@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from "react-native-maps";
 import {
@@ -177,6 +178,35 @@ const mapDispatchToProps = dispatch => ({
   getLocationPermissionsAsync: () => dispatch(getLocationPermissionsAsync()),
   getUserLocationAsync: () => dispatch(getUserLocationAsync())
 });
+
+Map.propTypes = {
+  getLocationPermissionsAsync: PropTypes.func.isRequired,
+  getUserLocationAsync: PropTypes.func.isRequired,
+  locationPermissions: PropTypes.string.isRequired,
+  markers: PropTypes.arrayOf(
+    PropTypes.shape({
+      coordinates: PropTypes.objectOf(
+        PropTypes.shape({
+          latitude: PropTypes.number.isRequired,
+          latitudeDelta: PropTypes.number.isRequired,
+          longitude: PropTypes.number.isRequired,
+          longitudeDelta: PropTypes.number.isRequired,
+        }),
+      ),
+      description: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      location: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ),
+  polyline: PropTypes.object,
+  region: PropTypes.object,
+  selectLandmark: PropTypes.func.isRequired,
+  setLocationPermissions: PropTypes.func.isRequired,
+  setRegion: PropTypes.func.isRequired,
+  setNearbyRegion: PropTypes.func.isRequired,
+  landmarkDetails: PropTypes.object,
+};
 
 export default connect(
   mapStateToProps,

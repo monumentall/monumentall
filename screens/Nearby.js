@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { ScrollView, View, Text, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { reusableStyles, specificStyles } from "../styles";
@@ -146,6 +147,31 @@ const mapDispatchToProps = dispatch => ({
   selectLandmark: landmark => dispatch(selectLandmarkAction(landmark)),
   setRegion: region => dispatch(setRegionAction(region))
 });
+
+Nearby.propTypes = {
+  getNearbyMapRegion: PropTypes.func.isRequired,
+  landmarks: PropTypes.arrayOf(
+    PropTypes.shape({
+      coordinates: PropTypes.objectOf(
+        PropTypes.shape({
+          latitude: PropTypes.number.isRequired,
+          latitudeDelta: PropTypes.number.isRequired,
+          longitude: PropTypes.number.isRequired,
+          longitudeDelta: PropTypes.number.isRequired,
+        }),
+      ),
+      description: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      location: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ),
+  landmarkDetails: PropTypes.object.isRequired,
+  locationPermissions: PropTypes.string.isRequired,
+  nearbyRegion: PropTypes.object.isRequired,
+  selectLandmark: PropTypes.func.isRequired,
+  setRegion: PropTypes.func.isRequired,
+};
 
 export default connect(
   mapStateToProps,
