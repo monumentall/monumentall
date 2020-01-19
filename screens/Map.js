@@ -1,16 +1,15 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Polyline } from "react-native-maps";
 import {
   AppState,
   Platform,
-  TouchableOpacity,
-  Image,
   View
 } from "react-native";
 import * as Permissions from "expo-permissions";
 import MenuBtn from "./MenuBtn";
+import { MapMarkers, RecenterButton } from "../components";
 import { specificStyles } from "../styles";
 import { selectLandmarkAction } from "../store/selectedLandmark";
 import {
@@ -21,19 +20,6 @@ import {
   getUserLocationAsync
 } from "../store/region";
 import Constants from "../constants/Constants";
-
-const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
-  if (markers)
-    return markers.map(marker => (
-      <Marker
-        key={marker.name}
-        coordinate={marker.coordinate}
-        title={marker.name}
-        onPress={event => setRegionAndSelectLandmark(event, marker)}
-      />
-    ));
-  return null;
-};
 
 class Map extends React.Component {
   constructor(props) {
@@ -144,19 +130,10 @@ class Map extends React.Component {
             )}
           </MapView>
           <MenuBtn />
-          {this.props.locationPermissions === Constants.granted && (
-            <TouchableOpacity
-              style={specificStyles.centerBtnContainer}
-              onPress={() => {
-                this.centerMapOnUserAsync(Constants.granted);
-              }}
-            >
-              <Image
-                style={{ width: 50, height: 50 }}
-                source={require("../assets/images/placeholder-map-icon.png")}
-              />
-            </TouchableOpacity>
-          )}
+          <RecenterButton
+            enabled={this.props.locationPermissions === Constants.granted}
+            centerMap={this.centerMapOnUserAsync}
+          />
         </View>
       )
     );
@@ -190,14 +167,14 @@ Map.propTypes = {
           latitude: PropTypes.number.isRequired,
           latitudeDelta: PropTypes.number.isRequired,
           longitude: PropTypes.number.isRequired,
-          longitudeDelta: PropTypes.number.isRequired,
-        }),
+          longitudeDelta: PropTypes.number.isRequired
+        })
       ),
       description: PropTypes.string.isRequired,
       image: PropTypes.string.isRequired,
       location: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    }),
+      name: PropTypes.string.isRequired
+    })
   ),
   polyline: PropTypes.object,
   region: PropTypes.object,
@@ -205,10 +182,7 @@ Map.propTypes = {
   setLocationPermissions: PropTypes.func.isRequired,
   setRegion: PropTypes.func.isRequired,
   setNearbyRegion: PropTypes.func.isRequired,
-  landmarkDetails: PropTypes.object,
+  landmarkDetails: PropTypes.object
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Map);
+export default connect(mapStateToProps, mapDispatchToProps)(Map);

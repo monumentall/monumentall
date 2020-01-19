@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Image } from "react-native";
-import specificStyles from "../styles";
+import { specificStyles } from "../styles";
 import PropTypes from "prop-types";
 
 const RecenterButton = ({ enabled, centerMap }) => {
