@@ -8,17 +8,20 @@ configure({
   adapter: new Adapter()
 });
 
-const baseProps = {
-  err: false,
-  landmarks: [],
-  getLandmarks: () => []
+const setup = ( Component, customProps = {} ) => {
+	const props = {
+		err: false,
+		landmarks: [],
+		getLandmarks: () => [],
+		...customProps,
+	};
+
+	return shallow( <Component {...props} /> );
 };
 
 describe("Home Screen", () => {
   it("should render error text if there is an error", () => {
-    const props = { ...baseProps, err: true };
-
-    const wrapper = shallow(<HomeScreen {...props} />);
+    const wrapper = setup(HomeScreen, {err: true});
     expect(wrapper.find(Text)).toHaveLength(2);
     expect(
       wrapper
@@ -26,5 +29,10 @@ describe("Home Screen", () => {
         .first()
         .html()
     ).toEqual("<Text>There was a problem loading the landmarks.</Text>");
+  });
+
+  it("should not render error text if there is no error", () => {
+    const wrapper = setup(HomeScreen);
+    expect(wrapper.find(Text)).toHaveLength(0);
   });
 });
