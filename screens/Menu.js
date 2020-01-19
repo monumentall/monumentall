@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { View, Text, Linking, Platform } from "react-native";
 import { specificStyles } from "../styles";
 import * as IntentLauncher from "expo-intent-launcher";
@@ -45,3 +46,8 @@ export default class Menu extends React.Component {
     );
   }
 }
+
+Menu.propTypes = {
+  toggleShowMenu: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired,
+};
