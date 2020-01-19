@@ -5,7 +5,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "test": "jest --verbose --detectOpenHandles --forceExit"
+    "test": "jest --verbose"
   },
   "jest": {
     "preset": "jest-expo",
