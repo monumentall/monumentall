@@ -1,14 +1,37 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { View, Text, StyleSheet } from "react-native";
+import { configure, mount, shallow } from "enzyme";
+import { HomeScreen } from "../screens/HomeScreen";
+import Adapter from "enzyme-adapter-react-16";
 
-import HomeScreen from "../screens/HomeScreen";
+configure({
+  adapter: new Adapter()
+});
 
-jest.mock("react-native-maps", () => ({__esModule: true,
-  default: "MapView"}));
+const baseProps = {
+  err: false,
+  landmarks: [],
+  getLandmarks: () => []
+};
 
-describe("HomeScreen", () => {
-  it(`renders the map and the "Explore Brooklyn" drawer as the default`, () => {
-    const tree = renderer.create(<HomeScreen />).toJSON();
-    expect(tree).toMatchSnapshot();
+describe("Home Screen", () => {
+  it("should render error text if there is an error", () => {
+    const props = { ...baseProps, err: true };
+
+    const wrapper = shallow(<HomeScreen {...props} />);
+    expect(wrapper.find(Text)).toHaveLength(2);
+    expect(
+      wrapper
+        .find(Text)
+        .first()
+        .html()
+    ).toEqual("<Text>There was a problem loading the landmarks.</Text>");
   });
+
+  // it( 'should render the map if there is no error', () => {
+  //   const props = {...baseProps, err: true};
+
+  //   const wrapper = shallow(<HomeScreen  {...props} /> );
+  //   expect( wrapper.find('Map')).toHaveLength(1);
+  // } );
 });

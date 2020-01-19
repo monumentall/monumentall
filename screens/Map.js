@@ -35,7 +35,7 @@ const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
   return null;
 };
 
-class Map extends React.Component {
+export class Map extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
