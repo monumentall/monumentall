@@ -4,7 +4,6 @@ import { configure, shallow } from "enzyme";
 import { HomeScreen } from "../screens/HomeScreen";
 import Adapter from "enzyme-adapter-react-16";
 
-console.log(process.env.googleApiKey)
 configure({
   adapter: new Adapter()
 });

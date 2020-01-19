@@ -1,4 +1,4 @@
-import Constants from "expo-constants";
+import { GOOGLE_API_KEY } from 'react-native-dotenv'
 
 //Action Constants
 const SET_LANDMARK = "SET_LANDMARK";
@@ -26,7 +26,7 @@ export const selectLandmarkAction = data => async dispatch => {
 
 const fetchLandmarkDetails = googlePlaceId => {
   return fetch(
-    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${googlePlaceId}&fields=opening_hours,formatted_phone_number,formatted_address&key=${Constants.manifest.extra.googleApiKey}`
+    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${googlePlaceId}&fields=opening_hours,formatted_phone_number,formatted_address&key=${GOOGLE_API_KEY}`
   )
     .then(responseDetails => {
       return responseDetails.json();
