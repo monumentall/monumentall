@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomeScreen renders the map and the "Explore" drawer as the default 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View>
+    <Explore />
+    <Map />
+  </View>
+</View>
+`;
