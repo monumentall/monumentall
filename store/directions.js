@@ -1,5 +1,5 @@
 import * as Location from "expo-location";
-import Constants from "expo-constants";
+import { GOOGLE_API_KEY } from 'react-native-dotenv'
 import { decode } from "../util";
 
 //Action constants
@@ -19,7 +19,7 @@ export const getDirectionsAction = landmarkCoordinates => async dispatch => {
   const { latitude: finalLat, longitude: finalLong } = landmarkCoordinates;
 
   let response = await fetch(
-    `https://maps.googleapis.com/maps/api/directions/json?origin=${initialLat},${initialLong}&destination=${finalLat},${finalLong}&mode=walking&key=${Constants.manifest.extra.googleApiKey}`
+    `https://maps.googleapis.com/maps/api/directions/json?origin=${initialLat},${initialLong}&destination=${finalLat},${finalLong}&mode=walking&key=${GOOGLE_API_KEY}`
   );
   let data = await response.json();
   if (data.routes.length) {

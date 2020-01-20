@@ -1,32 +1,28 @@
 import React from "react";
-import NavigationTestUtils from "react-navigation/NavigationTestUtils";
-import renderer from "react-test-renderer";
-
+import { configure, shallow } from "enzyme";
 import App from "../App";
+import Adapter from "enzyme-adapter-react-16";
 
-jest.mock("expo", () => ({
-  AppLoading: "AppLoading"
-}));
+configure({
+  adapter: new Adapter()
+});
 
-jest.mock("react-native-maps", () => ({__esModule: true,
-  default: "MapView"}));
-
-jest.mock("../navigation/AppNavigator", () => "AppNavigator");
+const baseProps = {
+  skipLoadingScreen: true
+};
 
 describe("App", () => {
-  jest.useFakeTimers();
+  it(`renders the loading app if skipLoadingScreen is false`, () => {
+    const props = { ...baseProps, skipLoadingScreen: false };
 
-  beforeEach(() => {
-    NavigationTestUtils.resetInternalState();
+    const wrapper = shallow(<App {...props} />);
+    expect(wrapper.find("AppLoading")).toHaveLength(1);
   });
 
-  it(`renders the loading screen`, () => {
-    const tree = renderer.create(<App />).toJSON();
-    expect(tree).toMatchSnapshot();
-  });
+  it(`renders the homeScreen if skipLoadingScreen is true`, () => {
+    const props = { ...baseProps };
 
-  it(`renders the root without loading screen`, () => {
-    const tree = renderer.create(<App skipLoadingScreen />).toJSON();
-    expect(tree).toMatchSnapshot();
+    const wrapper = shallow(<App {...props} />);
+    expect(wrapper.find("Provider")).toHaveLength(1);
   });
 });
