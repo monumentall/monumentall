@@ -1,4 +1,4 @@
-// import { GOOGLE_API_KEY } from 'react-native-dotenv'
+import { GOOGLE_API_KEY } from 'react-native-dotenv'
 
 //Action Constants
 const SET_LANDMARK = "SET_LANDMARK";
