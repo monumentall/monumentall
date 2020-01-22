@@ -162,6 +162,7 @@ Map.propTypes = {
   locationPermissions: PropTypes.string.isRequired,
   markers: PropTypes.arrayOf(
     PropTypes.shape({
+<<<<<<< HEAD
       coordinates: PropTypes.objectOf(
         PropTypes.shape({
           latitude: PropTypes.number.isRequired,
@@ -170,6 +171,12 @@ Map.propTypes = {
           longitudeDelta: PropTypes.number.isRequired
         })
       ),
+=======
+      latitude: PropTypes.number.isRequired,
+      latitudeDelta: PropTypes.number.isRequired,
+      longitude: PropTypes.number.isRequired,
+      longitudeDelta: PropTypes.number.isRequired,
+>>>>>>> 8ce3fb3... Removes coordinate from destructuring
       description: PropTypes.string.isRequired,
       image: PropTypes.string.isRequired,
       location: PropTypes.string.isRequired,

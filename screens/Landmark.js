@@ -121,7 +121,10 @@ class LandmarkScreen extends React.Component {
             <TouchableOpacity
               style={reusableStyles.button}
               onPress={() =>
-                this.getDirectionsToLandmark(landmarkDetails.coordinate)
+                this.getDirectionsToLandmark({
+                  latitude: landmarkDetails.latitude,
+                  longitude: landmarkDetails.longitude
+                })
               }
             >
               <Text style={reusableStyles.header2}>DIRECTIONS</Text>
