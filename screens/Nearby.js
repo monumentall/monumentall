@@ -153,9 +153,9 @@ Nearby.propTypes = {
   landmarks: PropTypes.arrayOf(
     PropTypes.shape({
       latitude: PropTypes.number.isRequired,
-      latitudeDelta: PropTypes.number.isRequired,
+      latitudeDelta: PropTypes.number,
       longitude: PropTypes.number.isRequired,
-      longitudeDelta: PropTypes.number.isRequired,
+      longitudeDelta: PropTypes.number,
       description: PropTypes.string.isRequired,
       image: PropTypes.string.isRequired,
       location: PropTypes.string.isRequired,
