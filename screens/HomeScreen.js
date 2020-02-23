@@ -8,7 +8,7 @@ import { specificStyles } from "../styles";
 import { database } from "../db.js";
 import { getLandmarksAction } from "../store/landmarks";
 
-class HomeScreen extends React.Component {
+export class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.db = database.ref();

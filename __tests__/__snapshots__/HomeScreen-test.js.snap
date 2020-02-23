@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HomeScreen renders the map and the "Explore Brooklyn" drawer as the default 1`] = `
+exports[`HomeScreen renders the map and the "Explore" drawer as the default 1`] = `
 <View
   style={
     Object {
@@ -9,93 +9,8 @@ exports[`HomeScreen renders the map and the "Explore Brooklyn" drawer as the def
   }
 >
   <View>
-    <MapView
-      initialRegion={null}
-      showsMyLocationButton={true}
-      showsUserLocation={false}
-      style={
-        Object {
-          "height": 1334,
-          "width": 750,
-        }
-      }
-      zoomEnabled={true}
-    >
-      <View>
-        <Text
-          onPress={[Function]}
-          style={
-            Object {
-              "fontSize": 40,
-              "marginLeft": 15,
-              "marginTop": 25,
-              "width": 40,
-            }
-          }
-        >
-          X
-        </Text>
-        <View />
-      </View>
-      <View>
-        <Text
-          onPress={[Function]}
-          style={
-            Object {
-              "fontSize": 40,
-              "marginLeft": 250,
-              "marginTop": 25,
-              "width": 40,
-            }
-          }
-        >
-          C
-        </Text>
-      </View>
-    </MapView>
-    <View
-      onMoveShouldSetResponder={[Function]}
-      onMoveShouldSetResponderCapture={[Function]}
-      onResponderEnd={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderReject={[Function]}
-      onResponderRelease={[Function]}
-      onResponderStart={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
-      onStartShouldSetResponderCapture={[Function]}
-      style={
-        Object {
-          "backgroundColor": "transparent",
-          "borderTopLeftRadius": 10,
-          "borderTopRightRadius": 10,
-          "height": 1345.5239647354992,
-          "left": 0,
-          "position": "absolute",
-          "shadowColor": "#CECDCD",
-          "shadowOpacity": 5,
-          "shadowRadius": 3,
-          "top": 855.6037735849056,
-          "width": 750,
-        }
-      }
-    >
-      <View>
-        <Text>
-          Explore Brooklyn
-        </Text>
-      </View>
-      <View
-        style={
-          Object {
-            "backgroundColor": "transparent",
-            "height": 36.52396473549935,
-          }
-        }
-      />
-    </View>
+    <Explore />
+    <Map />
   </View>
 </View>
 `;

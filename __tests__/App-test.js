@@ -1,17 +1,13 @@
 import React from "react";
 import NavigationTestUtils from "react-navigation/NavigationTestUtils";
 import renderer from "react-test-renderer";
-
 import App from "../App";
 
 jest.mock("expo", () => ({
   AppLoading: "AppLoading"
 }));
-
-jest.mock("react-native-maps", () => ({__esModule: true,
-  default: "MapView"}));
-
-jest.mock("../navigation/AppNavigator", () => "AppNavigator");
+jest.mock("../screens/HomeScreen", () => "HomeScreen");
+jest.mock("react-redux", () => ({ __esModule: true, Provider: "Provider" }));
 
 describe("App", () => {
   jest.useFakeTimers();
