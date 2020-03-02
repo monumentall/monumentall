@@ -7,7 +7,7 @@ const MapMarkers = ({ markers, setRegionAndSelectLandmark }) => {
     return markers.map(marker => (
       <Marker
         key={marker.name}
-        coordinate={marker.coordinate}
+        coordinate={{latitude: marker.latitude, longitude: marker.longitude}}
         title={marker.name}
         onPress={event => setRegionAndSelectLandmark(event, marker)}
       />

@@ -49,8 +49,8 @@ class Saved extends React.Component {
   setRegionAndSelectLandmark = landmark => {
     this.props.selectLandmark(landmark);
     this.props.setRegion({
-      latitude: landmark.coordinate.latitude,
-      longitude: landmark.coordinate.longitude,
+      latitude: landmark.latitude,
+      longitude: landmark.longitude,
       longitudeDelta: Constants.latLongDelta,
       latitudeDelta: Constants.latLongDelta
     });

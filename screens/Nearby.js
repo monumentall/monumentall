@@ -41,8 +41,8 @@ class Nearby extends React.Component {
   setRegionAndSelectLandmark = landmark => {
     this.props.selectLandmark(landmark);
     this.props.setRegion({
-      latitude: landmark.coordinate.latitude,
-      longitude: landmark.coordinate.longitude,
+      latitude: landmark.latitude,
+      longitude: landmark.longitude,
       longitudeDelta: Constants.latLongDelta,
       latitudeDelta: Constants.latLongDelta
     });
@@ -58,15 +58,15 @@ class Nearby extends React.Component {
           longitude: nearbyRegion.longitude
         },
         {
-          latitude: landmark.coordinate.latitude,
-          longitude: landmark.coordinate.longitude
+          latitude: landmark.latitude,
+          longitude: landmark.longitude
         }
       );
       distance = convertDistance(distance, "mi");
       return {
         ...landmark,
-        latitude: landmark.coordinate.latitude,
-        longitude: landmark.coordinate.longitude,
+        latitude: landmark.latitude,
+        longitude: landmark.longitude,
         distance: roundToOneDecimalPlace(distance)
       };
     });
@@ -152,14 +152,10 @@ Nearby.propTypes = {
   getNearbyMapRegion: PropTypes.func.isRequired,
   landmarks: PropTypes.arrayOf(
     PropTypes.shape({
-      coordinates: PropTypes.objectOf(
-        PropTypes.shape({
-          latitude: PropTypes.number.isRequired,
-          latitudeDelta: PropTypes.number.isRequired,
-          longitude: PropTypes.number.isRequired,
-          longitudeDelta: PropTypes.number.isRequired,
-        }),
-      ),
+      latitude: PropTypes.number.isRequired,
+      latitudeDelta: PropTypes.number,
+      longitude: PropTypes.number.isRequired,
+      longitudeDelta: PropTypes.number,
       description: PropTypes.string.isRequired,
       image: PropTypes.string.isRequired,
       location: PropTypes.string.isRequired,

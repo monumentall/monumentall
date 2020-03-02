@@ -162,14 +162,10 @@ Map.propTypes = {
   locationPermissions: PropTypes.string.isRequired,
   markers: PropTypes.arrayOf(
     PropTypes.shape({
-      coordinates: PropTypes.objectOf(
-        PropTypes.shape({
-          latitude: PropTypes.number.isRequired,
-          latitudeDelta: PropTypes.number.isRequired,
-          longitude: PropTypes.number.isRequired,
-          longitudeDelta: PropTypes.number.isRequired
-        })
-      ),
+      latitude: PropTypes.number.isRequired,
+      latitudeDelta: PropTypes.number,
+      longitude: PropTypes.number.isRequired,
+      longitudeDelta: PropTypes.number,
       description: PropTypes.string.isRequired,
       image: PropTypes.string.isRequired,
       location: PropTypes.string.isRequired,
